@@ -1,0 +1,24 @@
+-- max age should be optional, min age is mandatory
+class Toy is subclass of Product
+types
+public ToyCategory = <TODO1> | <TODO2>;
+public NotEmptyString = seq1 of char;
+values
+-- TODO Define values here
+instance variables
+	private minAge: nat;
+	private maxAge: [nat]:=nil; --optional, nil as default
+	private description: [NotEmptyString]:=nil; --optional, nil as default
+	private subCategory: ToyCategory;
+operations
+	public Toy: nat * ToyCategory ==> Toy
+	Toy(minAgeInput, subCategoryInput) == 
+	(minAge := minAgeInput;
+	subCategory := subCategoryInput)
+	pre minAgeInput > 0 and minAgeInput < 13
+	post minAge = minAgeInput and subCategory = subCategoryInput;
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Toy

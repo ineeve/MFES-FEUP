@@ -1,0 +1,27 @@
+class Client
+types
+	public NotEmptyString = seq1 of char;
+	public GiftCard :: 
+		id : nat
+		value: nat;
+values
+-- TODO Define values here
+instance variables
+	private creditNotes: nat;
+	private name: NotEmptyString;
+	private boughtGiftCards: set of GiftCard;
+operations
+	public Client: NotEmptyString ==> Client
+			 Client(nameSeq) == (name := nameSeq; creditNotes := 0; return self)
+			 pre len nameSeq > 0
+			 post creditNotes = 0 and len name > 0;
+			 
+	public addCreditNote: nat ==> ()
+			 addCreditNote(x) == creditNotes := creditNotes + x
+			 pre creditNotes > 0 and x > 0
+			 post creditNotes = creditNotes~ + x;
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Client

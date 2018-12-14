@@ -1,0 +1,27 @@
+class Product
+types
+public String = seq of char;
+public ProductState = <New> | <Low_Use> | <High_Use>;
+values
+-- TODO Define values here
+instance variables
+private buyPrice: nat;
+private sellPrice: nat;
+private state: ProductState;
+private description: String;
+operations
+	public Product: nat * nat * ProductState * String ==> Product
+	Product(buyInput,sellInput, stateInput, descriptionInput) == 
+		(buyPrice := buyInput;
+		sellPrice := sellInput;
+		state := stateInput;
+		description := descriptionInput;
+		return self;)
+	pre buyInput > 0 and sellInput > 0
+	post buyPrice = buyInput and sellPrice = sellInput and state = stateInput and description = descriptionInput;
+	
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Product
