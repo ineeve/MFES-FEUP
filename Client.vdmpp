@@ -1,15 +1,14 @@
 class Client
 types
 	public NotEmptyString = seq1 of char;
-	public GiftCard :: 
-		id : nat
-		value: nat;
 values
 -- TODO Define values here
 instance variables
 	private creditNotes: nat;
 	private name: NotEmptyString;
 	private boughtGiftCards: set of GiftCard;
+	transactions: set of Transaction;
+	
 operations
 	public Client(nameSeq: NotEmptyString) c: Client ==
 			is not yet specified
@@ -20,6 +19,22 @@ operations
 			is not yet specified
 			pre creditNotes > 0 and x > 0
 			post creditNotes = creditNotes~ + x;
+			
+	public buyGiftCard(value: nat) ==
+		is not yet specified
+		pre
+		post
+		
+	public buyProduct(product: Product, giftCards: set of GiftCard) ==
+		is not yet specified
+		pre
+		post
+		
+	public sellProduct(product: Product) ==
+		is not yet specified
+		pre
+		post
+			
 functions
 -- TODO Define functiones here
 traces
