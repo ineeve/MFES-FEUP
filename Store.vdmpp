@@ -5,11 +5,12 @@ values
 -- TODO Define values here
 instance variables
 	private location: NotEmptyString;
+	products: seq of Product;
 operations
-	public Store: NotEmptyString ==> Store
-	Store(storeLocation) == (location := storeLocation; return self)
-	pre len storeLocation > 0
-	post location = storeLocation
+	public Store(storeLocation: NotEmptyString) s: Store ==
+		is not yet specified
+		pre len storeLocation > 0
+		post location = storeLocation
 functions
 -- TODO Define functiones here
 traces

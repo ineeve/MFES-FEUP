@@ -1,10 +1,12 @@
 class Gear is subclass of Product
 types
--- TODO Define types here
+	public GearCat;
 values
 -- TODO Define values here
 instance variables
--- TODO Define instance variables here
+	maxAge: nat:=nil;
+	minAge: nat;
+	subcategory: GearCat;
 operations
 -- TODO Define operations here
 functions

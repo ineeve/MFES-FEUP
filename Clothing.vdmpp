@@ -1,10 +1,12 @@
 class Clothing is subclass of Product
 types
--- TODO Define types here
+	public ClothingCat;
 values
 -- TODO Define values here
 instance variables
--- TODO Define instance variables here
+	maxAge: nat;
+	minAge: nat;
+	subcategory: ClothingCat;
 operations
 -- TODO Define operations here
 functions

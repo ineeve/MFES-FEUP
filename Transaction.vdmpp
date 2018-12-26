@@ -1,0 +1,25 @@
+class Transaction
+types
+	public Date :: year : nat
+									month: nat
+									day : nat;
+values
+-- TODO Define values here
+instance variables
+	value: nat;
+	date: Date;
+	client: [Client];
+	productsTransacted: seq of Product;
+	
+	inv value >= 0
+	
+operations
+-- TODO Define operations here
+	public Transaction(v: nat) t: Transaction ==
+			is not yet specified
+			pre v >= 0
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Transaction

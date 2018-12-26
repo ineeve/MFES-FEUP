@@ -1,14 +1,15 @@
-class Furniture is subclass of Product
+class Purchase is subclass of Transaction
 types
-	public FurnitureCat = <Crib> | <Low_Use> | <High_Use>;
+-- TODO Define types here
 values
 -- TODO Define values here
 instance variables
-	subcategory: FurnitureCat;
+	giftCardsUsed: set of GiftCard;
+	giftCardsBought: set of GiftCard;
 operations
 -- TODO Define operations here
 functions
 -- TODO Define functiones here
 traces
 -- TODO Define Combinatorial Test Traces here
-end Furniture
+end Purchase

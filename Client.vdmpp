@@ -11,15 +11,15 @@ instance variables
 	private name: NotEmptyString;
 	private boughtGiftCards: set of GiftCard;
 operations
-	public Client: NotEmptyString ==> Client
-			 Client(nameSeq) == (name := nameSeq; creditNotes := 0; return self)
+	public Client(nameSeq: NotEmptyString) c: Client ==
+			is not yet specified
 			 pre len nameSeq > 0
 			 post creditNotes = 0 and len name > 0;
 			 
-	public addCreditNote: nat ==> ()
-			 addCreditNote(x) == creditNotes := creditNotes + x
-			 pre creditNotes > 0 and x > 0
-			 post creditNotes = creditNotes~ + x;
+	public addCreditNote(x: nat) ==
+			is not yet specified
+			pre creditNotes > 0 and x > 0
+			post creditNotes = creditNotes~ + x;
 functions
 -- TODO Define functiones here
 traces
