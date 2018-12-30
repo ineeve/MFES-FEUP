@@ -1,6 +1,6 @@
 class Gear is subclass of Product
 types
-	public GearCat;
+	public GearCat = <TODO1> | <TODO2>;
 values
 -- TODO Define values here
 instance variables

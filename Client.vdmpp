@@ -30,7 +30,7 @@ operations
 		is not yet specified
 		pre true
 		post
-			len giftedClient.ownedGiftCards = len giftedClient~.ownedGiftCards + 1
+			card giftedClient.ownedGiftCards = card giftedClient~.ownedGiftCards + 1
 			and len [x | x in seq giftedClient.ownedGiftCards.value & x = value]
 				= len [x | x in seq giftedClient~.ownedGiftCards.value & x = value] + 1; -- value in set giftedClient.ownedGiftCards.value;
 		

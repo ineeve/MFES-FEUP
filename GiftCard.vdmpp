@@ -11,7 +11,7 @@ instance variables
 	inv value in set GiftValues;
 	
 operations
-	public GiftCard(i: nat, v: nat) ==
+	public GiftCard(i: nat, v: nat) res: GiftCard ==
 		is not yet specified
 		pre true
 		post id = i and value = v;
