@@ -1,14 +1,23 @@
 class GiftCard
 types
--- TODO Define types here
+	
 values
--- TODO Define values here
+	public GiftValues : set of nat1 = {10, 20, 40};
+
 instance variables
--- TODO Define instance variables here
+	id: nat;
+	value: nat;
+	
+	inv value in set GiftValues;
+	
 operations
--- TODO Define operations here
+	public GiftCard(i: nat, v: nat) ==
+		is not yet specified
+		pre true
+		post id = i and value = v;
+
 functions
--- TODO Define functiones here
+
 traces
 -- TODO Define Combinatorial Test Traces here
 end GiftCard

@@ -4,36 +4,58 @@ types
 values
 -- TODO Define values here
 instance variables
-	private creditNotes: nat;
-	private name: NotEmptyString;
-	private boughtGiftCards: set of GiftCard;
+	creditNotes: nat;
+	name: NotEmptyString;
+	ownedGiftCards: set of GiftCard;
 	transactions: set of Transaction;
 	
 operations
 	public Client(nameSeq: NotEmptyString) c: Client ==
 			is not yet specified
 			 pre len nameSeq > 0
-			 post creditNotes = 0 and len name > 0;
+			 post creditNotes = 0 and len name > 0
+			 		and ownedGiftCards = {} and transactions = {};
 			 
 	public addCreditNote(x: nat) ==
 			is not yet specified
 			pre creditNotes > 0 and x > 0
 			post creditNotes = creditNotes~ + x;
 			
-	public buyGiftCard(value: nat) ==
+	/*
+	Post:
+	- Gifted client has one more gift card than previously.
+	- Gifted client has one more gift card with the given value than prevously.
+	*/
+	public buyGiftCard(value: nat, giftedClient: Client) ==
 		is not yet specified
-		pre
+		pre true
 		post
+			len giftedClient.ownedGiftCards = len giftedClient~.ownedGiftCards + 1
+			and len [x | x in seq giftedClient.ownedGiftCards.value & x = value]
+				= len [x | x in seq giftedClient~.ownedGiftCards.value & x = value] + 1; -- value in set giftedClient.ownedGiftCards.value;
 		
+	/*
+	Post:
+	- Has one more product of the bought kind in purchase transactions than previously.
+	*/
 	public buyProduct(product: Product, giftCards: set of GiftCard) ==
 		is not yet specified
-		pre
+		pre true
 		post
+			len [x | x in seq transactions.productsTransacted & isofclass(Purchase, x) and x = product]
+				= len [x | x in seq transactions~.productsTransacted & isofclass(Purchase, x) and x = product] + 1;
 		
+	/*
+	Pre:
+	Post:
+	- Has one more product of the sold kind in sales transactions than previously.
+	*/
 	public sellProduct(product: Product) ==
 		is not yet specified
-		pre
+		pre true
 		post
+			len [x | x in seq transactions.productsTransacted & isofclass(Sale, x) and x = product]
+				= len [x | x in seq transactions~.productsTransacted & isofclass(Sale, x) and x = product] - 1;
 			
 functions
 -- TODO Define functiones here
