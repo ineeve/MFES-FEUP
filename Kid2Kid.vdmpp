@@ -17,7 +17,7 @@ operations
 	Post:
 	- New client is added to the system
 	*/
-	addClient(c: Client) ==
+	public addClient(c: Client) ==
 		is not yet specified
 		pre c <> nil
 		post c in set clients;
@@ -28,10 +28,20 @@ operations
 	Post:
 	- New store is added to the system
 	*/
-	addStore(s: Store) ==
+	public addStore(s: Store) ==
 		is not yet specified
 		pre s <> nil
 		post s in set stores;
+		
+	public getClients() c: set of Client ==
+		c := clients
+		pre true
+		post c = clients;
+		
+	public getStores() s: set of Store ==
+		s := stores
+		pre true
+		post s = stores;
 		
 functions
 -- TODO Define functiones here
