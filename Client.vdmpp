@@ -76,14 +76,14 @@ operations
 	- There's at least 1 gift card in the given set.
 	*/
 	public ownsGiftCards(giftCards: set of GiftCard) b: bool ==
-		forall x in set giftCards & b = ownsGiftCard(x)
+		for all x in set giftCards do b := b and ownsGiftCard(x)
 		pre card giftCards >= 1
-		post forall x in set giftCards & b = ownsGiftCard(x);
+		post forall x in set giftCards & b = b and ownsGiftCard(x);
 	
 functions
 
 	valuesFromGiftCards(g: set of GiftCard) res: seq of nat1 ==
-		forall giftCard in set g & res = res ^ giftCard.value
+		for all giftCard in set g do res := res ^ giftCard.value
 		post forall giftCard in set g & res = res ^ giftCard.value;
 
 traces
