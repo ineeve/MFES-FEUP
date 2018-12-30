@@ -1,0 +1,40 @@
+/* Main class where all interactions will pass through.
+*/
+class Kid2Kid
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+	clients: set of Client;
+	stores: set of Store;
+	
+operations
+
+	/*
+	Pre:
+	- Given client isn't nil
+	Post:
+	- New client is added to the system
+	*/
+	addClient(c: Client) ==
+		is not yet specified
+		pre c <> nil
+		post c in set clients;
+		
+	/*
+	Pre:
+	- Given store isn't nil
+	Post:
+	- New store is added to the system
+	*/
+	addStore(s: Store) ==
+		is not yet specified
+		pre s <> nil
+		post s in set stores;
+		
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Kid2Kid
