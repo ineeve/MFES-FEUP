@@ -6,8 +6,32 @@ values
 instance variables
 	giftCardsUsed: set of GiftCard;
 	giftCardsBought: set of GiftCard;
+	
 operations
--- TODO Define operations here
+
+	/* Client buys products, possibly using owned gift cards.
+	Pre:
+	- 
+	- Client owns gift cards used.
+	Post:
+	- 
+	*/
+	public Purchase(v: nat, d: Date, c: Client, p: seq1 of Product, cardsUsed: seq1 of GiftCard) res: Purchase ==
+		is not yet specified
+		pre v >= 0 and d <> nil and c <> nil and len p >= 1 and c.ownsGiftCards(cardsUsed)
+		post value = v and date = d and client = c and productsTransacted = p and giftCardsUsed = cardsUsed;
+		
+	/* Client buys gift cards.
+	Pre:
+	- 
+	Post:
+	- 
+	*/
+	public Purchase(v: nat, d: Date, c: Client, g: seq1 of GiftCard) res: Purchase ==
+		is not yet specified
+		pre v >= 0 and d <> nil and c <> nil and len g >= 1
+		post value = v and date = d and client = c and productsTransacted = p and giftCardsBought = g;
+
 functions
 -- TODO Define functiones here
 traces

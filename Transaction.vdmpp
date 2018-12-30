@@ -14,10 +14,8 @@ instance variables
 	inv value >= 0
 	
 operations
--- TODO Define operations here
-	public Transaction(v: nat) t: Transaction ==
-			is not yet specified
-			pre v >= 0
+-- TODO Define operations her
+		
 functions
 -- TODO Define functiones here
 traces
