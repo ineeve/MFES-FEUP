@@ -20,19 +20,24 @@ operations
 			is not yet specified
 			pre creditNotes > 0 and x > 0
 			post creditNotes = creditNotes~ + x;
-			
+	
 	/*
 	Post:
 	- Gifted client has one more gift card than previously.
 	- Gifted client has one more gift card with the given value than prevously.
 	*/
-	public buyGiftCard(value: nat, giftedClient: Client) ==
+	public addGiftCard(value: nat1) ==
 		is not yet specified
 		pre true
 		post
-			card giftedClient.ownedGiftCards = card giftedClient~.ownedGiftCards + 1
-			and len [x | x in seq giftedClient.ownedGiftCards.value & x = value]
-				= len [x | x in seq giftedClient~.ownedGiftCards.value & x = value] + 1; -- value in set giftedClient.ownedGiftCards.value;
+			card ownedGiftCards = card ownedGiftCards~ + 1
+			and len [x | x in seq valuesFromGiftCards(ownedGiftCards) & x = value]
+				= len [x | x in seq valuesFromGiftCards(ownedGiftCards~) & x = value] + 1;
+			
+	public buyGiftCard(value: nat1, giftedClient: Client) ==
+		giftedClient.addGiftCard(value)
+		pre true
+		post true;
 		
 	/*
 	Post:
@@ -71,12 +76,16 @@ operations
 	- There's at least 1 gift card in the given set.
 	*/
 	public ownsGiftCards(giftCards: set of GiftCard) b: bool ==
-		b := forall x: giftCards & ownsGiftCard(x)
+		forall x in set giftCards & b = ownsGiftCard(x)
 		pre card giftCards >= 1
-		post true;
+		post forall x in set giftCards & b = ownsGiftCard(x);
 	
 functions
--- TODO Define functiones here
+
+	valuesFromGiftCards(g: set of GiftCard) res: seq of nat1 ==
+		forall giftCard in set g & res = res ^ giftCard.value
+		post forall giftCard in set g & res = res ^ giftCard.value;
+
 traces
 -- TODO Define Combinatorial Test Traces here
 end Client
