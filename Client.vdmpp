@@ -19,7 +19,12 @@ operations
 	public addCreditNote(x: nat) ==
 			is not yet specified
 			pre creditNotes > 0 and x > 0
-			post creditNotes = creditNotes~ + x;
+			post creditNotes = creditNotes~ + x and creditNotes > 0;
+			
+	public spendCreditNote(x: nat) == 
+			is not yet specified
+			pre x <= creditNotes and x > 0
+			post creditNotes = creditNotes~ - x;
 	
 	/*
 	Post:
