@@ -6,6 +6,7 @@ values
 instance variables
 	private location: NotEmptyString;
 	products: set of Product;
+	profitEarned: nat;
 operations
 	public Store(storeLocation: NotEmptyString) s: Store ==
 		is not yet specified
