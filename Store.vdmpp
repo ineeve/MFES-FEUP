@@ -5,12 +5,23 @@ values
 -- TODO Define values here
 instance variables
 	private location: NotEmptyString;
-	products: seq of Product;
+	products: set of Product;
 operations
 	public Store(storeLocation: NotEmptyString) s: Store ==
 		is not yet specified
 		pre len storeLocation > 0
-		post location = storeLocation
+		post location = storeLocation;
+	
+	public addProduct(p: Product) == 
+	is not yet specified
+	pre p <> nil
+	post products = products~ ^ p;
+	
+	public removeProduct(p: Product) ==
+	is not yet specified
+	pre p <> nil
+	post products = products~ \ p;
+	
 functions
 -- TODO Define functiones here
 traces
