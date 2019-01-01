@@ -77,7 +77,7 @@ operations
 		pre true
 		post
 			len [x | x in seq transactions.productsTransacted & isofclass(Sale, x) and x = product]
-				= len [x | x in seq transactions~.productsTransacted & isofclass(Sale, x) and x = product] - 1;
+				= len [x | x in seq transactions~.productsTransacted & isofclass(Sale, x) and x = product] + 1;
 			
 	/*
 	Pre:
