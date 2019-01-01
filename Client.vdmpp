@@ -2,7 +2,6 @@ class Client
 types
 	public NotEmptyString = seq1 of char;
 values
--- TODO Define values here
 instance variables
 	creditNotes: nat;
 	name: NotEmptyString;
@@ -20,7 +19,11 @@ operations
 			is not yet specified
 			pre creditNotes > 0 and x > 0
 			post creditNotes = creditNotes~ + x and creditNotes > 0;
-			
+	
+	/**
+	Spend a credit note of value x
+	The value of the credit note to send should be less or equal than the creditNotes amount
+	*/		
 	public spendCreditNote(x: nat) == 
 			is not yet specified
 			pre x <= creditNotes and x > 0
