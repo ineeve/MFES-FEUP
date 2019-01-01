@@ -41,6 +41,15 @@ operations
 			card ownedGiftCards = card ownedGiftCards~ + 1
 			and len [x | x in seq valuesFromGiftCards(ownedGiftCards) & x = value]
 				= len [x | x in seq valuesFromGiftCards(ownedGiftCards~) & x = value] + 1;
+	
+	/**
+	Remove a giftCard from this client.
+	Post condition ensures that only the given giftCard is removed.
+	*/			
+	public removeGiftCard(giftCard: GiftCard) == 
+		is not yet specified
+		pre giftCard <> nil and giftCard in set ownedGiftCards
+		post ownedGiftCards = ownedGiftCards~ \ giftCard;
 			
 	public buyGiftCard(value: nat1, giftedClient: Client) ==
 		giftedClient.addGiftCard(value)
