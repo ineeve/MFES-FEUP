@@ -1,12 +1,16 @@
 class Store
 types
-public NotEmptyString = seq1 of char;
+	public NotEmptyString = seq1 of char;
+	
 values
 -- TODO Define values here
 instance variables
-	private location: NotEmptyString;
+	location: NotEmptyString;
 	products: set of Product := {};
 	profitEarned: nat := 0;
+	cashiers: set of StoreCashier := {};
+	
+	
 operations
 	public Store(storeLocation: NotEmptyString) s: Store ==
 		location := storeLocation

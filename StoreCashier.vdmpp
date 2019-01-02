@@ -5,9 +5,9 @@ types
 instance variables
 	name: NotEmptyString;
 	workplace: Store;
+	transactions: set of Transaction := {};
 	
 operations
-
 	public StoreCashier(n: NotEmptyString, w: Store) s: StoreCashier ==
 		(name := n; workplace := w; return self)
 		pre len name > 0
