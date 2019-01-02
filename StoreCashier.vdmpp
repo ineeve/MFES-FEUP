@@ -1,14 +1,18 @@
 class StoreCashier
 types
-public NotEmptyString = seq1 of char;
+	public NotEmptyString = seq1 of char;
+	
 instance variables
-name: NotEmptyString;
-workplace: Store
+	name: NotEmptyString;
+	workplace: Store;
+	
 operations
+
 	public StoreCashier(n: NotEmptyString, w: Store) s: StoreCashier ==
 		(name := n; workplace := w; return self)
 		pre len name > 0
 		post name = name~ and workplace = workplace~;
+		
 functions
 -- TODO Define functiones here
 traces
