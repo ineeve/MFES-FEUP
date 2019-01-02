@@ -23,7 +23,7 @@ operations
 		post products = products~ union {p};
 	
 	public removeProduct(p: Product) ==
-		is not yet specified
+		products := products \ {p}
 		pre p in set products
 		post products = products~ \ {p};
 	

@@ -42,6 +42,20 @@ operations
 		return stores
 		pre true
 		post s = stores;
+	
+	/* Buy product of a client at a store with a specific cashier.
+	*/
+	public buyProduct(client: Client, store: Store, cashier: StoreCashier) ==
+		is not yet specified
+		pre true
+		post true;
+		
+	/* Sell product to a client at a store with a specific cashier.
+	*/
+	public sellProduct(client: Client, store: Store, cashier: StoreCashier) ==
+		is not yet specified
+		pre true
+		post true;
 		
 functions
 -- TODO Define functiones here
