@@ -6,15 +6,19 @@ types
 values
 -- TODO Define values here
 instance variables
-	value: nat;
-	date: Date;
-	client: [Client];
-	productsTransacted: seq of Product;
+	protected value: nat;
+	protected date: Date;
+	protected client: [Client];
+	protected productsTransacted: seq of Product;
 	
 	inv value >= 0
 	
 operations
--- TODO Define operations her
+
+public pure getProductsTransacted() res: seq of Product ==
+	(return productsTransacted)
+	pre true
+	post res = productsTransacted;
 		
 functions
 -- TODO Define functiones here

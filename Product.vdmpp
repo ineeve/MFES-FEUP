@@ -8,7 +8,7 @@ instance variables
 	private buyPrice: nat;
 	private sellPrice: nat;
 	private state: ProductState;
-	private description: String:=nil;
+	private description: String;
 	transaction: Transaction;
 	store: Store;
 operations

@@ -19,7 +19,7 @@ operations
 	*/
 	public addClient(c: Client) ==
 		is not yet specified
-		pre c <> nil
+		pre true
 		post c in set clients;
 		
 	/*
@@ -30,16 +30,16 @@ operations
 	*/
 	public addStore(s: Store) ==
 		is not yet specified
-		pre s <> nil
+		pre true
 		post s in set stores;
 		
 	public getClients() c: set of Client ==
-		c := clients
+		return clients
 		pre true
 		post c = clients;
 		
 	public getStores() s: set of Store ==
-		s := stores
+		return stores
 		pre true
 		post s = stores;
 		

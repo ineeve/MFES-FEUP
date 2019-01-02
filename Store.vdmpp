@@ -15,13 +15,13 @@ operations
 	
 	public addProduct(p: Product) == 
 	is not yet specified
-	pre p <> nil
-	post products = products~ ^ p;
+	pre true
+	post products = products~ union {p};
 	
 	public removeProduct(p: Product) ==
 	is not yet specified
-	pre p <> nil
-	post products = products~ \ p;
+	pre p in set products
+	post products = products~ \ {p};
 	
 functions
 -- TODO Define functiones here

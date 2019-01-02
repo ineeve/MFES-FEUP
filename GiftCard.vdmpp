@@ -6,15 +6,20 @@ values
 
 instance variables
 	id: nat;
-	value: nat;
+	value: nat1;
 	
 	inv value in set GiftValues;
 	
 operations
 	public GiftCard(i: nat, v: nat) res: GiftCard ==
-		is not yet specified
-		pre v in set GiftValues
+		(id := i; value := v; return self;)
+		pre true
 		post id = i and value = v;
+		
+	public pure getValue() res:nat1 ==
+		return value
+		pre true
+		post true;
 
 functions
 
