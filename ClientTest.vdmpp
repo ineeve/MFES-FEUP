@@ -1,6 +1,6 @@
 class ClientTest
 instance variables
-client : Client := new Client({'R','e','n','a','t','o'});
+client : Client := new Client(['R','e','n','a','t','o']);
 operations
 	private assertTrue: bool ==> ()
 	 assertTrue(cond) == return

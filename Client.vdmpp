@@ -7,17 +7,22 @@ instance variables
 	name: NotEmptyString;
 	ownedGiftCards: set of GiftCard;
 	transactions: set of Transaction;
-	
+	inv creditNotes >= 0;
 operations
 	public Client(nameSeq: NotEmptyString) c: Client ==
-			is not yet specified
+			(creditNotes:=0;name:=nameSeq; ownedGiftCards:={};transactions:={}; return self)
 			 pre len nameSeq > 0
 			 post creditNotes = 0 and len name > 0
 			 		and ownedGiftCards = {} and transactions = {};
-			 		
+	
+	public getCreditNotes() res: nat == 
+			return creditNotes
+			pre true
+			post res = creditNotes;
+	
 	public addCreditNote(x: nat) ==
-			is not yet specified
-			pre creditNotes > 0 and x > 0
+			creditNotes := creditNotes + x
+			pre x > 0
 			post creditNotes = creditNotes~ + x and creditNotes > 0;
 	
 	/**
@@ -25,7 +30,7 @@ operations
 	The value of the credit note to send should be less or equal than the creditNotes amount
 	*/		
 	public spendCreditNote(x: nat) == 
-			is not yet specified
+			creditNotes := creditNotes - x
 			pre x <= creditNotes and x > 0
 			post creditNotes = creditNotes~ - x;
 	
