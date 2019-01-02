@@ -6,7 +6,7 @@ name: NotEmptyString;
 workplace: Store
 operations
 	public StoreCashier(n: NotEmptyString, w: Store) s: StoreCashier ==
-		(name := n; workplace := w)
+		(name := n; workplace := w; return self)
 		pre len name > 0
 		post name = name~ and workplace = workplace~;
 functions
