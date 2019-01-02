@@ -9,13 +9,13 @@ instance variables
 	protected value: nat;
 	protected date: Date;
 	protected client: [Client];
-	protected productsTransacted: seq of Product;
+	protected productsTransacted: set of Product;
 	
 	inv value >= 0
 	
 operations
 
-public pure getProductsTransacted() res: seq of Product ==
+public pure getProducts() res: set of Product ==
 	(return productsTransacted)
 	pre true
 	post res = productsTransacted;

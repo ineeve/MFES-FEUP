@@ -16,9 +16,9 @@ operations
 	Post:
 	- 
 	*/
-	public Purchase(v: nat, d: Date, c: Client, p: seq1 of Product, cardsUsed: set of GiftCard) res: Purchase ==
+	public Purchase(v: nat, d: Date, c: Client, p: set of Product, cardsUsed: set of GiftCard) res: Purchase ==
 		is not yet specified
-		pre v >= 0 and len p >= 1 and c.ownsGiftCards(cardsUsed)
+		pre v >= 0 and card p >= 1 and c.ownsGiftCards(cardsUsed)
 		post value = v and date = d and client = c and productsTransacted = p and giftCardsUsed = cardsUsed;
 		
 	/* Client buys gift cards.

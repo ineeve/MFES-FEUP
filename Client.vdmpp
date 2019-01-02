@@ -64,8 +64,7 @@ operations
 		is not yet specified
 		pre true
 		post
-			len [x | x in seq transactions.productsTransacted & isofclass(Purchase, x) and x = product]
-				= len [x | x in seq transactions~.productsTransacted & isofclass(Purchase, x) and x = product] + 1;
+			card getBoughtProducts(transactions) = card getBoughtProducts(transactions~) + 1;
 		
 	/*
 	Pre:
@@ -76,8 +75,7 @@ operations
 		is not yet specified
 		pre true
 		post
-			len [x | x in seq transactions.productsTransacted & isofclass(Sale, x) and x = product]
-				= len [x | x in seq transactions~.productsTransacted & isofclass(Sale, x) and x = product] + 1;
+			card getSoldProducts(transactions) = card getSoldProducts(transactions~) + 1;
 			
 	/*
 	Pre:
@@ -107,6 +105,25 @@ pure valuesFromGiftCards(g: set of GiftCard) res: seq of nat ==
 		pre true
 		post card g = len res;
 		
+pure getSoldProducts(tSet: set of Transaction) res: set of Product == 
+	(dcl result: set of Product := {};
+	for all t in set tSet do
+	(if isofclass(Sale, t)
+	then result := result union t.getProducts();
+	);
+	return result;)
+	pre true
+	post true;
+
+pure getBoughtProducts(tSet: set of Transaction) res: set of Product == 
+	(dcl result: set of Product := {};
+	for all t in set tSet do
+	(if isofclass(Purchase, t)
+	then result := result union t.getProducts();
+	);
+	return result;)
+	pre true
+	post true
 functions
 	
 		
