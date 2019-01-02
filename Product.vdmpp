@@ -17,6 +17,10 @@ operations
 		pre buyInput > 0 and sellInput > 0
 		post buyPrice = buyInput and sellPrice = sellInput and state = stateInput and description = descriptionInput;
 	
+	public pure getSellPrice() res: nat ==
+		return sellPrice
+		pre true
+		post res = sellPrice;
 functions
 -- TODO Define functiones here
 traces

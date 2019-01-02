@@ -1,12 +1,63 @@
+-- Represents a collection of items that were sold by a store
 class Sale is subclass of Transaction
 types
 -- TODO Define types here
 values
 -- TODO Define values here
 instance variables
--- TODO Define instance variables here
+	giftCardsUsed: set of GiftCard;
+	giftCardsSold: set of GiftCard;
+	
 operations
--- TODO Define operations here
+
+	/*  buys products, possibly using owned gift cards.
+	Pre:
+	- 
+	- Client owns gift cards used.
+	Post:
+	- 
+	*/
+	public Sale(d: Date, c: Client, p: set of Product, cardsUsed: set of GiftCard, authorizer: StoreCashier) res: Sale ==
+		(
+		date:=d;
+		client:=c;
+		productsTransacted:=p;
+		giftCardsUsed:=cardsUsed;
+		storeAuthorizer:= authorizer;
+		value:=sumProductValues(p);
+		return self
+		)
+		pre card p >= 1 and c.ownsGiftCards(cardsUsed)
+		post 
+			date = d and 
+			client = c and 
+			productsTransacted = p and 
+			giftCardsUsed = cardsUsed and 
+			storeAuthorizer = authorizer and 
+			value = sumProductValues(productsTransacted);
+		
+	/* Client buys gift cards.
+	Pre:
+	- 
+	Post:
+	- 
+	*/
+	public Purchase(v: nat, d: Date, c: Client, g: set of GiftCard) res: Purchase ==
+		is not yet specified
+		pre v >= 0 and card g >= 1
+		post value = v and date = d and client = c and giftCardsSold = g;
+
+	public pure sumProductValues(pSet: set of Product) res: nat == 
+	(
+	dcl result: nat := 0;
+	for all p in set pSet do 
+		(
+		result := result + p.getSellPrice();
+		);
+	return result;
+	)
+	pre true
+	post true -- same as body
 functions
 -- TODO Define functiones here
 traces

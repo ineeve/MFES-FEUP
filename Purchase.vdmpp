@@ -4,34 +4,9 @@ types
 values
 -- TODO Define values here
 instance variables
-	giftCardsUsed: set of GiftCard;
-	giftCardsBought: set of GiftCard;
-	
+-- TODO Define instance variables here
 operations
-
-	/* Client buys products, possibly using owned gift cards.
-	Pre:
-	- 
-	- Client owns gift cards used.
-	Post:
-	- 
-	*/
-	public Purchase(v: nat, d: Date, c: Client, p: set of Product, cardsUsed: set of GiftCard) res: Purchase ==
-		is not yet specified
-		pre v >= 0 and card p >= 1 and c.ownsGiftCards(cardsUsed)
-		post value = v and date = d and client = c and productsTransacted = p and giftCardsUsed = cardsUsed;
-		
-	/* Client buys gift cards.
-	Pre:
-	- 
-	Post:
-	- 
-	*/
-	public Purchase(v: nat, d: Date, c: Client, g: set of GiftCard) res: Purchase ==
-		is not yet specified
-		pre v >= 0 and card g >= 1
-		post value = v and date = d and client = c and giftCardsBought = g;
-
+-- TODO Define operations here
 functions
 -- TODO Define functiones here
 traces

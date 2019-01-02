@@ -10,7 +10,7 @@ instance variables
 	protected date: Date;
 	protected client: [Client];
 	protected productsTransacted: set of Product;
-	
+	protected storeAuthorizer: StoreCashier;
 	inv value >= 0
 	
 operations
