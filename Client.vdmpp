@@ -14,7 +14,7 @@ operations
 			 pre len nameSeq > 0
 			 post creditNotes = 0 and len name > 0
 			 		and ownedGiftCards = {} and transactions = {};
-			 
+			 		
 	public addCreditNote(x: nat) ==
 			is not yet specified
 			pre creditNotes > 0 and x > 0
@@ -48,8 +48,8 @@ operations
 	*/			
 	public removeGiftCard(giftCard: GiftCard) == 
 		is not yet specified
-		pre giftCard <> nil and giftCard in set ownedGiftCards
-		post ownedGiftCards = ownedGiftCards~ \ giftCard;
+		pre giftCard in set ownedGiftCards
+		post ownedGiftCards = ownedGiftCards~ \ {giftCard};
 			
 	public buyGiftCard(value: nat1, giftedClient: Client) ==
 		giftedClient.addGiftCard(value)
@@ -83,25 +83,33 @@ operations
 	Pre:
 	- Given gift card isn't nil.
 	*/
-	public ownsGiftCard(giftCard: GiftCard) b: bool ==
-		b := giftCard in set ownedGiftCards
-		pre giftCard <> nil
-		post true;
+	public pure ownsGiftCard(giftCard: GiftCard) b: bool ==
+		(b := giftCard in set ownedGiftCards;
+		return b)
+		pre true
+		post b = giftCard in set ownedGiftCards;
 	
 	/*
 	Pre:
 	- There's at least 1 gift card in the given set.
 	*/
-	public ownsGiftCards(giftCards: set of GiftCard) b: bool ==
-		for all x in set giftCards do b := b and ownsGiftCard(x)
+	public pure ownsGiftCards(giftCards: set of GiftCard) b: bool ==
+		(for all x in set giftCards do b := b and ownsGiftCard(x);
+		return b)
 		pre card giftCards >= 1
 		post forall x in set giftCards & b = b and ownsGiftCard(x);
-	
+		
+pure valuesFromGiftCards(g: set of GiftCard) res: seq of nat ==
+	 (dcl result: seq of nat := [];
+		for all giftCard in set g do 
+		(result := result ^ [giftCard.getValue()];);
+		return result;)
+		pre true
+		post card g = len res;
+		
 functions
-
-	valuesFromGiftCards(g: set of GiftCard) res: seq of nat1 ==
-		for all giftCard in set g do res := res ^ giftCard.value
-		post forall giftCard in set g & res = res ^ giftCard.value;
+	
+		
 
 traces
 -- TODO Define Combinatorial Test Traces here
