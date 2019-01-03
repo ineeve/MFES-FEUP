@@ -7,6 +7,8 @@ import java.util.TreeMap;
 
 public abstract class Menu {
 
+	private class GoBackException extends Exception {}
+	
 	private Scanner scanner = new Scanner(System.in);
 	
 	private Integer newOptionId = 1;
