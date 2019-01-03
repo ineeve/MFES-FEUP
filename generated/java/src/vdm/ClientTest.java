@@ -23,15 +23,15 @@ public class ClientTest {
 
     throw new UnsupportedOperationException();
   }
-  /* ClientTest.vdmpp 23:16 */
+  /* ClientTest.vdmpp 26:16 */
   public static void main() {
 
-    /* ClientTest.vdmpp 26:8 */
+    /* ClientTest.vdmpp 29:8 */
     ClientTest clientTest = new ClientTest();
-    /* ClientTest.vdmpp 27:4 */
-    clientTest.testClientId();
-    /* ClientTest.vdmpp 28:4 */
+    /* ClientTest.vdmpp 30:4 */
     clientTest.testGiftCards();
+    /* ClientTest.vdmpp 31:4 */
+    clientTest.testClientId();
   }
   /* ClientTest.vdmpp 1:7 */
   public ClientTest() {}

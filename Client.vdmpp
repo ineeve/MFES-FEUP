@@ -17,6 +17,7 @@ operations
 	
 	public getId() res:nat1 == 
 		return id
+		ext rd id
 		pre true
 		post res=id;
 

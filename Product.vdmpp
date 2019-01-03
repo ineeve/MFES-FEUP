@@ -1,6 +1,6 @@
 class Product
 types
-	public String = seq of char;
+	public CustomString = seq of char;
 	public ProductState = <New> | <Low_Use> | <High_Use>;
 values
 -- TODO Define values here
@@ -10,11 +10,11 @@ instance variables
 	buyPrice: nat1;
 	sellPrice: nat1;
 	state: ProductState;
-	description: String;
+	description: CustomString;
 	--transaction: Transaction;
 	--store: Store;
 operations
-	public Product(buyInput: nat, sellInput: nat, stateInput: ProductState, descriptionInput: String) p: Product ==
+	public Product(buyInput: nat, sellInput: nat, stateInput: ProductState, descriptionInput: CustomString) p: Product ==
 		(idCounter := idCounter + 1;
 		id := idCounter;
 		buyPrice := buyInput;

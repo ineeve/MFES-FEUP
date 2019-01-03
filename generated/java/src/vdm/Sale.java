@@ -9,7 +9,7 @@ public class Sale extends Transaction {
   private VDMSet giftCardsSold;
   /* Sale.vdmpp 20:9 */
   public Sale(
-      final Transaction.Date d,
+      final Date d,
       final Client c,
       final VDMSet p,
       final VDMSet cardsUsed,
@@ -18,8 +18,7 @@ public class Sale extends Transaction {
     throw new UnsupportedOperationException();
   }
   /* Sale.vdmpp 45:9 */
-  public Purchase Purchase(
-      final Number v, final Transaction.Date d, final Client c, final VDMSet g) {
+  public Purchase Purchase(final Number v, final Date d, final Client c, final VDMSet g) {
 
     throw new UnsupportedOperationException();
   }
