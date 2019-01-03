@@ -1,25 +1,28 @@
 class GiftCard
 types
-	
 values
 	public GiftValues : set of nat1 = {10, 20, 40};
-
 instance variables
-	id: nat;
+	static idCounter: nat := 0;
+	id: nat1;
 	value: nat1;
-	
 	inv value in set GiftValues;
 	
 operations
-	public GiftCard(i: nat, v: nat) res: GiftCard ==
-		(id := i; value := v; return self;)
+	public GiftCard(v: nat1) res: GiftCard ==
+		(idCounter := idCounter + 1; id:=idCounter; value := v; return self;)
 		pre true
-		post id = i and value = v;
+		post id = idCounter~+1 and value = v;
 		
 	public pure getValue() res:nat1 ==
 		return value
 		pre true
-		post true;
+		post res = value;
+	
+	public static pure getPossibleValues() res: set of nat1 == 
+		return GiftValues
+		pre true
+		post res = GiftValues;
 
 functions
 

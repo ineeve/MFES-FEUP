@@ -4,25 +4,56 @@ types
 	
 instance variables
 	name: NotEmptyString;
-	workplace: Store;
+	store: Store; -- cashier workplace
 	transactions: set of Transaction := {};
 	
 operations
 	public StoreCashier(n: NotEmptyString, w: Store) s: StoreCashier ==
-		(name := n; workplace := w; return self)
+		(name := n; store := w; return self)
 		pre len name > 0
-		post name = name~ and workplace = workplace~;
+		post name = name~ and store = store~;
 		
 	/* Buy from client.
 	*/
-	public buyProduct(p: Product, client: Client) ==
-		is not yet specified
+	public buyProductInCash(p: Product, client: Client) ==
+		(
+		store.buyProductInCash(p);
+		client.sellProduct(p)
+		)
 		pre true
 		post true;
+		
+	/* Buy from client.
+	*/
+	public buyProductInCreditNotes(p: Product, client: Client) ==
+		(
+		store.buyProductInCreditNotes(p, client.getId());
+		client.sellProduct(p)
+		)
+		pre true
+		post true;
+		
 	
 	/* Sell to client.
 	*/
-	public sellProduct(p: Product, client: Client) ==
+	public sellProductInCash(p: Product, client: Client) ==
+		(
+		store.sellProduct(p);
+		client.buyProduct(p, {})
+		)
+		pre true
+		post true;
+		
+	/* Sell to client.
+	*/
+	public sellProductInCreditNotes(p: Product, client: Client) ==
+		is not yet specified
+		pre true
+		post true;
+		
+	/* Sell to client.
+	*/
+	public sellProductInGiftCards(p: Product, client: Client) ==
 		is not yet specified
 		pre true
 		post true;

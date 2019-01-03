@@ -8,12 +8,15 @@ values
 instance variables
 	clients: set of Client := {};
 	stores: set of Store := {};
-	
+	activeGiftCards: set of GiftCard := {};
 operations
 
+	public Kid2Kid() k:Kid2Kid ==
+		return self
+		pre true
+		post true;
+
 	/*
-	Pre:
-	- Given client isn't nil
 	Post:
 	- New client is added to the system
 	*/
@@ -23,8 +26,6 @@ operations
 		post c in set clients;
 		
 	/*
-	Pre:
-	- Given store isn't nil
 	Post:
 	- New store is added to the system
 	*/
@@ -45,17 +46,34 @@ operations
 	
 	/* Buy product of a client at a store with a specific cashier.
 	*/
-	public buyProduct(client: Client, store: Store, cashier: StoreCashier) ==
-		is not yet specified
+	public buyProductInCash(product: Product, client: Client, cashier: StoreCashier) ==
+		cashier.buyProductInCash(product, client)
+		pre true
+		post true;
+		
+	/* Buy product of a client at a store with a specific cashier.
+	*/
+	public buyProductInCreditNotes(product: Product, client: Client, cashier: StoreCashier) ==
+		cashier.buyProductInCreditNotes(product, client)
 		pre true
 		post true;
 		
 	/* Sell product to a client at a store with a specific cashier.
 	*/
-	public sellProduct(client: Client, store: Store, cashier: StoreCashier) ==
+	public sellProduct(client: Client, cashier: StoreCashier) ==
 		is not yet specified
 		pre true
 		post true;
+		
+	public activateGiftCard(giftCard: GiftCard) ==
+		activeGiftCards := activeGiftCards union {giftCard}
+		pre true
+		post activeGiftCards = activeGiftCards union {giftCard};
+		
+	public useGiftCard(giftCard: GiftCard) ==
+		activeGiftCards := activeGiftCards \ {giftCard}
+		pre giftCard in set activeGiftCards
+		post activeGiftCards = activeGiftCards~ \ {giftCard}
 		
 functions
 -- TODO Define functiones here

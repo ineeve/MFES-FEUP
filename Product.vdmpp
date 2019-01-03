@@ -5,15 +5,23 @@ types
 values
 -- TODO Define values here
 instance variables
-	private buyPrice: nat;
-	private sellPrice: nat;
-	private state: ProductState;
-	private description: String;
-	transaction: Transaction;
-	store: Store;
+	static idCounter: nat := 0;
+	id: nat;
+	buyPrice: nat1;
+	sellPrice: nat1;
+	state: ProductState;
+	description: String;
+	--transaction: Transaction;
+	--store: Store;
 operations
 	public Product(buyInput: nat, sellInput: nat, stateInput: ProductState, descriptionInput: String) p: Product ==
-		is not yet specified
+		(idCounter := idCounter + 1;
+		id := idCounter;
+		buyPrice := buyInput;
+		sellPrice := sellInput;
+		state := stateInput;
+		description := descriptionInput;
+		)
 		pre buyInput > 0 and sellInput > 0
 		post buyPrice = buyInput and sellPrice = sellInput and state = stateInput and description = descriptionInput;
 	
@@ -21,6 +29,11 @@ operations
 		return sellPrice
 		pre true
 		post res = sellPrice;
+		
+	public pure getBuyPrice() res: nat ==
+		return buyPrice
+		pre true
+		post res = buyPrice;
 functions
 -- TODO Define functiones here
 traces

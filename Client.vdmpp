@@ -4,25 +4,30 @@ types
 values
 instance variables
 	static idCounter: nat := 0;
-	id: nat;
+	id: nat1;
 	name: NotEmptyString;
-	ownedGiftCards: set of GiftCard;
-	transactions: set of Transaction;
+	ownedGiftCards: set of GiftCard := {};
+	transactions: set of Transaction := {}
 operations
 	public Client(nameSeq: NotEmptyString) c: Client ==
-			(name:=nameSeq; ownedGiftCards:={};transactions:={};idCounter := idCounter + 1;id := idCounter; return self)
+			(name:=nameSeq;idCounter := idCounter + 1;id := idCounter; return self)
 			 pre len nameSeq > 0
 			 post len name > 0
 			 		and ownedGiftCards = {} and transactions = {} and id = idCounter~ + 1;
 	
+	public getId() res:nat1 == 
+		return id
+		pre true
+		post res=id;
+
 	/*
 	Post:
 	- Gifted client has one more gift card than previously.
 	- Gifted client has one more gift card with the given value than prevously.
 	*/
-	public addGiftCard(value: nat1) ==
-		is not yet specified
-		pre true
+	public buyGiftCard(value: nat1) ==
+		ownedGiftCards := ownedGiftCards union {new GiftCard(value)}
+		pre value in set GiftCard`getPossibleValues()
 		post
 			card ownedGiftCards = card ownedGiftCards~ + 1
 			and len [x | x in seq valuesFromGiftCards(ownedGiftCards) & x = value]
@@ -36,21 +41,18 @@ operations
 		is not yet specified
 		pre giftCard in set ownedGiftCards
 		post ownedGiftCards = ownedGiftCards~ \ {giftCard};
-			
-	public buyGiftCard(value: nat1, giftedClient: Client) ==
-		giftedClient.addGiftCard(value)
-		pre true
-		post true;
+	
 		
 	/*
 	Post:
 	- Has one more product of the bought kind in purchase transactions than previously.
 	*/
-	public buyProduct(product: Product, giftCards: set of GiftCard) ==
-		is not yet specified
-		pre true
+	public buyProduct(product: Product, giftCardsUsed: set of GiftCard) ==
+		ownedGiftCards := ownedGiftCards \ giftCardsUsed
+		pre giftCardsUsed subset ownedGiftCards
 		post
-			card getBoughtProducts(transactions) = card getBoughtProducts(transactions~) + 1;
+			card getBoughtProducts(transactions) = card getBoughtProducts(transactions~) + 1
+			and product in set getBoughtProducts(transactions);
 		
 	/*
 	Pre:

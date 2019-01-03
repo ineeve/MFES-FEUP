@@ -3,7 +3,7 @@ types
 	public NotEmptyString = seq1 of char;
 	
 values
--- TODO Define values here
+	public CREDIT_NOTE_MULTIPLIER: real = 1.2;
 instance variables
 	location: NotEmptyString;
 	productsAvailable: set of Product := {};
@@ -23,10 +23,16 @@ operations
 			clientsCreditNotes = { |-> } and
 			cashiers = {};
 	
-	public buyProduct(p: Product) == 
+	public buyProductInCash(p: Product) == 
 	is not yet specified
 	pre true
 	post productsAvailable = productsAvailable~ union {p};
+	
+	public buyProductInCreditNotes(p: Product, clientId: nat) == 
+	is not yet specified
+	pre true
+	post productsAvailable = productsAvailable~ union {p} and
+	checkCreditNotes(clientId, p, clientsCreditNotes, clientsCreditNotes~);
 	
 	public sellProduct(p: Product) ==
 	is not yet specified
@@ -48,15 +54,16 @@ operations
 		pre true
 		post c = cashiers;
 	
-	public addCreditNote(clientId: nat, value: nat) ==
+	public addCreditNote(clientId: nat, p: Product) ==
 			(
 			(if clientId not in set dom clientsCreditNotes
 				then clientsCreditNotes := clientsCreditNotes ++ {clientId |-> 0}
 			);
-			clientsCreditNotes := clientsCreditNotes ++ {clientId |-> clientsCreditNotes(clientId) + value}
+			clientsCreditNotes := clientsCreditNotes ++ 
+				{clientId |-> clientsCreditNotes(clientId) + p.getBuyPrice() * CREDIT_NOTE_MULTIPLIER}
 			)
-			pre value > 0
-			post clientsCreditNotes = clientsCreditNotes~ ++ {clientId |-> clientsCreditNotes~(clientId) + value};
+			pre true
+			post checkCreditNotes(clientId, p, clientsCreditNotes, clientsCreditNotes~);
 	
 	/**
 	Spend a credit note
@@ -68,7 +75,14 @@ operations
 			post clientsCreditNotes = clientsCreditNotes~ ++ {clientId |-> clientsCreditNotes~(clientId) - value}
 
 functions
--- TODO Define functiones here
+	public checkCreditNotes(
+			clientId: nat,
+			p: Product,
+			newCreditNotes: map nat to nat,
+			oldCreditNotes: map nat to nat
+	) res:bool ==
+		newCreditNotes = oldCreditNotes ++
+				{clientId |-> oldCreditNotes(clientId) + p.getBuyPrice() * CREDIT_NOTE_MULTIPLIER};
 traces
 -- TODO Define Combinatorial Test Traces here
 end Store
