@@ -15,7 +15,7 @@ operations
 			 post len name > 0
 			 		and ownedGiftCards = {} and transactions = {} and id = idCounter~ + 1;
 	
-	public getId() res:nat1 == 
+	public pure getId() res:nat1 == 
 		return id
 		ext rd id
 		pre true
