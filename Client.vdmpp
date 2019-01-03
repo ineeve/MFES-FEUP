@@ -3,6 +3,8 @@ types
 	public NotEmptyString = seq1 of char;
 values
 instance variables
+	static idCounter: nat := 0;
+	id: nat;
 	creditNotes: nat;
 	name: NotEmptyString;
 	ownedGiftCards: set of GiftCard;
@@ -10,10 +12,10 @@ instance variables
 	inv creditNotes >= 0;
 operations
 	public Client(nameSeq: NotEmptyString) c: Client ==
-			(creditNotes:=0;name:=nameSeq; ownedGiftCards:={};transactions:={}; return self)
+			(creditNotes:=0;name:=nameSeq; ownedGiftCards:={};transactions:={};idCounter := idCounter + 1;id := idCounter; return self)
 			 pre len nameSeq > 0
 			 post creditNotes = 0 and len name > 0
-			 		and ownedGiftCards = {} and transactions = {};
+			 		and ownedGiftCards = {} and transactions = {} and id = idCounter~ + 1;
 	
 	public getCreditNotes() res: nat == 
 			return creditNotes
