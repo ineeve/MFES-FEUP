@@ -8,7 +8,9 @@ public class MainMenu extends Menu {
 
 	@Override
 	public void initialize() {
-		addOption("Cashiers", () -> new CashierMenu());
+		addOption("Stores", () -> new StoreMenu());
+		addOption("Transactions", () -> new TransactionMenu());
+		addOption("Clients", () -> new ClientMenu());
 	}
 	
 	public static void main(String[] args) {
