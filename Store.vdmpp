@@ -6,24 +6,22 @@ values
 -- TODO Define values here
 instance variables
 	location: NotEmptyString;
-	productsAvailable: set of Product;
-	productsSold: set of Product;
-	clientsCreditNotes: map nat to nat; -- map ids of clients to its credit notes
+	productsAvailable: set of Product := {};
+	productsSold: set of Product := {};
+	clientsCreditNotes: map nat to nat := { |-> }; -- map ids of clients to its credit notes
 	cashiers: set of StoreCashier := {};
 	
 operations
 	public Store(storeLocation: NotEmptyString) s: Store ==
 		(location := storeLocation;
-		productsAvailable := {};
-		productsSold := {};
-		clientsCreditNotes := { |-> };
 		return self;)
 		pre len storeLocation > 0
 		post 
-		location = storeLocation and 
-		productsAvailable = {} and 
-		productsSold = {} and 
-		clientsCreditNotes = { |-> };
+			location = storeLocation and 
+			productsAvailable = {} and 
+			productsSold = {} and 
+			clientsCreditNotes = { |-> } and
+			cashiers = {};
 	
 	public buyProduct(p: Product) == 
 	is not yet specified
@@ -37,10 +35,10 @@ operations
 	
 	public getCreditNotesOfClient(clientId: nat) res: nat == 
 		is not yet specified
-		pre true
+		pre clientId in set dom clientsCreditNotes
 		post res = clientsCreditNotes(clientId);
 
-	public getProductsAvailabl() p: set of Product ==
+	public getProductsAvailable() p: set of Product ==
 		return productsAvailable
 		pre true
 		post p = productsAvailable;
@@ -50,6 +48,25 @@ operations
 		pre true
 		post c = cashiers;
 	
+	public addCreditNote(clientId: nat, value: nat) ==
+			(
+			(if clientId not in set dom clientsCreditNotes
+				then clientsCreditNotes := clientsCreditNotes ++ {clientId |-> 0}
+			);
+			clientsCreditNotes := clientsCreditNotes ++ {clientId |-> clientsCreditNotes(clientId) + value}
+			)
+			pre value > 0
+			post clientsCreditNotes = clientsCreditNotes~ ++ {clientId |-> clientsCreditNotes~(clientId) + value};
+	
+	/**
+	Spend a credit note
+	The value of the credit note to send should be less or equal than the creditNotes amount
+	*/		
+	public spendCreditNote(clientId: nat, value: nat) == 
+			clientsCreditNotes := clientsCreditNotes ++ {clientId |-> clientsCreditNotes(clientId) - value}
+			pre clientId in set dom clientsCreditNotes and value <= clientsCreditNotes(clientId)
+			post clientsCreditNotes = clientsCreditNotes~ ++ {clientId |-> clientsCreditNotes~(clientId) - value}
+
 functions
 -- TODO Define functiones here
 traces
