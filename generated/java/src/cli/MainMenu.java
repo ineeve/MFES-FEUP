@@ -12,7 +12,7 @@ public class MainMenu extends Menu {
 	}
 	
 	public static void main(String[] args) {
-		MainMenu menu = new MainMenu();
+		new MainMenu();
 	}
 
 }
