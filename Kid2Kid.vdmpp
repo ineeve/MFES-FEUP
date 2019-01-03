@@ -6,8 +6,8 @@ types
 values
 -- TODO Define values here
 instance variables
-	clients: set of Client;
-	stores: set of Store;
+	clients: set of Client := {};
+	stores: set of Store := {};
 	
 operations
 
@@ -18,7 +18,7 @@ operations
 	- New client is added to the system
 	*/
 	public addClient(c: Client) ==
-		is not yet specified
+		clients := clients union {c}
 		pre true
 		post c in set clients;
 		
@@ -29,7 +29,7 @@ operations
 	- New store is added to the system
 	*/
 	public addStore(s: Store) ==
-		is not yet specified
+		stores := stores union {s}
 		pre true
 		post s in set stores;
 		
@@ -42,6 +42,20 @@ operations
 		return stores
 		pre true
 		post s = stores;
+	
+	/* Buy product of a client at a store with a specific cashier.
+	*/
+	public buyProduct(client: Client, store: Store, cashier: StoreCashier) ==
+		is not yet specified
+		pre true
+		post true;
+		
+	/* Sell product to a client at a store with a specific cashier.
+	*/
+	public sellProduct(client: Client, store: Store, cashier: StoreCashier) ==
+		is not yet specified
+		pre true
+		post true;
 		
 functions
 -- TODO Define functiones here

@@ -1,0 +1,35 @@
+class Kid2KidTest
+instance variables
+	kid2kid : Kid2Kid := new Kid2Kid();
+operations
+	
+	private assertTrue: bool ==> ()
+	 assertTrue(cond) == return
+	 pre cond;
+	 
+	private testAddClient: () ==> ()
+		testAddClient() ==
+		(
+			assertTrue(card kid2kid.getClients() = 0);
+			kid2kid.addClient(new Client("abc"));
+			assertTrue(card kid2kid.getClients() = 1);
+		);
+			
+	private testAddStore: () ==> ()
+		testAddStore() ==
+		(
+			assertTrue(card kid2kid.getStores() = 0);
+			kid2kid.addStore(new Store("Porto"));
+			assertTrue(card kid2kid.getStores() = 1);
+		);
+	
+	public static main: () ==> ()
+		main() ==
+		(
+			new Kid2KidTest().testAddClient();
+			new Kid2KidTest().testAddStore();
+		);
+
+traces
+-- TODO Define Combinatorial Test Traces here
+end Kid2KidTest

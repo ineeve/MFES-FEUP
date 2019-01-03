@@ -1,6 +1,7 @@
 class Store
 types
-public NotEmptyString = seq1 of char;
+	public NotEmptyString = seq1 of char;
+	
 values
 -- TODO Define values here
 instance variables
@@ -8,9 +9,15 @@ instance variables
 	productsAvailable: set of Product;
 	productsSold: set of Product;
 	clientsCreditNotes: map nat to nat; -- map ids of clients to its credit notes
+	cashiers: set of StoreCashier := {};
+	
 operations
 	public Store(storeLocation: NotEmptyString) s: Store ==
-		is not yet specified
+		(location := storeLocation;
+		productsAvailable := {};
+		productsSold := {};
+		clientsCreditNotes := { |-> };
+		return self;)
 		pre len storeLocation > 0
 		post 
 		location = storeLocation and 
@@ -32,6 +39,16 @@ operations
 		is not yet specified
 		pre true
 		post res = clientsCreditNotes(clientId);
+
+	public getProductsAvailabl() p: set of Product ==
+		return productsAvailable
+		pre true
+		post p = productsAvailable;
+		
+	public getCashiers() c: set of StoreCashier ==
+		return cashiers
+		pre true
+		post c = cashiers;
 	
 functions
 -- TODO Define functiones here

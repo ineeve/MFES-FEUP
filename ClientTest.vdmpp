@@ -1,10 +1,13 @@
 class ClientTest
 instance variables
-client : Client := new Client(['R','e','n','a','t','o']);
+	client : Client := new Client(['R','e','n','a','t','o']);
+	
 operations
+
 	private assertTrue: bool ==> ()
 	 assertTrue(cond) == return
 	 pre cond;
+	 
 	private testCreditNotes: () ==> ()
 	 testCreditNotes() ==
 	 (
@@ -14,11 +17,13 @@ operations
 	 client.spendCreditNote(30);
 	 assertTrue(client.getCreditNotes() = 20);
 	 );
+	 
 	public static main: () ==> ()
 		main() ==
 		 (
 		 new ClientTest().testCreditNotes();
 		 );
+		 
 traces
 -- TODO Define Combinatorial Test Traces here
 end ClientTest
