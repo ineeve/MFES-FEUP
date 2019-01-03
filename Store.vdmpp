@@ -26,6 +26,21 @@ operations
 		products := products \ {p}
 		pre p in set products
 		post products = products~ \ {p};
+		
+	public getProducts() p: set of Product ==
+		return products
+		pre true
+		post p = products;
+		
+	public getProfitEarned() p: nat ==
+		return profitEarned
+		pre true
+		post p = profitEarned;
+		
+	public getCashiers() c: set of StoreCashier ==
+		return cashiers
+		pre true
+		post c = cashiers;
 	
 functions
 -- TODO Define functiones here
