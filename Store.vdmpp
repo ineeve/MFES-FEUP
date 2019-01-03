@@ -4,24 +4,34 @@ public NotEmptyString = seq1 of char;
 values
 -- TODO Define values here
 instance variables
-	private location: NotEmptyString;
-	products: set of Product;
-	profitEarned: nat;
+	location: NotEmptyString;
+	productsAvailable: set of Product;
+	productsSold: set of Product;
+	clientsCreditNotes: map nat to nat; -- map ids of clients to its credit notes
 operations
 	public Store(storeLocation: NotEmptyString) s: Store ==
 		is not yet specified
 		pre len storeLocation > 0
-		post location = storeLocation;
+		post 
+		location = storeLocation and 
+		productsAvailable = {} and 
+		productsSold = {} and 
+		clientsCreditNotes = { |-> };
 	
-	public addProduct(p: Product) == 
+	public buyProduct(p: Product) == 
 	is not yet specified
 	pre true
-	post products = products~ union {p};
+	post productsAvailable = productsAvailable~ union {p};
 	
-	public removeProduct(p: Product) ==
+	public sellProduct(p: Product) ==
 	is not yet specified
-	pre p in set products
-	post products = products~ \ {p};
+	pre p in set productsAvailable
+	post productsAvailable = productsAvailable~ \ {p} and productsSold = productsSold~ union {p};
+	
+	public getCreditNotesOfClient(clientId: nat) res: nat == 
+		is not yet specified
+		pre true
+		post res = clientsCreditNotes(clientId);
 	
 functions
 -- TODO Define functiones here
