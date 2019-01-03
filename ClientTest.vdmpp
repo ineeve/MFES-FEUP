@@ -17,15 +17,19 @@ operations
 	 
 	private testGiftCards() ==
 		(
-			client1.buyGiftCard(10);
-		);
+			dcl giftCard: GiftCard := client1.buyGiftCard(10);
+			assertTrue(client1.ownsGiftCard(giftCard));
+			
+		)
+		pre 10 in set GiftCard`getPossibleValues();
 	 
 	public static main: () ==> ()
 		main() ==
 		 (
 		 dcl clientTest: ClientTest := new ClientTest();
-		 clientTest.testClientId();
 		 clientTest.testGiftCards();
+		 clientTest.testClientId();
+		 
 		 );
 		 
 traces

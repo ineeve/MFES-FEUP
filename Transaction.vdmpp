@@ -1,8 +1,5 @@
 class Transaction
 types
-	public Date :: year : nat
-									month: nat
-									day : nat;
 values
 -- TODO Define values here
 instance variables
