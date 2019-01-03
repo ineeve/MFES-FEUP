@@ -25,8 +25,12 @@ operations
 	- Gifted client has one more gift card than previously.
 	- Gifted client has one more gift card with the given value than prevously.
 	*/
-	public buyGiftCard(value: nat1) ==
-		ownedGiftCards := ownedGiftCards union {new GiftCard(value)}
+	public buyGiftCard(value: nat1) res: GiftCard ==
+		(
+		dcl newGiftCard: GiftCard := new GiftCard(value);
+		ownedGiftCards := ownedGiftCards union {newGiftCard};
+		return newGiftCard;
+		)
 		pre value in set GiftCard`getPossibleValues()
 		post
 			card ownedGiftCards = card ownedGiftCards~ + 1
@@ -48,7 +52,11 @@ operations
 	- Has one more product of the bought kind in purchase transactions than previously.
 	*/
 	public buyProduct(product: Product, giftCardsUsed: set of GiftCard) ==
-		ownedGiftCards := ownedGiftCards \ giftCardsUsed
+		(
+		dcl date: Date := new Date(3,1,2019);
+		dcl newTransaction: Sale := new Sale();
+		ownedGiftCards := ownedGiftCards \ giftCardsUsed;
+		)
 		pre giftCardsUsed subset ownedGiftCards
 		post
 			card getBoughtProducts(transactions) = card getBoughtProducts(transactions~) + 1
