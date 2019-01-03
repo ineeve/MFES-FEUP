@@ -1,4 +1,4 @@
-package quotes;
+package vdm.quotes;
 
 import org.overture.codegen.runtime.*;
 

@@ -1,23 +1,23 @@
-package quotes;
+package vdm.quotes;
 
 import org.overture.codegen.runtime.*;
 
 @SuppressWarnings("all")
-public class TODO1Quote {
+public class CribQuote {
   private static int hc = 0;
-  private static TODO1Quote instance = null;
+  private static CribQuote instance = null;
 
-  public TODO1Quote() {
+  public CribQuote() {
 
     if (Utils.equals(hc, 0)) {
       hc = super.hashCode();
     }
   }
 
-  public static TODO1Quote getInstance() {
+  public static CribQuote getInstance() {
 
     if (Utils.equals(instance, null)) {
-      instance = new TODO1Quote();
+      instance = new CribQuote();
     }
 
     return instance;
@@ -30,11 +30,11 @@ public class TODO1Quote {
 
   public boolean equals(final Object obj) {
 
-    return obj instanceof TODO1Quote;
+    return obj instanceof CribQuote;
   }
 
   public String toString() {
 
-    return "<TODO1>";
+    return "<Crib>";
   }
 }

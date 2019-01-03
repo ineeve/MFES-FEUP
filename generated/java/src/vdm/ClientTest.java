@@ -1,3 +1,4 @@
+package vdm;
 
 import java.util.*;
 import org.overture.codegen.runtime.*;
