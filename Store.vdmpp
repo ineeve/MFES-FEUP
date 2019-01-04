@@ -8,6 +8,7 @@ instance variables
 	location: NotEmptyString;
 	productsAvailable: set of Product := {};
 	productsSold: set of Product := {};
+	giftCardsSold: set of GiftCard := {};
 	clientsCreditNotes: map nat to nat := { |-> }; -- map ids of clients to its credit notes
 	cashiers: set of StoreCashier := {};
 	
@@ -33,6 +34,13 @@ operations
 		pre true
 		post productsAvailable = productsAvailable~ union {p} and
 		checkCreditNotes(clientId, p, clientsCreditNotes, clientsCreditNotes~);
+	
+	public sellGiftCard(g: GiftCard) ==
+		(
+		giftCardsSold := giftCardsSold union {g};
+		)
+		pre true
+		post giftCardsSold = giftCardsSold~ union {g};
 	
 	public sellProduct(p: Product) ==
 		(

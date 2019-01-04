@@ -98,6 +98,8 @@ operations
 		post card transactions = card transactions~ + 1 and
 		gc inter activeGiftCards = {};
 		
+	public sellGiftCard(c: Client, sc: StoreCashier, d: Date)
+		
 	public activateGiftCard(giftCard: GiftCard) ==
 		activeGiftCards := activeGiftCards union {giftCard}
 		pre true

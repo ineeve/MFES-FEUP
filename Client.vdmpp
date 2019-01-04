@@ -8,11 +8,16 @@ instance variables
 	name: NotEmptyString;
 	boughtProducts: set of Product := {};
 	soldProducts: set of Product := {};
+	boughtGiftCards: set of GiftCard := {};
 operations
 	public Client(nameSeq: NotEmptyString) c: Client ==
 			(name:=nameSeq;idCounter := idCounter + 1;id := idCounter; return self)
 			 pre len nameSeq > 0
-			 post len name > 0 and id = idCounter~ + 1;
+			 post len name > 0 and 
+			 id = idCounter~ + 1 and
+			 boughtProducts = {} and
+			 soldProducts = {} and 
+			 boughtGiftCards = {};
 	
 	public pure getId() res:nat1 == 
 		return id
@@ -44,6 +49,12 @@ operations
 		post
 			card soldProducts = card soldProducts~ + 1
 			and product in set soldProducts;
+			
+	public buyGiftCard(giftCard: GiftCard) ==
+		boughtGiftCards := boughtGiftCards union {giftCard}
+		pre true
+		post card boughtGiftCards = card boughtGiftCards~ + 1 and
+		giftCard in set BoughtGiftCard;
 		
 pure valuesFromGiftCards(g: set of GiftCard) res: seq of nat ==
 	 (dcl result: seq of nat := [];

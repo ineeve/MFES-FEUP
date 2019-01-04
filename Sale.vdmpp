@@ -10,30 +10,30 @@ instance variables
 	
 operations
 
-	/*  Sell products, possibly using owned gift cards.
+	/*  Sell products, possibly using active gift cards.
 	Pre:
 	- 
 	- Client owns gift cards used.
 	Post:
 	- 
 	*/
-	public Sale(d: Date, c: Client, p: set of Product, cardsUsed: set of GiftCard, authorizer: StoreCashier) res: Sale ==
+	public Sale(d: Date, c: Client, p: set of Product, cardsUsed: set of GiftCard, sc: StoreCashier) res: Sale ==
 		(
 		date:=d;
 		client:=c;
 		productsTransacted:=p;
 		giftCardsUsed:=cardsUsed;
-		storeAuthorizer:= authorizer;
+		storeAuthorizer:= sc;
 		value:=sumProductValues(p);
 		return self
 		)
-		pre card p >= 1 and c.ownsGiftCards(cardsUsed)
+		pre card p >= 1
 		post 
 			date = d and 
 			client = c and 
 			productsTransacted = p and 
 			giftCardsUsed = cardsUsed and 
-			storeAuthorizer = authorizer and 
+			storeAuthorizer = sc and 
 			value = sumProductValues(productsTransacted);
 		
 	/* Client buys gift cards.
