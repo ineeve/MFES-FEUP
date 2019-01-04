@@ -13,7 +13,8 @@ instance variables
 	cashiers: set of StoreCashier := {};
 	
 operations
-	public Store(storeLocation: NotEmptyString) s: Store ==
+	public Store: NotEmptyString ==> Store
+	Store(storeLocation) ==
 		(location := storeLocation;
 		return self;)
 		pre len storeLocation > 0
@@ -24,12 +25,14 @@ operations
 			clientsCreditNotes = { |-> } and
 			cashiers = {};
 	
-	public buyProductInCash(p: Product) == 
+	public buyProductInCash: Product ==> ()
+		buyProductInCash(p) ==
 		is not yet specified
 		pre true
 		post productsAvailable = productsAvailable~ union {p};
 	
-	public buyProductInCreditNotes(p: Product, clientId: nat) == 
+	public buyProductInCreditNotes: Product * nat ==> ()
+	buyProductInCreditNotes(p, clientId) ==
 		is not yet specified
 		pre true
 		post productsAvailable = productsAvailable~ union {p} and
@@ -45,7 +48,8 @@ operations
 		pre true
 		post card giftCardsSold = card giftCardsSold~ + 1;
 	
-	public sellProduct(p: Product) ==
+	public sellProduct: Product ==> ()
+	sellProduct(p) ==
 		(
 		productsAvailable := productsAvailable \ {p};
 		productsSold := productsSold union {p};
@@ -53,7 +57,8 @@ operations
 		pre hasProduct(p)
 		post productsAvailable = productsAvailable~ \ {p} and productsSold = productsSold~ union {p};
 	
-	public sellProductInCreditNotes(p: Product, clientId: nat) ==
+	public sellProductInCreditNotes: Product * nat ==> ()
+	sellProductInCreditNotes(p, clientId) ==
 		(
 		sellProduct(p);
 		spendCreditNote(clientId, p.getSellPrice());
@@ -63,22 +68,26 @@ operations
 					productsSold = productsSold~ union {p}; -- should also check that creditNotes of client have decreased
 	
 	
-	public pure getCreditNotesOfClient(clientId: nat) res: nat == 
+	public pure getCreditNotesOfClient: nat ==> nat
+	getCreditNotesOfClient(clientId) ==
 		return clientsCreditNotes(clientId)
 		pre clientId in set dom clientsCreditNotes
-		post res = clientsCreditNotes(clientId);
+		post RESULT = clientsCreditNotes(clientId);
 
-	public getProductsAvailable() p: set of Product ==
+	public getProductsAvailable: () ==> set of Product
+	getProductsAvailable() ==
 		return productsAvailable
 		pre true
-		post p = productsAvailable;
+		post RESULT = productsAvailable;
 		
-	public getCashiers() c: set of StoreCashier ==
+	public getCashiers: () ==> set of StoreCashier
+	getCashiers() ==
 		return cashiers
 		pre true
-		post c = cashiers;
+		post RESULT = cashiers;
 	
-	public addCreditNote(clientId: nat, p: Product) ==
+	public addCreditNote: nat * Product ==> ()
+	addCreditNote(clientId, p) ==
 			(
 			(if clientId not in set dom clientsCreditNotes
 				then clientsCreditNotes := clientsCreditNotes ++ {clientId |-> 0}
@@ -93,22 +102,20 @@ operations
 	Spend a credit note
 	The value of the credit note to send should be less or equal than the creditNotes amount
 	*/		
-	public spendCreditNote(clientId: nat, value: nat) == 
+	public spendCreditNote: nat * nat ==> ()
+	spendCreditNote(clientId, value) ==
 			clientsCreditNotes := clientsCreditNotes ++ {clientId |-> clientsCreditNotes(clientId) - value}
 			pre clientId in set dom clientsCreditNotes and value <= clientsCreditNotes(clientId)
 			post clientsCreditNotes = clientsCreditNotes~ ++ {clientId |-> clientsCreditNotes~(clientId) - value};
 
-	public pure hasProduct(p:Product) res:bool ==
+	public pure hasProduct: Product ==> bool
+	hasProduct(p) ==
 		return p in set productsAvailable
-		post res = p in set productsAvailable;
+		post RESULT = p in set productsAvailable;
 
 functions
-	public checkCreditNotes(
-			clientId: nat,
-			p: Product,
-			newCreditNotes: map nat to nat,
-			oldCreditNotes: map nat to nat
-	) res:bool ==
+	public checkCreditNotes: nat * Product * map nat to nat * map nat to nat -> bool
+	checkCreditNotes(clientId, p, newCreditNotes, oldCreditNotes) ==
 		newCreditNotes = oldCreditNotes ++
 				{clientId |-> oldCreditNotes(clientId) + p.getBuyPrice() * CREDIT_NOTE_MULTIPLIER};
 traces

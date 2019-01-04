@@ -12,10 +12,11 @@ instance variables
 	
 operations
 
-public pure getProducts() res: set of Product ==
+public pure getProducts: () ==> set of Product
+getProducts() ==
 	(return productsTransacted)
 	pre true
-	post res = productsTransacted;
+	post RESULT = productsTransacted;
 		
 functions
 -- TODO Define functiones here
