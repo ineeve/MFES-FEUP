@@ -35,7 +35,8 @@ operations
 			productsTransacted = p and 
 			giftCardsUsed = cardsUsed and 
 			storeAuthorizer = sc and 
-			value = sumProductValues(productsTransacted);
+			value = sumProductValues(productsTransacted) and
+			RESULT = self;
 		
 	/* Client buys gift cards.
 	Pre:
@@ -45,9 +46,21 @@ operations
 	*/
 	public Sale: Date * Client * set of GiftCard * StoreCashier ==> Sale
 	Sale(d, c, g, sc) ==
-		is not yet specified
+		(
+		value := sumGCValues(g);
+		date := d;
+		client := c;
+		giftCardsSold := g;
+		storeAuthorizer := sc;
+		return self;
+		)
 		pre card g >= 1
-		post value = sumGCValues(g) and date = d and client = c and giftCardsSold = g and storeAuthorizer = sc;
+		post value = sumGCValues(g) and 
+		date = d and 
+		client = c and 
+		giftCardsSold = g and 
+		storeAuthorizer = sc and 
+		RESULT = self;
 
 	public pure sumProductValues: set of Product ==> nat
 	sumProductValues(pSet) ==
