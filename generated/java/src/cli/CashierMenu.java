@@ -7,6 +7,7 @@ public class CashierMenu extends Menu  {
 	
 	public CashierMenu(String location) {
 		this.location = location;
+		loop();
 	}
 
 	@Override

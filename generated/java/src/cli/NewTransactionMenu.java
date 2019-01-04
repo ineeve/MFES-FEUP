@@ -14,6 +14,7 @@ public class NewTransactionMenu extends Menu {
 	
 	public NewTransactionMenu(String cashierName) {
 		this.cashierName = cashierName;
+		loop();
 	}
 	
 	@Override
@@ -21,8 +22,9 @@ public class NewTransactionMenu extends Menu {
 		kid2kid = Kid2KidSingleton.getInstance();
 		clients = kid2kid.getClients();
 		addOption("New client", () -> new NewClientForTransaction());
-		clients.forEach((client) -> {
-			addOption(((Client) client).getName(), () -> new PickNewTransactionTypeMenu(client));
+		clients.forEach((clientObj) -> {
+			Client client = (Client) clientObj;
+			addOption(client.getName(), () -> new PickNewTransactionTypeMenu(client));
 		});
 	}
 }

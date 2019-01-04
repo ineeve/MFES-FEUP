@@ -55,7 +55,7 @@ public abstract class Menu {
 		System.out.println();
 	}
 	
-	private void loop() {
+	protected void loop() {
 		try {
 			while (true) {
 				presentOptions();
@@ -66,7 +66,6 @@ public abstract class Menu {
 	
 	public Menu() {
 		initialize();
-		loop();
 	}
 	
 	/**
