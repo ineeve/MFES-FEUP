@@ -1,6 +1,6 @@
 class Clothing is subclass of Product
 types
-	public ClothingCat = <TODO1> | <TODO2>;
+	public ClothingCat = <Jeans> | <Dresses> | <Pajamas>;
 values
 -- TODO Define values here
 instance variables

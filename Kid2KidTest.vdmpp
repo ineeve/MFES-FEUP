@@ -52,7 +52,7 @@ operations
 	private testStoreBuyProductInCash : () ==> ()
 		testStoreBuyProductInCash() ==
 		(
-			dcl p: Product := new Toy(<New>, 5, <CARS>);
+			dcl p: Product := new Toy(<New>, 5, <Cars>);
 			assertTrue(p not in set store.getProductsAvailable());
 			assertTrue(p not in set client.getProductsSold());
 			kid2kid.buyProductInCash(p,client,cashier,today);
@@ -63,7 +63,7 @@ operations
 	private testStoreBuyProductInCreditNotes: () ==> ()
 		testStoreBuyProductInCreditNotes() ==
 		(
-			dcl p: Product := new Toy(<Low_Use>, 2, <PUZZLES>);
+			dcl p: Product := new Toy(<Low_Use>, 2, <Puzzles>);
 			assertTrue(p not in set store.getProductsAvailable());
 			assertTrue(p not in set client.getProductsSold());
 			kid2kid.buyProductInCreditNotes(p, client, cashier, today);
