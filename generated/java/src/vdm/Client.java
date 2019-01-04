@@ -25,6 +25,16 @@ public class Client {
     cg_init_Client_1(nameSeq);
   }
 
+  public void setName(final String newName) {
+
+    name = newName;
+  }
+
+  public String getName() {
+
+    return name;
+  }
+
   public Number getId() {
 
     return id;

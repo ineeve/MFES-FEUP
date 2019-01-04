@@ -30,6 +30,12 @@ operations
 			pre true
 			post name = newName;
 			
+	public getName: () ==> NotEmptyString
+		getName() ==
+			return name
+			pre true
+			post RESULT = name;
+			
 	/**
 	* Get id of the client
 	*/
@@ -37,7 +43,7 @@ operations
 		getId() == 
 			return id
 			pre true
-			post RESULT=id;
+			post RESULT = id;
 
 	/*
 	Post:

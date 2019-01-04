@@ -25,10 +25,8 @@ public class Login {
 				loginStatus = kid2kid.login(username);
 			} while (loginStatus instanceof LoggedOutQuote);
 			if (loginStatus instanceof AdminQuote) {
-				System.out.println("admin");
 				new AdminMenu();
 			} else if (loginStatus instanceof CashierQuote) {
-				System.out.println("cashier");
 				new CashierMenu(username);
 			}
 		}

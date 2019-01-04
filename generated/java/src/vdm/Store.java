@@ -89,8 +89,8 @@ public class Store {
             MapUtil.map(
                 new Maplet(
                     clientId,
-                    ((Number) Utils.get(clientsCreditNotes, clientId)).longValue()
-                        + p.getBuyPrice().longValue()
+                    ((Number) Utils.get(clientsCreditNotes, clientId)).doubleValue()
+                        + p.getBuyPrice().doubleValue()
                             * Store.CREDIT_NOTE_MULTIPLIER.doubleValue())));
   }
 
@@ -102,8 +102,8 @@ public class Store {
             MapUtil.map(
                 new Maplet(
                     clientId,
-                    ((Number) Utils.get(clientsCreditNotes, clientId)).longValue()
-                        - value.longValue())));
+                    ((Number) Utils.get(clientsCreditNotes, clientId)).doubleValue()
+                        - value.doubleValue())));
   }
 
   public Boolean hasProduct(final Product p) {
@@ -119,16 +119,23 @@ public class Store {
       final VDMMap newCreditNotes,
       final VDMMap oldCreditNotes) {
 
-    return Utils.equals(
-        newCreditNotes,
-        MapUtil.override(
-            Utils.copy(oldCreditNotes),
-            MapUtil.map(
-                new Maplet(
-                    clientId,
-                    ((Number) Utils.get(oldCreditNotes, clientId)).longValue()
-                        + p.getBuyPrice().longValue()
-                            * Store.CREDIT_NOTE_MULTIPLIER.doubleValue()))));
+    if (!(SetUtil.inSet(clientId, MapUtil.dom(Utils.copy(oldCreditNotes))))) {
+      return Utils.equals(
+          ((Number) Utils.get(newCreditNotes, clientId)),
+          p.getBuyPrice().doubleValue() * Store.CREDIT_NOTE_MULTIPLIER.doubleValue());
+
+    } else {
+      return Utils.equals(
+          newCreditNotes,
+          MapUtil.override(
+              Utils.copy(oldCreditNotes),
+              MapUtil.map(
+                  new Maplet(
+                      clientId,
+                      ((Number) Utils.get(oldCreditNotes, clientId)).doubleValue()
+                          + p.getBuyPrice().doubleValue()
+                              * Store.CREDIT_NOTE_MULTIPLIER.doubleValue()))));
+    }
   }
 
   public String toString() {

@@ -5,35 +5,12 @@ import org.overture.codegen.runtime.*;
 
 @SuppressWarnings("all")
 public class Product {
-  private static Number idCounter = 0L;
-  private Number id;
-  private Number buyPrice;
-  private Number sellPrice;
-  private Object state;
-  private String description;
-
-  public void cg_init_Product_1(
-      final Number buyInput,
-      final Number sellInput,
-      final Object stateInput,
-      final String descriptionInput) {
-
-    idCounter = Product.idCounter.longValue() + 1L;
-    id = Product.idCounter;
-    buyPrice = buyInput;
-    sellPrice = sellInput;
-    state = stateInput;
-    description = descriptionInput;
-  }
-
-  public Product(
-      final Number buyInput,
-      final Number sellInput,
-      final Object stateInput,
-      final String descriptionInput) {
-
-    cg_init_Product_1(buyInput, sellInput, stateInput, descriptionInput);
-  }
+  protected static Number idCounter = 0L;
+  protected Number id;
+  protected Number buyPrice;
+  protected Number sellPrice;
+  protected Object state;
+  protected String description;
 
   public Number getSellPrice() {
 
@@ -43,6 +20,34 @@ public class Product {
   public Number getBuyPrice() {
 
     return buyPrice;
+  }
+
+  public void setDescription(final String newDescription) {
+
+    description = newDescription;
+  }
+
+  protected void setBuyPrice() {
+
+    buyPrice = 10L * getStateValue().doubleValue();
+  }
+
+  protected void setSellPrice() {
+
+    sellPrice = 1.3 * buyPrice.doubleValue();
+  }
+
+  public Number getStateValue() {
+
+    if (Utils.equals(state, vdm.quotes.NewQuote.getInstance())) {
+      return 1.0;
+    }
+
+    if (Utils.equals(state, vdm.quotes.Low_UseQuote.getInstance())) {
+      return 0.8;
+    }
+
+    return 0.5;
   }
 
   public Product() {}

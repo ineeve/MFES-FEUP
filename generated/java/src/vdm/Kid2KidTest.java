@@ -21,6 +21,11 @@ public class Kid2KidTest {
     assertTrue(Utils.equals(kid2kid.login("Admin"), vdm.quotes.AdminQuote.getInstance()));
   }
 
+  private void loginCashier(final String cashierName) {
+
+    assertTrue(Utils.equals(kid2kid.login(cashierName), vdm.quotes.CashierQuote.getInstance()));
+  }
+
   private void testAddClient() {
 
     assertTrue(Utils.equals(kid2kid.getClients().size(), 0L));
@@ -35,16 +40,16 @@ public class Kid2KidTest {
     assertTrue(Utils.equals(kid2kid.getStores().size(), 1L));
   }
 
-  private void testAddCashierToStore() {
+  private void testAddCashierToStore(final String name) {
 
-    cashier = new StoreCashier("Joao", store);
+    cashier = new StoreCashier(name, store);
     store.addCashier(cashier);
     assertTrue(Utils.equals(store.getCashiers().size(), 1L));
   }
 
   private void testStoreBuyProductInCash() {
 
-    Product p = new Toy(5L, vdm.quotes.CARSQuote.getInstance());
+    Product p = new Toy(vdm.quotes.NewQuote.getInstance(), 5L, vdm.quotes.CARSQuote.getInstance());
     assertTrue(!(SetUtil.inSet(p, store.getProductsAvailable())));
     assertTrue(!(SetUtil.inSet(p, client.getProductsSold())));
     kid2kid.buyProductInCash(p, client, cashier, today);
@@ -54,23 +59,36 @@ public class Kid2KidTest {
 
   private void testStoreBuyProductInCreditNotes() {
 
-    Product p = new Toy(2L, vdm.quotes.PUZZLESQuote.getInstance());
+    Product p =
+        new Toy(vdm.quotes.Low_UseQuote.getInstance(), 2L, vdm.quotes.PUZZLESQuote.getInstance());
     assertTrue(!(SetUtil.inSet(p, store.getProductsAvailable())));
     assertTrue(!(SetUtil.inSet(p, client.getProductsSold())));
     kid2kid.buyProductInCreditNotes(p, client, cashier, today);
     assertTrue(SetUtil.inSet(p, store.getProductsAvailable()));
     assertTrue(SetUtil.inSet(p, client.getProductsSold()));
-    assertTrue(store.getCreditNotesOfClient(client.getId()).longValue() > 0L);
+    assertTrue(store.getCreditNotesOfClient(client.getId()).doubleValue() > 0L);
+  }
+
+  public void testAdminOperations() {
+
+    loginAdmin();
+    testAddClient();
+    testAddStore();
+    testAddCashierToStore("Joao");
+  }
+
+  public void testCashierOperations() {
+
+    loginCashier("Joao");
+    testStoreBuyProductInCash();
+    testStoreBuyProductInCreditNotes();
   }
 
   public static void main() {
 
     Kid2KidTest kid2KidTest = new Kid2KidTest();
-    kid2KidTest.loginAdmin();
-    kid2KidTest.testAddClient();
-    kid2KidTest.testAddStore();
-    kid2KidTest.testAddCashierToStore();
-    kid2KidTest.testStoreBuyProductInCash();
+    kid2KidTest.testAdminOperations();
+    kid2KidTest.testCashierOperations();
   }
 
   public Kid2KidTest() {}

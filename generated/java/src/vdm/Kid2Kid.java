@@ -10,6 +10,7 @@ public class Kid2Kid {
   private VDMSet activeGiftCards = SetUtil.set();
   private VDMSet transactions = SetUtil.set();
   private Object loggedInType = vdm.quotes.LoggedOutQuote.getInstance();
+  private String loggedInUsername;
 
   public void cg_init_Kid2Kid_1() {
 
@@ -25,9 +26,12 @@ public class Kid2Kid {
 
     if (Utils.equals(name, "Admin")) {
       loggedInType = vdm.quotes.AdminQuote.getInstance();
+      loggedInUsername = "Admin";
+
     } else {
       if (SetUtil.inSet(name, getCashierNames())) {
         loggedInType = vdm.quotes.CashierQuote.getInstance();
+        loggedInUsername = name;
       }
     }
 
@@ -192,6 +196,8 @@ public class Kid2Kid {
         + Utils.toString(transactions)
         + ", loggedInType := "
         + Utils.toString(loggedInType)
+        + ", loggedInUsername := "
+        + Utils.toString(loggedInUsername)
         + "}";
   }
 }
