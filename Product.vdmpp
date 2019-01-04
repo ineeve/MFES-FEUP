@@ -14,7 +14,8 @@ instance variables
 	--transaction: Transaction;
 	--store: Store;
 operations
-	public Product(buyInput: nat, sellInput: nat, stateInput: ProductState, descriptionInput: CustomString) p: Product ==
+	public Product: nat * nat * ProductState * CustomString ==> Product
+	Product(buyInput, sellInput, stateInput, descriptionInput) ==
 		(idCounter := idCounter + 1;
 		id := idCounter;
 		buyPrice := buyInput;
@@ -25,15 +26,17 @@ operations
 		pre buyInput > 0 and sellInput > 0
 		post buyPrice = buyInput and sellPrice = sellInput and state = stateInput and description = descriptionInput;
 	
-	public pure getSellPrice() res: nat ==
+	public pure getSellPrice: () ==> nat
+	getSellPrice() ==
 		return sellPrice
 		pre true
-		post res = sellPrice;
+		post RESULT = sellPrice;
 		
-	public pure getBuyPrice() res: nat ==
+	public pure getBuyPrice: () ==> nat
+	getBuyPrice() ==
 		return buyPrice
 		pre true
-		post res = buyPrice;
+		post RESULT = buyPrice;
 functions
 -- TODO Define functiones here
 traces

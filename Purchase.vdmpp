@@ -5,7 +5,8 @@ values
 -- TODO Define values here
 instance variables
 operations
-	public Purchase(d: Date, c: Client, ps: set of Product, sc: StoreCashier) res:Purchase ==
+	public Purchase: Date * Client * set of Product * StoreCashier ==> Purchase
+	Purchase(d, c, ps, sc) ==
 			(
 			date := d;
 			client := c;
@@ -14,7 +15,7 @@ operations
 			return self;
 			)
 			pre card ps >= 1
-			post res = self;
+			post RESULT = self;
 functions
 -- TODO Define functiones here
 traces
