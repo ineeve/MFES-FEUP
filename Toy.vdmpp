@@ -8,17 +8,26 @@ values
 instance variables
 	private minAge: nat;
 	private maxAge: [nat]:=nil; --optional, nil as default
-	private description: [NotEmptyString]:=nil; --optional, nil as default
 	private subCategory: ToyCategory;
 operations
-	public Toy: nat * ToyCategory ==> Toy
-	Toy(minAgeInput, subCategoryInput) ==
+	public Toy: ProductState * nat * ToyCategory ==> Toy
+	Toy(productState, minAgeInput, subCategoryInput) ==
 		(
+		idCounter := idCounter + 1;
+		id := idCounter;
+		state := productState;
 		minAge := minAgeInput;
 		subCategory := subCategoryInput;
+		setBuyPrice();
+		setSellPrice();
 		)
 		pre minAgeInput > 0 and minAgeInput < 13
-		post minAge = minAgeInput and subCategory = subCategoryInput;
+		post minAge = minAgeInput and 
+		subCategory = subCategoryInput and
+		buyPrice <> undefined and
+		sellPrice <> undefined and
+		state = productState and
+		id <> undefined;
 functions
 -- TODO Define functiones here
 traces
