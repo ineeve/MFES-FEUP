@@ -13,6 +13,18 @@ operations
 	 assertTrue(cond) == return
 	 pre cond;
 	 
+	private loginAdmin: () ==> ()
+	loginAdmin() ==
+	(
+		assertTrue(kid2kid.login("Admin") = <Admin>)
+	);
+	
+	private loginCashier: NotEmptyString ==> ()
+	loginCashier(cashierName) ==
+	(
+		assertTrue(kid2kid.login(cashierName) = <Cashier>)
+	);
+	 
 	private testAddClient: () ==> ()
 		testAddClient() ==
 		(
@@ -59,17 +71,11 @@ operations
 			assertTrue(p in set client.getProductsSold());
 			assertTrue(store.getCreditNotesOfClient(client.getId()) > 0);
 		);
-		
-	public loginAsAdmin: () ==> Kid2Kid`UserType
-		loginAsAdmin() ==
-		(
-		kid2kid.login("Admin");
-		);
 	
 	public testAdminOperations: () ==> ()
 		testAdminOperations() == 
 			(
-			dcl user:Kid2Kid`UserType := loginAsAdmin();
+			loginAdmin();
 			testAddClient();
 			testAddStore();
 			testAddCashierToStore("Joao");
@@ -78,7 +84,7 @@ operations
 	public testCashierOperations: () ==> ()
 		testCashierOperations() ==
 			(
-			dcl user:Kid2Kid`UserType := kid2kid.login("Joao");
+			loginCashier("Joao");
 			testStoreBuyProductInCash();
 			testStoreBuyProductInCreditNotes();
 			);
@@ -89,7 +95,6 @@ operations
 			dcl kid2KidTest: Kid2KidTest := new Kid2KidTest();
 			kid2KidTest.testAdminOperations();
 			kid2KidTest.testCashierOperations();
-			
 		);
 
 traces

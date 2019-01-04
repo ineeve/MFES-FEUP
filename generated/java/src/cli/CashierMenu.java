@@ -3,18 +3,16 @@ package cli;
 public class CashierMenu extends Menu  {
 
 	// private Cashier[] cashiers;
-	private String location;
+	private String cashierName;
 	
-	public CashierMenu(String location) {
-		this.location = location;
+	public CashierMenu(String cashierName) {
+		this.cashierName = cashierName;
 	}
 
 	@Override
 	public void initialize() {
-		// get vdm cashiers
-		// loop cashiers
-		addOption("Margarida", () -> System.out.println("Picked cashier 1"));
-		addOption("Renato", () -> System.out.println("Picked cashier 2"));
+		addOption("New transaction", () -> new NewTransactionMenu(cashierName));
+		// addOption("List transactions", () -> new ListTransactionsMenu(cashierName));
 	}
 
 }
