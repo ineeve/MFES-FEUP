@@ -67,7 +67,7 @@ operations
 	getCreditNotesOfClient(clientId) ==
 		return clientsCreditNotes(clientId)
 		pre clientId in set dom clientsCreditNotes
-		post res = clientsCreditNotes(clientId);
+		post RESULT = clientsCreditNotes(clientId);
 
 	public getProductsAvailable: () ==> set of Product
 	getProductsAvailable() ==
