@@ -12,16 +12,18 @@ instance variables
 	transactions: set of Transaction := {}
 operations
 
-	public Kid2Kid() k:Kid2Kid ==
+	public Kid2Kid: () ==> Kid2Kid 
+	Kid2Kid() ==
 		return self
 		pre true
-		post clients = {} and stores = {} and activeGiftCards = {} and transactions = {};
+		post clients = {} and stores = {} and activeGiftCards = {} and transactions = {} and RESULT = self;
 
 	/*
 	Post:
 	- New client is added to the system
 	*/
-	public addClient(c: Client) ==
+	public addClient: Client ==> ()
+	addClient(c) ==
 		clients := clients union {c}
 		pre true
 		post c in set clients;
@@ -30,24 +32,28 @@ operations
 	Post:
 	- New store is added to the system
 	*/
-	public addStore(s: Store) ==
+	public addStore: Store ==> ()
+	addStore(s) ==
 		stores := stores union {s}
 		pre true
 		post s in set stores;
 		
-	public getClients() c: set of Client ==
+	public getClients: () ==> set of Client 
+	getClients() ==
 		return clients
 		pre true
-		post c = clients;
+		post RESULT = clients;
 		
-	public getStores() s: set of Store ==
+	public getStores: () ==> set of Store 
+	getStores() ==
 		return stores
 		pre true
-		post s = stores;
+		post RESULT = stores;
 	
 	/* Buy product of a client at a store with a specific cashier.
 	*/
-	public buyProductInCash(product: Product, client: Client, cashier: StoreCashier, date: Date) ==
+	public buyProductInCash: Product* Client * StoreCashier * Date ==> ()
+	buyProductInCash(product, client, cashier, date) ==
 		(
 		cashier.buyProductInCash(product);
 		client.sellProduct(product);
@@ -58,7 +64,8 @@ operations
 		
 	/* Buy product of a client at a store with a specific cashier.
 	*/
-	public buyProductInCreditNotes(product: Product, client: Client, cashier: StoreCashier, date: Date) ==
+	public buyProductInCreditNotes: Product * Client * StoreCashier * Date ==> ()
+	buyProductInCreditNotes(product, client, cashier, date) ==
 		(
 		cashier.buyProductInCreditNotes(product, client);
 		client.sellProduct(product);
@@ -69,16 +76,18 @@ operations
 		
 	/* Sell product to a client at a store with a specific cashier.
 	*/
-	public sellProductInCash(p: Product, c: Client, sc: StoreCashier, d: Date) ==
+	public sellProductInCash: Product * Client * StoreCashier * Date ==> ()
+	sellProductInCash(p,c,sc,d) ==
 		(
 		sc.sellProduct(p);
 		c.buyProduct(p);
 		addSaleProductTransaction(d, c, {p}, {}, sc);
 		)
 		pre true
-		post card transactions = card transactions~ + 1;
+		post true;
 		
-	public sellProductInCreditNotes(p: Product, c: Client, sc: StoreCashier, d: Date) ==
+	public sellProductInCreditNotes: Product * Client * StoreCashier * Date ==> ()
+	sellProductInCreditNotes(p, c, sc, d) ==
 		(
 		sc.sellProductInCreditNotes(p, c);
 		c.buyProduct(p);
@@ -87,7 +96,8 @@ operations
 		pre true
 		post card transactions = card transactions~ + 1;
 		
-	public sellProductInGiftCards(p: Product, c: Client, sc: StoreCashier, gc: set of GiftCard, d: Date) ==
+	public sellProductInGiftCards: Product * Client * StoreCashier * set of GiftCard * Date ==> ()
+	sellProductInGiftCards(p, c, sc, gc, d) ==
 		(
 		sc.sellProduct(p);
 		c.buyProduct(p);
@@ -108,17 +118,20 @@ operations
 		pre true
 		post true;
 		
-	public activateGiftCard(giftCard: GiftCard) ==
+	public activateGiftCard: GiftCard ==> ()
+	activateGiftCard(giftCard) ==
 		activeGiftCards := activeGiftCards union {giftCard}
 		pre true
 		post activeGiftCards = activeGiftCards union {giftCard};
 		
-	public useGiftCard(giftCard: GiftCard) ==
+	public useGiftCard: GiftCard ==> ()
+	useGiftCard(giftCard) ==
 		activeGiftCards := activeGiftCards \ {giftCard}
 		pre giftCard in set activeGiftCards
 		post activeGiftCards = activeGiftCards~ \ {giftCard};
 		
-	private addSaleProductTransaction(d: Date, c: Client, sp: set of Product, gcs: set of GiftCard, sc: StoreCashier) ==
+	private addSaleProductTransaction: Date * Client * set of Product * set of GiftCard * StoreCashier ==> ()
+	addSaleProductTransaction(d,c,sp,gcs,sc) ==
 		(
 		dcl transaction: Transaction := new Sale(d,c,sp,gcs,sc);
 		transactions := transactions union {transaction};
@@ -126,16 +139,18 @@ operations
 		pre card sp >= 1
 		post card transactions = card transactions~ + 1;
 		
-	private addSaleGCTransaction(d: Date, c: Client, gcs: set of GiftCard, sc: StoreCashier) ==
-		(
+	private addSaleGCTransaction: Date * Client * set of GiftCard * StoreCashier ==> ()
+	addSaleGCTransaction(d,c,gcs,sc) ==	
+	(
 		dcl transaction: Transaction := new Sale(d,c,gcs,sc);
 		transactions := transactions union {transaction};
 		)
 		pre card gcs >= 1
 		post card transactions = card transactions~ + 1;
 	
-	private addPurchaseTransaction(d: Date, c:Client, sp: set of Product, sc: StoreCashier) == 
-		(
+	private addPurchaseTransaction: Date * Client * set of Product * StoreCashier ==> () 
+	addPurchaseTransaction(d,c,sp,sc) ==	
+	(
 		dcl transaction: Transaction := new Purchase(d,c,sp,sc);
 		transactions := transactions union {transaction};
 		)

@@ -12,15 +12,16 @@ inv year >= 2000;
 inv month <= 12;
 
 operations
-public Date(d: nat1, m: nat1, y: nat1) date: Date ==
+	public Date: nat1 * nat1 * nat1 ==> Date 
+	Date(d,m,y) ==
 		(
-		year := y;
+		day := d;
 		month := m;
 		year := y;
 		return self;
 		)
 		pre true
-		post true;
+		post day=d and month=m and year = y and RESULT=self;
 functions
 -- TODO Define functiones here
 traces

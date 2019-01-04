@@ -9,7 +9,8 @@ operations
 	 assertTrue(cond) == return
 	 pre cond;
 	 
-	private testClientId() ==
+	private testClientId: () ==> () 
+	testClientId() ==
 	 (
 	 assertTrue(client1.getId() = 1);
 	 assertTrue(client2.getId() = 2);

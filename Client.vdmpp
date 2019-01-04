@@ -10,26 +10,29 @@ instance variables
 	soldProducts: set of Product := {};
 	boughtGiftCards: set of GiftCard := {};
 operations
-	public Client(nameSeq: NotEmptyString) c: Client ==
+	public Client: NotEmptyString ==> Client
+	Client(nameSeq) ==
 			(name:=nameSeq;idCounter := idCounter + 1;id := idCounter; return self)
 			 pre len nameSeq > 0
 			 post len name > 0 and 
 			 id = idCounter~ + 1 and
 			 boughtProducts = {} and
 			 soldProducts = {} and 
-			 boughtGiftCards = {};
+			 boughtGiftCards = {} and
+			 RESULT = self;
 	
-	public pure getId() res:nat1 == 
+	public pure getId: () ==> nat1
+	getId() == 
 		return id
-		ext rd id
 		pre true
-		post res=id;
+		post RESULT=id;
 
 	/*
 	Post:
 	- Has one more product of the bought kind in purchase transactions than previously.
 	*/
-	public buyProduct(product: Product) ==
+	public buyProduct: Product ==> ()
+	buyProduct(product) ==
 		(
 		boughtProducts := boughtProducts union {product};
 		)
@@ -43,26 +46,29 @@ operations
 	Post:
 	- Has one more product of the sold kind in sales transactions than previously.
 	*/
-	public sellProduct(product: Product) ==
+	public sellProduct: Product ==> ()
+	sellProduct(product) ==
 		soldProducts := soldProducts union {product}
 		pre true
 		post
 			card soldProducts = card soldProducts~ + 1
 			and product in set soldProducts;
 			
-	public buyGiftCard(giftCard: GiftCard) ==
+	public buyGiftCard: GiftCard ==> ()
+	buyGiftCard(giftCard) ==
 		boughtGiftCards := boughtGiftCards union {giftCard}
 		pre true
 		post card boughtGiftCards = card boughtGiftCards~ + 1 and
 		giftCard in set boughtGiftCards;
 		
-pure valuesFromGiftCards(g: set of GiftCard) res: seq of nat ==
-	 (dcl result: seq of nat := [];
+	pure valuesFromGiftCards: set of GiftCard ==> seq of nat 
+	valuesFromGiftCards(g) ==
+	 	(dcl result: seq of nat := [];
 		for all giftCard in set g do 
-		(result := result ^ [giftCard.getValue()];);
+			(result := result ^ [giftCard.getValue()];);
 		return result;)
 		pre true
-		post card g = len res;
+		post card g = len RESULT;
 		
 functions
 	
