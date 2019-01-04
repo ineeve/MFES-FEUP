@@ -1,14 +1,15 @@
 package cli;
 
+import instance.Kid2KidFactory;
+import vdm.Kid2Kid;
+
 public class MainMenu extends Menu {
 	
-//	public MainMenu() {
-//		initialize();
-//	}
+	private Kid2Kid kid2kid = Kid2KidFactory.getKid2Kid();
 
 	@Override
 	public void initialize() {
-		addOption("Stores", () -> new StoreMenu());
+		addOption("Stores", () -> new StoreMenu(kid2kid));
 		addOption("Transactions", () -> new TransactionMenu());
 		addOption("Clients", () -> new ClientMenu());
 	}

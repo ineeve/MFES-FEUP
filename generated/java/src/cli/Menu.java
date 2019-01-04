@@ -9,7 +9,7 @@ public abstract class Menu {
 
 	private class GoBackException extends Exception {}
 	
-	private Scanner scanner = new Scanner(System.in);
+	public final Scanner scanner = new Scanner(System.in);
 	
 	private Integer newOptionId = 1;
 	private TreeMap<Integer, String> optionsStrings = new TreeMap<>();
