@@ -54,7 +54,7 @@ operations
 		boughtGiftCards := boughtGiftCards union {giftCard}
 		pre true
 		post card boughtGiftCards = card boughtGiftCards~ + 1 and
-		giftCard in set BoughtGiftCard;
+		giftCard in set boughtGiftCards;
 		
 pure valuesFromGiftCards(g: set of GiftCard) res: seq of nat ==
 	 (dcl result: seq of nat := [];

@@ -35,12 +35,15 @@ operations
 		post productsAvailable = productsAvailable~ union {p} and
 		checkCreditNotes(clientId, p, clientsCreditNotes, clientsCreditNotes~);
 	
-	public sellGiftCard(g: GiftCard) ==
+	public sellGiftCard: (nat1) ==> GiftCard
+	sellGiftCard(value) ==
 		(
-		giftCardsSold := giftCardsSold union {g};
+		dcl newGiftCard:GiftCard := new GiftCard(value);
+		giftCardsSold := giftCardsSold union {newGiftCard};
+		return newGiftCard;
 		)
 		pre true
-		post giftCardsSold = giftCardsSold~ union {g};
+		post card giftCardsSold = card giftCardsSold~ + 1;
 	
 	public sellProduct(p: Product) ==
 		(

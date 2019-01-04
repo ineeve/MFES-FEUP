@@ -54,6 +54,12 @@ operations
 		pre true
 		post true;
 		
+	public sellGiftCard: (nat1) ==> GiftCard
+	sellGiftCard(value) ==
+		return store.sellGiftCard(value)
+		pre true
+		post true
+		
 		
 		
 functions
