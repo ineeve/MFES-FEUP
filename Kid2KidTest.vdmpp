@@ -11,6 +11,12 @@ operations
 	 assertTrue(cond) == return
 	 pre cond;
 	 
+	private loginAdmin: () ==> ()
+	loginAdmin() ==
+	(
+		assertTrue(kid2kid.login("Admin") = <Admin>)
+	);
+	 
 	private testAddClient: () ==> ()
 		testAddClient() ==
 		(
@@ -63,6 +69,7 @@ operations
 		main() ==
 		(
 			dcl kid2KidTest: Kid2KidTest := new Kid2KidTest();
+			kid2KidTest.loginAdmin();
 			kid2KidTest.testAddClient();
 			kid2KidTest.testAddStore();
 			kid2KidTest.testAddCashierToStore();
