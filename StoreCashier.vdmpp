@@ -10,8 +10,8 @@ operations
 	public StoreCashier: NotEmptyString * Store ==> StoreCashier
 	StoreCashier(n, w) ==
 		(name := n; store := w; return self)
-		pre len name > 0
-		post name = name~ and store = store~;
+		pre len n > 0
+		post name = n and store = w;
 		
 	/* Buy from client.
 	*/

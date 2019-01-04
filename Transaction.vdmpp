@@ -3,12 +3,11 @@ types
 values
 -- TODO Define values here
 instance variables
-	protected value: nat;
+	protected value: nat1;
 	protected date: Date;
 	protected client: [Client];
 	protected productsTransacted: set of Product;
 	protected storeAuthorizer: StoreCashier;
-	inv value >= 0
 	
 operations
 

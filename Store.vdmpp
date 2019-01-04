@@ -24,16 +24,25 @@ operations
 			productsSold = {} and 
 			clientsCreditNotes = { |-> } and
 			cashiers = {};
-	
+			
+	public addCashier: StoreCashier ==> ()
+		addCashier(cashier) ==
+		cashiers := cashiers union {cashier}
+		pre true
+		post cashiers = cashiers~ union {cashier};
+		
 	public buyProductInCash: Product ==> ()
 		buyProductInCash(p) ==
-		is not yet specified
+		productsAvailable := productsAvailable union {p}
 		pre true
 		post productsAvailable = productsAvailable~ union {p};
 	
 	public buyProductInCreditNotes: Product * nat ==> ()
 	buyProductInCreditNotes(p, clientId) ==
-		is not yet specified
+		(
+		buyProductInCash(p);
+		addCreditNote(clientId, p);
+		)
 		pre true
 		post productsAvailable = productsAvailable~ union {p} and
 		checkCreditNotes(clientId, p, clientsCreditNotes, clientsCreditNotes~);

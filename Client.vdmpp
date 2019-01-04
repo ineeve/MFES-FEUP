@@ -22,24 +22,24 @@ operations
 			 RESULT = self;
 	
 	public pure getId: () ==> nat1
-	getId() == 
-		return id
-		pre true
-		post RESULT=id;
+		getId() == 
+			return id
+			pre true
+			post RESULT=id;
 
 	/*
 	Post:
 	- Has one more product of the bought kind in purchase transactions than previously.
 	*/
 	public buyProduct: Product ==> ()
-	buyProduct(product) ==
-		(
-		boughtProducts := boughtProducts union {product};
-		)
-		pre true
-		post
-			card boughtProducts = card boughtProducts~ + 1
-			and product in set boughtProducts;
+		buyProduct(product) ==
+			(
+			boughtProducts := boughtProducts union {product};
+			)
+			pre true
+			post
+				card boughtProducts = card boughtProducts~ + 1
+				and product in set boughtProducts;
 		
 	/*
 	Pre:
@@ -49,26 +49,38 @@ operations
 	public sellProduct: Product ==> ()
 	sellProduct(product) ==
 		soldProducts := soldProducts union {product}
-		pre true
-		post
-			card soldProducts = card soldProducts~ + 1
-			and product in set soldProducts;
+			pre true
+			post
+				card soldProducts = card soldProducts~ + 1
+				and product in set soldProducts;
 			
 	public buyGiftCard: GiftCard ==> ()
-	buyGiftCard(giftCard) ==
-		boughtGiftCards := boughtGiftCards union {giftCard}
-		pre true
-		post card boughtGiftCards = card boughtGiftCards~ + 1 and
-		giftCard in set boughtGiftCards;
+		buyGiftCard(giftCard) ==
+			boughtGiftCards := boughtGiftCards union {giftCard}
+			pre true
+			post card boughtGiftCards = card boughtGiftCards~ + 1 and
+			giftCard in set boughtGiftCards;
 		
 	pure valuesFromGiftCards: set of GiftCard ==> seq of nat 
-	valuesFromGiftCards(g) ==
-	 	(dcl result: seq of nat := [];
-		for all giftCard in set g do 
-			(result := result ^ [giftCard.getValue()];);
-		return result;)
-		pre true
-		post card g = len RESULT;
+		valuesFromGiftCards(g) ==
+		 	(dcl result: seq of nat := [];
+			for all giftCard in set g do 
+				(result := result ^ [giftCard.getValue()];);
+			return result;)
+			pre true
+			post card g = len RESULT;
+		
+	public pure getProductsSold: () ==> set of Product
+		getProductsSold() ==
+			return soldProducts
+			pre true
+			post RESULT = soldProducts;
+	
+	public pure getProductsBought: () ==> set of Product
+		getProductsBought() ==
+			return boughtProducts
+			pre true
+			post RESULT = boughtProducts;
 		
 functions
 	
