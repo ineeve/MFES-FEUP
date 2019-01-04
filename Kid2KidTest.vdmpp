@@ -1,6 +1,10 @@
 class Kid2KidTest
 instance variables
 	kid2kid : Kid2Kid := new Kid2Kid();
+	client: Client := new Client("abc");
+	store: Store := new Store("Porto");
+	cashier: StoreCashier;
+	today: Date := new Date(4,1,2019);
 operations
 	
 	private assertTrue: bool ==> ()
@@ -11,7 +15,7 @@ operations
 		testAddClient() ==
 		(
 			assertTrue(card kid2kid.getClients() = 0);
-			kid2kid.addClient(new Client("abc"));
+			kid2kid.addClient(client);
 			assertTrue(card kid2kid.getClients() = 1);
 		);
 			
@@ -19,15 +23,50 @@ operations
 		testAddStore() ==
 		(
 			assertTrue(card kid2kid.getStores() = 0);
-			kid2kid.addStore(new Store("Porto"));
+			kid2kid.addStore(store);
 			assertTrue(card kid2kid.getStores() = 1);
 		);
+		
+	private testAddCashierToStore: () ==> ()
+		testAddCashierToStore() ==
+		(
+			cashier := new StoreCashier("Joao", store);
+			store.addCashier(cashier);
+			assertTrue(card store.getCashiers() = 1);
+		);
+		
+	private testStoreBuyProductInCash : () ==> ()
+		testStoreBuyProductInCash() ==
+		(
+			dcl p: Product := new Toy(5, <CARS>);
+			assertTrue(p not in set store.getProductsAvailable());
+			assertTrue(p not in set client.getProductsSold());
+			kid2kid.buyProductInCash(p,client,cashier,today);
+			assertTrue(p in set store.getProductsAvailable());
+			assertTrue(p in set client.getProductsSold());
+		);
+		
+	private testStoreBuyProductInCreditNotes: () ==> ()
+		testStoreBuyProductInCreditNotes() ==
+		(
+			dcl p: Product := new Toy(2, <PUZZLES>);
+			assertTrue(p not in set store.getProductsAvailable());
+			assertTrue(p not in set client.getProductsSold());
+			kid2kid.buyProductInCreditNotes(p, client, cashier, today);
+			assertTrue(p in set store.getProductsAvailable());
+			assertTrue(p in set client.getProductsSold());
+			assertTrue(store.getCreditNotesOfClient(client.getId()) > 0);
+		);
+	
 	
 	public static main: () ==> ()
 		main() ==
 		(
-			new Kid2KidTest().testAddClient();
-			new Kid2KidTest().testAddStore();
+			dcl kid2KidTest: Kid2KidTest := new Kid2KidTest();
+			kid2KidTest.testAddClient();
+			kid2KidTest.testAddStore();
+			kid2KidTest.testAddCashierToStore();
+			kid2KidTest.testStoreBuyProductInCash();
 		);
 
 traces
