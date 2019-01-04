@@ -72,7 +72,7 @@ operations
 	public sellProductInCash(p: Product, c: Client, sc: StoreCashier, d: Date) ==
 		(
 		sc.sellProduct(p);
-		c.buyProduct(p, {});
+		c.buyProduct(p);
 		addSaleTransaction(d, c, {p}, {}, sc);
 		)
 		pre true
@@ -81,7 +81,7 @@ operations
 	public sellProductInCreditNotes(p: Product, c: Client, sc: StoreCashier, d: Date) ==
 		(
 		sc.sellProductInCreditNotes(p, c);
-		c.buyProduct(p, {});
+		c.buyProduct(p);
 		addSaleTransaction(d, c, {p}, {}, sc);
 		)
 		pre true
@@ -90,7 +90,7 @@ operations
 	public sellProductInGiftCards(p: Product, c: Client, sc: StoreCashier, gc: set of GiftCard, d: Date) ==
 		(
 		sc.sellProduct(p);
-		c.buyProduct(p, gc);
+		c.buyProduct(p);
 		addSaleTransaction(d, c, {p}, gc, sc);
 		for all giftCard in set gc do useGiftCard(giftCard);
 		)

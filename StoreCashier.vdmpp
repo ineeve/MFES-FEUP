@@ -43,7 +43,9 @@ operations
 	/* Sell to client. Receive in credit notes
 	*/
 	public sellProductInCreditNotes(p: Product, client: Client) ==
-		is not yet specified
+		(
+			store.sellProductInCreditNotes(p, client.getId());
+		)
 		pre true
 		post true;
 		

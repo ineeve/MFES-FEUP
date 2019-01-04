@@ -24,26 +24,36 @@ operations
 			cashiers = {};
 	
 	public buyProductInCash(p: Product) == 
-	is not yet specified
-	pre true
-	post productsAvailable = productsAvailable~ union {p};
+		is not yet specified
+		pre true
+		post productsAvailable = productsAvailable~ union {p};
 	
 	public buyProductInCreditNotes(p: Product, clientId: nat) == 
-	is not yet specified
-	pre true
-	post productsAvailable = productsAvailable~ union {p} and
-	checkCreditNotes(clientId, p, clientsCreditNotes, clientsCreditNotes~);
+		is not yet specified
+		pre true
+		post productsAvailable = productsAvailable~ union {p} and
+		checkCreditNotes(clientId, p, clientsCreditNotes, clientsCreditNotes~);
 	
 	public sellProduct(p: Product) ==
-	(
-	productsAvailable := productsAvailable \ {p};
-	productsSold := productsSold union {p};
-	)
-	pre hasProduct(p)
-	post productsAvailable = productsAvailable~ \ {p} and productsSold = productsSold~ union {p};
+		(
+		productsAvailable := productsAvailable \ {p};
+		productsSold := productsSold union {p};
+		)
+		pre hasProduct(p)
+		post productsAvailable = productsAvailable~ \ {p} and productsSold = productsSold~ union {p};
 	
-	public getCreditNotesOfClient(clientId: nat) res: nat == 
-		is not yet specified
+	public sellProductInCreditNotes(p: Product, clientId: nat) ==
+		(
+		sellProduct(p);
+		spendCreditNote(clientId, p.getSellPrice());
+		)
+		pre hasProduct(p) and getCreditNotesOfClient(clientId) >= p.getSellPrice()
+		post productsAvailable = productsAvailable~ \ {p} and
+					productsSold = productsSold~ union {p}; -- should also check that creditNotes of client have decreased
+	
+	
+	public pure getCreditNotesOfClient(clientId: nat) res: nat == 
+		return clientsCreditNotes(clientId)
 		pre clientId in set dom clientsCreditNotes
 		post res = clientsCreditNotes(clientId);
 
