@@ -10,13 +10,12 @@ public class Transaction {
   protected Client client;
   protected VDMSet productsTransacted;
   protected StoreCashier storeAuthorizer;
-  /* Transaction.vdmpp 15:13 */
+
   public VDMSet getProducts() {
 
-    /* Transaction.vdmpp 17:3 */
     return Utils.copy(productsTransacted);
   }
-  /* Transaction.vdmpp 1:7 */
+
   public Transaction() {}
 
   public String toString() {

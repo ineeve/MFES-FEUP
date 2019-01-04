@@ -8,7 +8,7 @@ public class Gear extends Product {
   private Number maxAge;
   private Number minAge;
   private Object subcategory;
-  /* Gear.vdmpp 1:7 */
+
   public Gear() {}
 
   public String toString() {

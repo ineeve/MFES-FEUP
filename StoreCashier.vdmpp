@@ -13,6 +13,12 @@ operations
 		pre len n > 0
 		post name = n and store = w;
 		
+	public pure getName: () ==> NotEmptyString
+	getName() ==
+		return name
+		pre true
+		post RESULT = name;
+		
 	/* Buy from client.
 	*/
 	public buyProductInCash: Product ==> ()

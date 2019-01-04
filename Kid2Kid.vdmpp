@@ -2,14 +2,19 @@
 */
 class Kid2Kid
 types
--- TODO Define types here
+	public NotEmptyString = seq1 of char;
+	public UserType = <Cashier> | <Admin> | <LoggedOut>;
+	
 values
--- TODO Define values here
+
 instance variables
 	clients: set of Client := {};
 	stores: set of Store := {};
 	activeGiftCards: set of GiftCard := {};
-	transactions: set of Transaction := {}
+	transactions: set of Transaction := {};
+	
+	loggedInType: UserType := <LoggedOut>;
+	
 operations
 
 	public Kid2Kid: () ==> Kid2Kid 
@@ -18,6 +23,51 @@ operations
 		pre true
 		post clients = {} and stores = {} and activeGiftCards = {} and transactions = {} and RESULT = self;
 
+	public login: NotEmptyString ==> UserType
+	login(name) ==
+	(
+		if (name = "Admin")
+		then loggedInType := <Admin>
+		else if (name in set getCashierNames())
+		then loggedInType := <Cashier>;
+		
+		return loggedInType
+	)
+		pre true
+		post RESULT = loggedInType;
+		
+	private pure getCashierNamesInternal: () ==> set of NotEmptyString
+	getCashierNamesInternal() ==
+		(
+		dcl names: set of NotEmptyString := {};
+		for all cashier in set getCashiersInternal() do names := names union {cashier.getName()};
+		return names;
+		)
+		pre true
+		post true;
+
+	private pure getCashiersInternal: () ==> set of StoreCashier
+	getCashiersInternal() ==
+		(
+		dcl cashiers: set of StoreCashier := {};
+		for all store in set stores do cashiers := cashiers union store.getCashiers();
+		return cashiers;
+		)
+		pre true
+		post true;
+		
+	public pure getCashiers: () ==> set of StoreCashier
+	getCashiers() ==
+		return getCashiersInternal()
+		pre hasAdminPerms()
+		post true;
+		
+	public pure getCashierNames: () ==> set of NotEmptyString
+	getCashierNames() ==
+		return getCashierNamesInternal()
+		pre hasAdminPerms()
+		post true;
+
 	/*
 	Post:
 	- New client is added to the system
@@ -25,7 +75,7 @@ operations
 	public addClient: Client ==> ()
 	addClient(c) ==
 		clients := clients union {c}
-		pre true
+		pre hasAdminPerms()
 		post c in set clients;
 		
 	/*
@@ -35,19 +85,19 @@ operations
 	public addStore: Store ==> ()
 	addStore(s) ==
 		stores := stores union {s}
-		pre true
+		pre hasAdminPerms()
 		post s in set stores;
 		
 	public getClients: () ==> set of Client 
 	getClients() ==
 		return clients
-		pre true
+		pre hasAdminPerms()
 		post RESULT = clients;
 		
 	public getStores: () ==> set of Store 
 	getStores() ==
 		return stores
-		pre true
+		pre hasAdminPerms()
 		post RESULT = stores;
 	
 	/* Buy product of a client at a store with a specific cashier.
@@ -59,7 +109,7 @@ operations
 		client.sellProduct(product);
 		addPurchaseTransaction(date, client, {product}, cashier);
 		)
-		pre true
+		pre hasCashierPerms()
 		post true;
 		
 	/* Buy product of a client at a store with a specific cashier.
@@ -71,7 +121,7 @@ operations
 		client.sellProduct(product);
 		addPurchaseTransaction(date, client, {product}, cashier);
 		)
-		pre true
+		pre hasCashierPerms()
 		post true;
 		
 	/* Sell product to a client at a store with a specific cashier.
@@ -83,7 +133,7 @@ operations
 		c.buyProduct(p);
 		addSaleProductTransaction(d, c, {p}, {}, sc);
 		)
-		pre true
+		pre hasCashierPerms()
 		post true;
 		
 	public sellProductInCreditNotes: Product * Client * StoreCashier * Date ==> ()
@@ -93,7 +143,7 @@ operations
 		c.buyProduct(p);
 		addSaleProductTransaction(d, c, {p}, {}, sc);
 		)
-		pre true
+		pre hasCashierPerms()
 		post card transactions = card transactions~ + 1;
 		
 	public sellProductInGiftCards: Product * Client * StoreCashier * set of GiftCard * Date ==> ()
@@ -104,7 +154,7 @@ operations
 		addSaleProductTransaction(d, c, {p}, gc, sc);
 		for all giftCard in set gc do useGiftCard(giftCard);
 		)
-		pre gc subset activeGiftCards
+		pre hasCashierPerms() and gc subset activeGiftCards
 		post card transactions = card transactions~ + 1 and
 		gc inter activeGiftCards = {};
 		
@@ -115,19 +165,19 @@ operations
 		c.buyGiftCard(gc);
 		addSaleGCTransaction(d, c, {gc}, sc);
 		)
-		pre true
+		pre hasCashierPerms()
 		post true;
 		
 	public activateGiftCard: GiftCard ==> ()
 	activateGiftCard(giftCard) ==
 		activeGiftCards := activeGiftCards union {giftCard}
-		pre true
+		pre hasCashierPerms()
 		post activeGiftCards = activeGiftCards union {giftCard};
 		
 	public useGiftCard: GiftCard ==> ()
 	useGiftCard(giftCard) ==
 		activeGiftCards := activeGiftCards \ {giftCard}
-		pre giftCard in set activeGiftCards
+		pre hasCashierPerms() and giftCard in set activeGiftCards
 		post activeGiftCards = activeGiftCards~ \ {giftCard};
 		
 	private addSaleProductTransaction: Date * Client * set of Product * set of GiftCard * StoreCashier ==> ()
@@ -136,7 +186,7 @@ operations
 		dcl transaction: Transaction := new Sale(d,c,sp,gcs,sc);
 		transactions := transactions union {transaction};
 		)
-		pre card sp >= 1
+		pre hasCashierPerms() and card sp >= 1
 		post card transactions = card transactions~ + 1;
 		
 	private addSaleGCTransaction: Date * Client * set of GiftCard * StoreCashier ==> ()
@@ -145,7 +195,7 @@ operations
 		dcl transaction: Transaction := new Sale(d,c,gcs,sc);
 		transactions := transactions union {transaction};
 		)
-		pre card gcs >= 1
+		pre hasCashierPerms() and card gcs >= 1
 		post card transactions = card transactions~ + 1;
 	
 	private addPurchaseTransaction: Date * Client * set of Product * StoreCashier ==> () 
@@ -154,8 +204,20 @@ operations
 		dcl transaction: Transaction := new Purchase(d,c,sp,sc);
 		transactions := transactions union {transaction};
 		)
-		pre card sp >= 1
+		pre hasCashierPerms() and card sp >= 1
 		post card transactions = card transactions~ + 1;
+		
+	private pure hasCashierPerms: () ==> bool
+	hasCashierPerms() ==
+		return loggedInType in set {<Admin>, <Cashier>}
+		pre true
+		post RESULT = loggedInType in set {<Admin>, <Cashier>};
+		
+	private pure hasAdminPerms: () ==> bool
+	hasAdminPerms() ==
+		return loggedInType = <Admin>
+		pre true
+		post RESULT = (loggedInType = <Admin>);
 		
 functions
 -- TODO Define functiones here

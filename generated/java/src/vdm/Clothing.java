@@ -8,7 +8,7 @@ public class Clothing extends Product {
   private Number maxAge;
   private Number minAge;
   private Object subcategory;
-  /* Clothing.vdmpp 1:7 */
+
   public Clothing() {}
 
   public String toString() {

@@ -83,13 +83,13 @@ operations
 		pre clientId in set dom clientsCreditNotes
 		post RESULT = clientsCreditNotes(clientId);
 
-	public getProductsAvailable: () ==> set of Product
+	public pure getProductsAvailable: () ==> set of Product
 	getProductsAvailable() ==
 		return productsAvailable
 		pre true
 		post RESULT = productsAvailable;
 		
-	public getCashiers: () ==> set of StoreCashier
+	public pure getCashiers: () ==> set of StoreCashier
 	getCashiers() ==
 		return cashiers
 		pre true
