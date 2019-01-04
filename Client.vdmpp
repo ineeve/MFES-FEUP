@@ -6,15 +6,13 @@ instance variables
 	static idCounter: nat := 0;
 	id: nat1;
 	name: NotEmptyString;
-	ownedGiftCards: set of GiftCard := {};
 	boughtProducts: set of Product := {};
 	soldProducts: set of Product := {};
 operations
 	public Client(nameSeq: NotEmptyString) c: Client ==
 			(name:=nameSeq;idCounter := idCounter + 1;id := idCounter; return self)
 			 pre len nameSeq > 0
-			 post len name > 0
-			 		and ownedGiftCards = {} and id = idCounter~ + 1;
+			 post len name > 0 and id = idCounter~ + 1;
 	
 	public pure getId() res:nat1 == 
 		return id
@@ -24,42 +22,13 @@ operations
 
 	/*
 	Post:
-	- Gifted client has one more gift card than previously.
-	- Gifted client has one more gift card with the given value than prevously.
-	*/
-	public buyGiftCard(value: nat1) res: GiftCard ==
-		(
-		dcl newGiftCard: GiftCard := new GiftCard(value);
-		ownedGiftCards := ownedGiftCards union {newGiftCard};
-		return newGiftCard;
-		)
-		pre value in set GiftCard`getPossibleValues()
-		post
-			card ownedGiftCards = card ownedGiftCards~ + 1
-			and len [x | x in seq valuesFromGiftCards(ownedGiftCards) & x = value]
-				= len [x | x in seq valuesFromGiftCards(ownedGiftCards~) & x = value] + 1;
-	
-	/**
-	Remove a giftCard from this client.
-	Post condition ensures that only the given giftCard is removed.
-	*/			
-	public removeGiftCard(giftCard: GiftCard) == 
-		is not yet specified
-		pre giftCard in set ownedGiftCards
-		post ownedGiftCards = ownedGiftCards~ \ {giftCard};
-	
-		
-	/*
-	Post:
 	- Has one more product of the bought kind in purchase transactions than previously.
 	*/
-	public buyProduct(product: Product, giftCardsUsed: set of GiftCard) ==
+	public buyProduct(product: Product) ==
 		(
-		dcl date: Date := new Date(3,1,2019);
-		dcl newTransaction: Sale := new Sale();
-		ownedGiftCards := ownedGiftCards \ giftCardsUsed;
+		boughtProducts := boughtProducts union {product};
 		)
-		pre giftCardsUsed subset ownedGiftCards
+		pre true
 		post
 			card boughtProducts = card boughtProducts~ + 1
 			and product in set boughtProducts;
@@ -70,31 +39,11 @@ operations
 	- Has one more product of the sold kind in sales transactions than previously.
 	*/
 	public sellProduct(product: Product) ==
-		is not yet specified
+		soldProducts := soldProducts union {product}
 		pre true
 		post
 			card soldProducts = card soldProducts~ + 1
 			and product in set soldProducts;
-			
-	/*
-	Pre:
-	- Given gift card isn't nil.
-	*/
-	public pure ownsGiftCard(giftCard: GiftCard) b: bool ==
-		(b := giftCard in set ownedGiftCards;
-		return b)
-		pre true
-		post b = giftCard in set ownedGiftCards;
-	
-	/*
-	Pre:
-	- There's at least 1 gift card in the given set.
-	*/
-	public pure ownsGiftCards(giftCards: set of GiftCard) b: bool ==
-		(for all x in set giftCards do b := b and ownsGiftCard(x);
-		return b)
-		pre card giftCards >= 1
-		post forall x in set giftCards & b = b and ownsGiftCard(x);
 		
 pure valuesFromGiftCards(g: set of GiftCard) res: seq of nat ==
 	 (dcl result: seq of nat := [];

@@ -15,19 +15,11 @@ operations
 	 assertTrue(client2.getId() = 2);
 	 );
 	 
-	private testGiftCards() ==
-		(
-			dcl giftCard: GiftCard := client1.buyGiftCard(10);
-			assertTrue(client1.ownsGiftCard(giftCard));
-			
-		)
-		pre 10 in set GiftCard`getPossibleValues();
 	 
 	public static main: () ==> ()
 		main() ==
 		 (
 		 dcl clientTest: ClientTest := new ClientTest();
-		 clientTest.testGiftCards();
 		 clientTest.testClientId();
 		 
 		 );
