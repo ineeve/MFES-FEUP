@@ -14,6 +14,7 @@ instance variables
 	transactions: set of Transaction := {};
 	
 	loggedInType: UserType := <LoggedOut>;
+	loggedInUsername: NotEmptyString;
 	
 operations
 
@@ -27,9 +28,9 @@ operations
 	login(name) ==
 	(
 		if (name = "Admin")
-		then loggedInType := <Admin>
+		then (loggedInType := <Admin>; loggedInUsername := "Admin")
 		else if (name in set getCashierNames())
-		then loggedInType := <Cashier>;
+		then (loggedInType := <Cashier>; loggedInUsername := name);
 		
 		return loggedInType
 	)
@@ -91,7 +92,7 @@ operations
 	public getClients: () ==> set of Client 
 	getClients() ==
 		return clients
-		pre hasAdminPerms()
+		pre hasCashierPerms()
 		post RESULT = clients;
 		
 	public getStores: () ==> set of Store 

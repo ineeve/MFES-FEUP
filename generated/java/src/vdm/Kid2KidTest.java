@@ -16,6 +16,11 @@ public class Kid2KidTest {
     return;
   }
 
+  private void loginAdmin() {
+
+    assertTrue(Utils.equals(kid2kid.login("Admin"), vdm.quotes.AdminQuote.getInstance()));
+  }
+
   private void testAddClient() {
 
     assertTrue(Utils.equals(kid2kid.getClients().size(), 0L));
@@ -61,6 +66,7 @@ public class Kid2KidTest {
   public static void main() {
 
     Kid2KidTest kid2KidTest = new Kid2KidTest();
+    kid2KidTest.loginAdmin();
     kid2KidTest.testAddClient();
     kid2KidTest.testAddStore();
     kid2KidTest.testAddCashierToStore();
