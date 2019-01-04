@@ -1,42 +1,57 @@
 class Product
 types
-	public CustomString = seq of char;
+	public CustomString = seq1 of char;
 	public ProductState = <New> | <Low_Use> | <High_Use>;
 values
 -- TODO Define values here
 instance variables
-	static idCounter: nat := 0;
-	id: nat;
-	buyPrice: nat1;
-	sellPrice: nat1;
-	state: ProductState;
-	description: CustomString;
-	--transaction: Transaction;
-	--store: Store;
+	protected static idCounter: nat := 0;
+	protected id: nat;
+	protected buyPrice: real;
+	protected sellPrice: real;
+	protected state: ProductState;
+	protected description: [CustomString];
 operations
-	public Product: nat * nat * ProductState * CustomString ==> Product
-	Product(buyInput, sellInput, stateInput, descriptionInput) ==
-		(idCounter := idCounter + 1;
-		id := idCounter;
-		buyPrice := buyInput;
-		sellPrice := sellInput;
-		state := stateInput;
-		description := descriptionInput;
-		)
-		pre buyInput > 0 and sellInput > 0
-		post buyPrice = buyInput and sellPrice = sellInput and state = stateInput and description = descriptionInput;
 	
-	public pure getSellPrice: () ==> nat
+	public pure getSellPrice: () ==> real
 	getSellPrice() ==
 		return sellPrice
 		pre true
 		post RESULT = sellPrice;
 		
-	public pure getBuyPrice: () ==> nat
+	public pure getBuyPrice: () ==> real
 	getBuyPrice() ==
 		return buyPrice
 		pre true
 		post RESULT = buyPrice;
+		
+	public setDescription: CustomString ==> ()
+	setDescription(newDescription) == 
+		description := newDescription
+		pre true
+		post description = newDescription;
+	
+	protected setBuyPrice: () ==> ()
+	setBuyPrice() ==
+		buyPrice :=  10 * getStateValue()
+	pre state <> undefined
+	post buyPrice <> undefined;
+	
+	protected setSellPrice: () ==> ()
+	setSellPrice() ==
+		sellPrice := 1.3 * buyPrice
+	pre buyPrice <> undefined
+	post sellPrice > buyPrice;
+
+	public pure getStateValue: () ==> real
+	getStateValue() ==
+	(
+	if state = <New> then return 1.0;
+	if state = <Low_Use> then return 0.8;
+	return 0.5;
+	)
+	pre state = <New> or state = <Low_Use> or state = <High_Use>
+	post RESULT = 0.5 or RESULT = 0.8 or RESULT = 1.0;
 functions
 -- TODO Define functiones here
 traces

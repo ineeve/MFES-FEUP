@@ -1,7 +1,7 @@
 class Store
 types
 	public NotEmptyString = seq1 of char;
-	
+	public ClientsToCredits = map nat to real;
 values
 	public CREDIT_NOTE_MULTIPLIER: real = 1.2;
 instance variables
@@ -9,7 +9,7 @@ instance variables
 	productsAvailable: set of Product := {};
 	productsSold: set of Product := {};
 	giftCardsSold: set of GiftCard := {};
-	clientsCreditNotes: map nat to nat := { |-> }; -- map ids of clients to its credit notes
+	clientsCreditNotes: ClientsToCredits := { |-> }; -- map ids of clients to its credit notes
 	cashiers: set of StoreCashier := {};
 	
 operations
@@ -37,7 +37,7 @@ operations
 		pre true
 		post productsAvailable = productsAvailable~ union {p};
 	
-	public buyProductInCreditNotes: Product * nat ==> ()
+	public buyProductInCreditNotes: Product * nat1 ==> ()
 	buyProductInCreditNotes(p, clientId) ==
 		(
 		buyProductInCash(p);
@@ -77,7 +77,7 @@ operations
 					productsSold = productsSold~ union {p}; -- should also check that creditNotes of client have decreased
 	
 	
-	public pure getCreditNotesOfClient: nat ==> nat
+	public pure getCreditNotesOfClient: nat ==> real
 	getCreditNotesOfClient(clientId) ==
 		return clientsCreditNotes(clientId)
 		pre clientId in set dom clientsCreditNotes
@@ -95,7 +95,7 @@ operations
 		pre true
 		post RESULT = cashiers;
 	
-	public addCreditNote: nat * Product ==> ()
+	public addCreditNote: real * Product ==> ()
 	addCreditNote(clientId, p) ==
 			(
 			(if clientId not in set dom clientsCreditNotes
@@ -111,7 +111,7 @@ operations
 	Spend a credit note
 	The value of the credit note to send should be less or equal than the creditNotes amount
 	*/		
-	public spendCreditNote: nat * nat ==> ()
+	public spendCreditNote: nat * real ==> ()
 	spendCreditNote(clientId, value) ==
 			clientsCreditNotes := clientsCreditNotes ++ {clientId |-> clientsCreditNotes(clientId) - value}
 			pre clientId in set dom clientsCreditNotes and value <= clientsCreditNotes(clientId)
@@ -123,10 +123,13 @@ operations
 		post RESULT = p in set productsAvailable;
 
 functions
-	public checkCreditNotes: nat * Product * map nat to nat * map nat to nat -> bool
+	public checkCreditNotes: nat * Product * ClientsToCredits * ClientsToCredits -> bool
 	checkCreditNotes(clientId, p, newCreditNotes, oldCreditNotes) ==
-		newCreditNotes = oldCreditNotes ++
-				{clientId |-> oldCreditNotes(clientId) + p.getBuyPrice() * CREDIT_NOTE_MULTIPLIER};
+	(if clientId not in set dom oldCreditNotes then
+			newCreditNotes(clientId) = p.getBuyPrice() * CREDIT_NOTE_MULTIPLIER
+	else	
+			newCreditNotes = oldCreditNotes ++ {clientId |-> oldCreditNotes(clientId) + p.getBuyPrice() * CREDIT_NOTE_MULTIPLIER}
+	)
 traces
 -- TODO Define Combinatorial Test Traces here
 end Store

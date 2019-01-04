@@ -1,4 +1,6 @@
 class Kid2KidTest
+types
+	public NotEmptyString = seq1 of char;
 instance variables
 	kid2kid : Kid2Kid := new Kid2Kid();
 	client: Client := new Client("abc");
@@ -15,6 +17,12 @@ operations
 	loginAdmin() ==
 	(
 		assertTrue(kid2kid.login("Admin") = <Admin>)
+	);
+	
+	private loginCashier: NotEmptyString ==> ()
+	loginCashier(cashierName) ==
+	(
+		assertTrue(kid2kid.login(cashierName) = <Cashier>)
 	);
 	 
 	private testAddClient: () ==> ()
@@ -33,10 +41,10 @@ operations
 			assertTrue(card kid2kid.getStores() = 1);
 		);
 		
-	private testAddCashierToStore: () ==> ()
-		testAddCashierToStore() ==
+	private testAddCashierToStore: (NotEmptyString) ==> ()
+		testAddCashierToStore(name) ==
 		(
-			cashier := new StoreCashier("Joao", store);
+			cashier := new StoreCashier(name, store);
 			store.addCashier(cashier);
 			assertTrue(card store.getCashiers() = 1);
 		);
@@ -44,7 +52,7 @@ operations
 	private testStoreBuyProductInCash : () ==> ()
 		testStoreBuyProductInCash() ==
 		(
-			dcl p: Product := new Toy(5, <CARS>);
+			dcl p: Product := new Toy(<New>, 5, <CARS>);
 			assertTrue(p not in set store.getProductsAvailable());
 			assertTrue(p not in set client.getProductsSold());
 			kid2kid.buyProductInCash(p,client,cashier,today);
@@ -55,7 +63,7 @@ operations
 	private testStoreBuyProductInCreditNotes: () ==> ()
 		testStoreBuyProductInCreditNotes() ==
 		(
-			dcl p: Product := new Toy(2, <PUZZLES>);
+			dcl p: Product := new Toy(<Low_Use>, 2, <PUZZLES>);
 			assertTrue(p not in set store.getProductsAvailable());
 			assertTrue(p not in set client.getProductsSold());
 			kid2kid.buyProductInCreditNotes(p, client, cashier, today);
@@ -64,16 +72,29 @@ operations
 			assertTrue(store.getCreditNotesOfClient(client.getId()) > 0);
 		);
 	
+	public testAdminOperations: () ==> ()
+		testAdminOperations() == 
+			(
+			loginAdmin();
+			testAddClient();
+			testAddStore();
+			testAddCashierToStore("Joao");
+			);
+			
+	public testCashierOperations: () ==> ()
+		testCashierOperations() ==
+			(
+			loginCashier("Joao");
+			testStoreBuyProductInCash();
+			testStoreBuyProductInCreditNotes();
+			);
 	
 	public static main: () ==> ()
 		main() ==
 		(
 			dcl kid2KidTest: Kid2KidTest := new Kid2KidTest();
-			kid2KidTest.loginAdmin();
-			kid2KidTest.testAddClient();
-			kid2KidTest.testAddStore();
-			kid2KidTest.testAddCashierToStore();
-			kid2KidTest.testStoreBuyProductInCash();
+			kid2KidTest.testAdminOperations();
+			kid2KidTest.testCashierOperations();
 		);
 
 traces
