@@ -4,9 +4,17 @@ types
 values
 -- TODO Define values here
 instance variables
--- TODO Define instance variables here
 operations
--- TODO Define operations here
+	public Purchase(d: Date, c: Client, ps: set of Product, sc: StoreCashier) res:Purchase ==
+			(
+			date := d;
+			client := c;
+			productsTransacted := ps;
+			storeAuthorizer := sc;
+			return self;
+			)
+			pre card ps >= 1
+			post res = self;
 functions
 -- TODO Define functiones here
 traces

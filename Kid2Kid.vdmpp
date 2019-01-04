@@ -9,12 +9,13 @@ instance variables
 	clients: set of Client := {};
 	stores: set of Store := {};
 	activeGiftCards: set of GiftCard := {};
+	transactions: set of Transaction := {}
 operations
 
 	public Kid2Kid() k:Kid2Kid ==
 		return self
 		pre true
-		post true;
+		post clients = {} and stores = {} and activeGiftCards = {} and transactions = {};
 
 	/*
 	Post:
@@ -46,24 +47,56 @@ operations
 	
 	/* Buy product of a client at a store with a specific cashier.
 	*/
-	public buyProductInCash(product: Product, client: Client, cashier: StoreCashier) ==
-		cashier.buyProductInCash(product, client)
+	public buyProductInCash(product: Product, client: Client, cashier: StoreCashier, date: Date) ==
+		(
+		cashier.buyProductInCash(product);
+		client.sellProduct(product);
+		addPurchaseTransaction(date, client, {product}, cashier);
+		)
 		pre true
 		post true;
 		
 	/* Buy product of a client at a store with a specific cashier.
 	*/
-	public buyProductInCreditNotes(product: Product, client: Client, cashier: StoreCashier) ==
-		cashier.buyProductInCreditNotes(product, client)
+	public buyProductInCreditNotes(product: Product, client: Client, cashier: StoreCashier, date: Date) ==
+		(
+		cashier.buyProductInCreditNotes(product, client);
+		client.sellProduct(product);
+		addPurchaseTransaction(date, client, {product}, cashier);
+		)
 		pre true
 		post true;
 		
 	/* Sell product to a client at a store with a specific cashier.
 	*/
-	public sellProduct(client: Client, cashier: StoreCashier) ==
-		is not yet specified
+	public sellProductInCash(p: Product, c: Client, sc: StoreCashier, d: Date) ==
+		(
+		sc.sellProduct(p);
+		c.buyProduct(p, {});
+		addSaleTransaction(d, c, {p}, {}, sc);
+		)
 		pre true
-		post true;
+		post card transactions = card transactions~ + 1;
+		
+	public sellProductInCreditNotes(p: Product, c: Client, sc: StoreCashier, d: Date) ==
+		(
+		sc.sellProductInCreditNotes(p, c);
+		c.buyProduct(p, {});
+		addSaleTransaction(d, c, {p}, {}, sc);
+		)
+		pre true
+		post card transactions = card transactions~ + 1;
+		
+	public sellProductInGiftCards(p: Product, c: Client, sc: StoreCashier, gc: set of GiftCard, d: Date) ==
+		(
+		sc.sellProduct(p);
+		c.buyProduct(p, gc);
+		addSaleTransaction(d, c, {p}, gc, sc);
+		for all giftCard in set gc do useGiftCard(giftCard);
+		)
+		pre gc subset activeGiftCards
+		post card transactions = card transactions~ + 1 and
+		gc inter activeGiftCards = {};
 		
 	public activateGiftCard(giftCard: GiftCard) ==
 		activeGiftCards := activeGiftCards union {giftCard}
@@ -73,7 +106,23 @@ operations
 	public useGiftCard(giftCard: GiftCard) ==
 		activeGiftCards := activeGiftCards \ {giftCard}
 		pre giftCard in set activeGiftCards
-		post activeGiftCards = activeGiftCards~ \ {giftCard}
+		post activeGiftCards = activeGiftCards~ \ {giftCard};
+		
+	private addSaleTransaction(d: Date, c: Client, sp: set of Product, gcs: set of GiftCard, sc: StoreCashier) ==
+		(
+		dcl transaction: Transaction := new Sale(d,c,sp,gcs,sc);
+		transactions := transactions union {transaction};
+		)
+		pre card sp >= 1
+		post card transactions = card transactions~ + 1;
+	
+	private addPurchaseTransaction(d: Date, c:Client, sp: set of Product, sc: StoreCashier) == 
+		(
+		dcl transaction: Transaction := new Purchase(d,c,sp,sc);
+		transactions := transactions union {transaction};
+		)
+		pre card sp >= 1
+		post card transactions = card transactions~ + 1;
 		
 functions
 -- TODO Define functiones here

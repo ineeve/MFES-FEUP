@@ -5,7 +5,6 @@ types
 instance variables
 	name: NotEmptyString;
 	store: Store; -- cashier workplace
-	transactions: set of Transaction := {};
 	
 operations
 	public StoreCashier(n: NotEmptyString, w: Store) s: StoreCashier ==
@@ -15,10 +14,9 @@ operations
 		
 	/* Buy from client.
 	*/
-	public buyProductInCash(p: Product, client: Client) ==
+	public buyProductInCash(p: Product) ==
 		(
 		store.buyProductInCash(p);
-		client.sellProduct(p)
 		)
 		pre true
 		post true;
@@ -28,35 +26,28 @@ operations
 	public buyProductInCreditNotes(p: Product, client: Client) ==
 		(
 		store.buyProductInCreditNotes(p, client.getId());
-		client.sellProduct(p)
 		)
 		pre true
 		post true;
 		
 	
-	/* Sell to client.
+	/* Sell to client. Receive in cash or gift cards
 	*/
-	public sellProductInCash(p: Product, client: Client) ==
+	public sellProduct(p: Product) ==
 		(
 		store.sellProduct(p);
-		client.buyProduct(p, {})
 		)
 		pre true
 		post true;
 		
-	/* Sell to client.
+	/* Sell to client. Receive in credit notes
 	*/
 	public sellProductInCreditNotes(p: Product, client: Client) ==
 		is not yet specified
 		pre true
 		post true;
 		
-	/* Sell to client.
-	*/
-	public sellProductInGiftCards(p: Product, client: Client) ==
-		is not yet specified
-		pre true
-		post true;
+		
 		
 functions
 -- TODO Define functiones here

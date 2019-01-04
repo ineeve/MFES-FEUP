@@ -10,7 +10,7 @@ instance variables
 	
 operations
 
-	/*  buys products, possibly using owned gift cards.
+	/*  Sell products, possibly using owned gift cards.
 	Pre:
 	- 
 	- Client owns gift cards used.
@@ -42,7 +42,7 @@ operations
 	Post:
 	- 
 	*/
-	public Purchase(v: nat, d: Date, c: Client, g: set of GiftCard) res: Purchase ==
+	public Sale(v: nat, d: Date, c: Client, g: set of GiftCard) res: Sale ==
 		is not yet specified
 		pre v >= 0 and card g >= 1
 		post value = v and date = d and client = c and giftCardsSold = g;

@@ -7,13 +7,14 @@ instance variables
 	id: nat1;
 	name: NotEmptyString;
 	ownedGiftCards: set of GiftCard := {};
-	transactions: set of Transaction := {}
+	boughtProducts: set of Product := {};
+	soldProducts: set of Product := {};
 operations
 	public Client(nameSeq: NotEmptyString) c: Client ==
 			(name:=nameSeq;idCounter := idCounter + 1;id := idCounter; return self)
 			 pre len nameSeq > 0
 			 post len name > 0
-			 		and ownedGiftCards = {} and transactions = {} and id = idCounter~ + 1;
+			 		and ownedGiftCards = {} and id = idCounter~ + 1;
 	
 	public pure getId() res:nat1 == 
 		return id
@@ -60,8 +61,8 @@ operations
 		)
 		pre giftCardsUsed subset ownedGiftCards
 		post
-			card getBoughtProducts(transactions) = card getBoughtProducts(transactions~) + 1
-			and product in set getBoughtProducts(transactions);
+			card boughtProducts = card boughtProducts~ + 1
+			and product in set boughtProducts;
 		
 	/*
 	Pre:
@@ -72,7 +73,8 @@ operations
 		is not yet specified
 		pre true
 		post
-			card getSoldProducts(transactions) = card getSoldProducts(transactions~) + 1;
+			card soldProducts = card soldProducts~ + 1
+			and product in set soldProducts;
 			
 	/*
 	Pre:
@@ -102,25 +104,6 @@ pure valuesFromGiftCards(g: set of GiftCard) res: seq of nat ==
 		pre true
 		post card g = len res;
 		
-pure getSoldProducts(tSet: set of Transaction) res: set of Product == 
-	(dcl result: set of Product := {};
-	for all t in set tSet do
-	(if isofclass(Sale, t)
-	then result := result union t.getProducts();
-	);
-	return result;)
-	pre true
-	post true;
-
-pure getBoughtProducts(tSet: set of Transaction) res: set of Product == 
-	(dcl result: set of Product := {};
-	for all t in set tSet do
-	(if isofclass(Purchase, t)
-	then result := result union t.getProducts();
-	);
-	return result;)
-	pre true
-	post true
 functions
 	
 		

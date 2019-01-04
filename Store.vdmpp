@@ -35,8 +35,11 @@ operations
 	checkCreditNotes(clientId, p, clientsCreditNotes, clientsCreditNotes~);
 	
 	public sellProduct(p: Product) ==
-	is not yet specified
-	pre p in set productsAvailable
+	(
+	productsAvailable := productsAvailable \ {p};
+	productsSold := productsSold union {p};
+	)
+	pre hasProduct(p)
 	post productsAvailable = productsAvailable~ \ {p} and productsSold = productsSold~ union {p};
 	
 	public getCreditNotesOfClient(clientId: nat) res: nat == 
@@ -72,7 +75,11 @@ operations
 	public spendCreditNote(clientId: nat, value: nat) == 
 			clientsCreditNotes := clientsCreditNotes ++ {clientId |-> clientsCreditNotes(clientId) - value}
 			pre clientId in set dom clientsCreditNotes and value <= clientsCreditNotes(clientId)
-			post clientsCreditNotes = clientsCreditNotes~ ++ {clientId |-> clientsCreditNotes~(clientId) - value}
+			post clientsCreditNotes = clientsCreditNotes~ ++ {clientId |-> clientsCreditNotes~(clientId) - value};
+
+	public pure hasProduct(p:Product) res:bool ==
+		return p in set productsAvailable
+		post res = p in set productsAvailable;
 
 functions
 	public checkCreditNotes(
