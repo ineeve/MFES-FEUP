@@ -73,7 +73,7 @@ operations
 		(
 		sc.sellProduct(p);
 		c.buyProduct(p);
-		addSaleTransaction(d, c, {p}, {}, sc);
+		addSaleProductTransaction(d, c, {p}, {}, sc);
 		)
 		pre true
 		post card transactions = card transactions~ + 1;
@@ -82,7 +82,7 @@ operations
 		(
 		sc.sellProductInCreditNotes(p, c);
 		c.buyProduct(p);
-		addSaleTransaction(d, c, {p}, {}, sc);
+		addSaleProductTransaction(d, c, {p}, {}, sc);
 		)
 		pre true
 		post card transactions = card transactions~ + 1;
@@ -91,14 +91,22 @@ operations
 		(
 		sc.sellProduct(p);
 		c.buyProduct(p);
-		addSaleTransaction(d, c, {p}, gc, sc);
+		addSaleProductTransaction(d, c, {p}, gc, sc);
 		for all giftCard in set gc do useGiftCard(giftCard);
 		)
 		pre gc subset activeGiftCards
 		post card transactions = card transactions~ + 1 and
 		gc inter activeGiftCards = {};
 		
-	public sellGiftCard(c: Client, sc: StoreCashier, d: Date)
+	sellGiftCard: Client * StoreCashier * Date * nat1 ==> ()
+	sellGiftCard(c, sc, d, value) == 
+		(
+		dcl gc: GiftCard := sc.sellGiftCard(value);
+		c.buyGiftCard(gc);
+		addSaleGCTransaction(d, c, {gc}, sc);
+		)
+		pre true
+		post true;
 		
 	public activateGiftCard(giftCard: GiftCard) ==
 		activeGiftCards := activeGiftCards union {giftCard}
@@ -110,12 +118,20 @@ operations
 		pre giftCard in set activeGiftCards
 		post activeGiftCards = activeGiftCards~ \ {giftCard};
 		
-	private addSaleTransaction(d: Date, c: Client, sp: set of Product, gcs: set of GiftCard, sc: StoreCashier) ==
+	private addSaleProductTransaction(d: Date, c: Client, sp: set of Product, gcs: set of GiftCard, sc: StoreCashier) ==
 		(
 		dcl transaction: Transaction := new Sale(d,c,sp,gcs,sc);
 		transactions := transactions union {transaction};
 		)
 		pre card sp >= 1
+		post card transactions = card transactions~ + 1;
+		
+	private addSaleGCTransaction(d: Date, c: Client, gcs: set of GiftCard, sc: StoreCashier) ==
+		(
+		dcl transaction: Transaction := new Sale(d,c,gcs,sc);
+		transactions := transactions union {transaction};
+		)
+		pre card gcs >= 1
 		post card transactions = card transactions~ + 1;
 	
 	private addPurchaseTransaction(d: Date, c:Client, sp: set of Product, sc: StoreCashier) == 

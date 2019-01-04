@@ -42,10 +42,10 @@ operations
 	Post:
 	- 
 	*/
-	public Sale(v: nat, d: Date, c: Client, g: set of GiftCard) res: Sale ==
+	public Sale(d: Date, c: Client, g: set of GiftCard, sc: StoreCashier) res: Sale ==
 		is not yet specified
-		pre v >= 0 and card g >= 1
-		post value = v and date = d and client = c and giftCardsSold = g;
+		pre card g >= 1
+		post value = sumGCValues(g) and date = d and client = c and giftCardsSold = g and storeAuthorizer = sc;
 
 	public pure sumProductValues(pSet: set of Product) res: nat == 
 	(
@@ -57,9 +57,21 @@ operations
 	return result;
 	)
 	pre true
-	post true -- same as body
+	post true; -- same as body
+	
+	public pure sumGCValues(gcSet: set of GiftCard) res: nat == 
+	(
+	dcl result: nat := 0;
+	for all g in set gcSet do 
+		(
+		result := result + g.getValue();
+		);
+	return result;
+	)
+	pre true
+	post true; -- same as body
 functions
--- TODO Define functiones here
+	
 traces
 -- TODO Define Combinatorial Test Traces here
 end Sale
