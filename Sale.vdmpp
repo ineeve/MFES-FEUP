@@ -17,7 +17,8 @@ operations
 	Post:
 	- 
 	*/
-	public Sale(d: Date, c: Client, p: set of Product, cardsUsed: set of GiftCard, sc: StoreCashier) res: Sale ==
+	public Sale: Date * Client * set of Product * set of GiftCard * StoreCashier ==> Sale
+	Sale(d, c, p, cardsUsed, sc) ==
 		(
 		date:=d;
 		client:=c;
@@ -42,34 +43,38 @@ operations
 	Post:
 	- 
 	*/
-	public Sale(d: Date, c: Client, g: set of GiftCard, sc: StoreCashier) res: Sale ==
+	public Sale: Date * Client * set of GiftCard * StoreCashier ==> Sale
+	Sale(d, c, g, sc) ==
 		is not yet specified
 		pre card g >= 1
 		post value = sumGCValues(g) and date = d and client = c and giftCardsSold = g and storeAuthorizer = sc;
 
-	public pure sumProductValues(pSet: set of Product) res: nat == 
-	(
-	dcl result: nat := 0;
-	for all p in set pSet do 
+	public pure sumProductValues: set of Product ==> nat
+	sumProductValues(pSet) ==
 		(
-		result := result + p.getSellPrice();
-		);
-	return result;
-	)
-	pre true
-	post true; -- same as body
+		dcl result: nat := 0;
+		for all p in set pSet do 
+			(
+			result := result + p.getSellPrice();
+			);
+		return result;
+		)
+		pre true
+		post true; -- same as body
 	
-	public pure sumGCValues(gcSet: set of GiftCard) res: nat == 
-	(
-	dcl result: nat := 0;
-	for all g in set gcSet do 
+	public pure sumGCValues: set of GiftCard ==> nat
+	sumGCValues(gcSet) ==
 		(
-		result := result + g.getValue();
-		);
-	return result;
-	)
-	pre true
-	post true; -- same as body
+		dcl result: nat := 0;
+		for all g in set gcSet do 
+			(
+			result := result + g.getValue();
+			);
+		return result;
+		)
+		pre true
+		post true; -- same as body
+		
 functions
 	
 traces

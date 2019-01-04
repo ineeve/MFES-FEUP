@@ -13,7 +13,8 @@ instance variables
 	cashiers: set of StoreCashier := {};
 	
 operations
-	public Store(storeLocation: NotEmptyString) s: Store ==
+	public Store: NotEmptyString ==> Store
+	Store(storeLocation) ==
 		(location := storeLocation;
 		return self;)
 		pre len storeLocation > 0
@@ -24,12 +25,14 @@ operations
 			clientsCreditNotes = { |-> } and
 			cashiers = {};
 	
-	public buyProductInCash(p: Product) == 
+	public buyProductInCash: Product ==> ()
+		buyProductInCash(p) ==
 		is not yet specified
 		pre true
 		post productsAvailable = productsAvailable~ union {p};
 	
-	public buyProductInCreditNotes(p: Product, clientId: nat) == 
+	public buyProductInCreditNotes: Product * nat ==> ()
+	buyProductInCreditNotes(p, clientId) ==
 		is not yet specified
 		pre true
 		post productsAvailable = productsAvailable~ union {p} and
@@ -45,7 +48,8 @@ operations
 		pre true
 		post card giftCardsSold = card giftCardsSold~ + 1;
 	
-	public sellProduct(p: Product) ==
+	public sellProduct: Product ==> ()
+	sellProduct(p) ==
 		(
 		productsAvailable := productsAvailable \ {p};
 		productsSold := productsSold union {p};
@@ -53,7 +57,8 @@ operations
 		pre hasProduct(p)
 		post productsAvailable = productsAvailable~ \ {p} and productsSold = productsSold~ union {p};
 	
-	public sellProductInCreditNotes(p: Product, clientId: nat) ==
+	public sellProductInCreditNotes: Product * nat ==> ()
+	sellProductInCreditNotes(p, clientId) ==
 		(
 		sellProduct(p);
 		spendCreditNote(clientId, p.getSellPrice());
