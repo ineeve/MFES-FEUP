@@ -13,7 +13,8 @@ public class Transaction {
   /* Transaction.vdmpp 15:13 */
   public VDMSet getProducts() {
 
-    throw new UnsupportedOperationException();
+    /* Transaction.vdmpp 17:3 */
+    return Utils.copy(productsTransacted);
   }
   /* Transaction.vdmpp 1:7 */
   public Transaction() {}

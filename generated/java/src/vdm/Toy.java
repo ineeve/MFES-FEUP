@@ -10,9 +10,15 @@ public class Toy extends Product {
   private String description = null;
   private Object subCategory;
   /* Toy.vdmpp 14:9 */
+  public void cg_init_Toy_1(final Number minAgeInput, final Object subCategoryInput) {
+
+    /* Toy.vdmpp 16:3 */
+    throw new UnsupportedOperationException();
+  }
+  /* Toy.vdmpp 14:9 */
   public Toy(final Number minAgeInput, final Object subCategoryInput) {
 
-    throw new UnsupportedOperationException();
+    cg_init_Toy_1(minAgeInput, subCategoryInput);
   }
   /* Toy.vdmpp 2:7 */
   public Toy() {}

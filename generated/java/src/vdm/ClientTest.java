@@ -16,21 +16,17 @@ public class ClientTest {
   /* ClientTest.vdmpp 12:10 */
   private void testClientId() {
 
-    throw new UnsupportedOperationException();
+    /* ClientTest.vdmpp 15:3 */
+    assertTrue(Utils.equals(client1.getId(), 1L));
+    /* ClientTest.vdmpp 16:3 */
+    assertTrue(Utils.equals(client2.getId(), 2L));
   }
-  /* ClientTest.vdmpp 18:10 */
-  private void testGiftCards() {
-
-    throw new UnsupportedOperationException();
-  }
-  /* ClientTest.vdmpp 26:16 */
+  /* ClientTest.vdmpp 20:16 */
   public static void main() {
 
-    /* ClientTest.vdmpp 29:8 */
+    /* ClientTest.vdmpp 23:8 */
     ClientTest clientTest = new ClientTest();
-    /* ClientTest.vdmpp 30:4 */
-    clientTest.testGiftCards();
-    /* ClientTest.vdmpp 31:4 */
+    /* ClientTest.vdmpp 24:4 */
     clientTest.testClientId();
   }
   /* ClientTest.vdmpp 1:7 */

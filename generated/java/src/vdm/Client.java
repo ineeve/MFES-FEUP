@@ -8,62 +8,63 @@ public class Client {
   private static Number idCounter = 0L;
   private Number id;
   private String name;
-  private VDMSet ownedGiftCards = SetUtil.set();
-  private VDMSet transactions = SetUtil.set();
-  /* Client.vdmpp 12:9 */
+  private VDMSet boughtProducts = SetUtil.set();
+  private VDMSet soldProducts = SetUtil.set();
+  private VDMSet boughtGiftCards = SetUtil.set();
+  /* Client.vdmpp 13:9 */
+  public void cg_init_Client_1(final String nameSeq) {
+
+    /* Client.vdmpp 15:5 */
+    name = nameSeq;
+    /* Client.vdmpp 15:19 */
+    idCounter = Client.idCounter.longValue() + 1L;
+    /* Client.vdmpp 15:46 */
+    id = Client.idCounter;
+    /* Client.vdmpp 15:63 */
+    return;
+  }
+  /* Client.vdmpp 13:9 */
   public Client(final String nameSeq) {
 
-    throw new UnsupportedOperationException();
+    cg_init_Client_1(nameSeq);
   }
-  /* Client.vdmpp 18:14 */
+  /* Client.vdmpp 24:14 */
   public Number getId() {
 
-    throw new UnsupportedOperationException();
+    /* Client.vdmpp 26:3 */
+    return id;
   }
-  /* Client.vdmpp 29:9 */
-  public GiftCard buyGiftCard(final Number value) {
+  /* Client.vdmpp 34:9 */
+  public void buyProduct(final Product product) {
 
-    throw new UnsupportedOperationException();
+    /* Client.vdmpp 37:3 */
+    boughtProducts = SetUtil.union(Utils.copy(boughtProducts), SetUtil.set(product));
   }
-  /* Client.vdmpp 45:9 */
-  public void removeGiftCard(final GiftCard giftCard) {
-
-    throw new UnsupportedOperationException();
-  }
-  /* Client.vdmpp 55:9 */
-  public void buyProduct(final Product product, final VDMSet giftCardsUsed) {
-
-    throw new UnsupportedOperationException();
-  }
-  /* Client.vdmpp 71:9 */
+  /* Client.vdmpp 49:9 */
   public void sellProduct(final Product product) {
 
-    throw new UnsupportedOperationException();
+    /* Client.vdmpp 51:3 */
+    soldProducts = SetUtil.union(Utils.copy(soldProducts), SetUtil.set(product));
   }
-  /* Client.vdmpp 81:14 */
-  public Boolean ownsGiftCard(final GiftCard giftCard) {
+  /* Client.vdmpp 57:9 */
+  public void buyGiftCard(final GiftCard giftCard) {
 
-    throw new UnsupportedOperationException();
+    /* Client.vdmpp 59:3 */
+    boughtGiftCards = SetUtil.union(Utils.copy(boughtGiftCards), SetUtil.set(giftCard));
   }
-  /* Client.vdmpp 91:14 */
-  public Boolean ownsGiftCards(final VDMSet giftCards) {
-
-    throw new UnsupportedOperationException();
-  }
-  /* Client.vdmpp 97:6 */
+  /* Client.vdmpp 64:7 */
   private VDMSeq valuesFromGiftCards(final VDMSet g) {
 
-    throw new UnsupportedOperationException();
-  }
-  /* Client.vdmpp 105:6 */
-  private VDMSet getSoldProducts(final VDMSet tSet) {
-
-    throw new UnsupportedOperationException();
-  }
-  /* Client.vdmpp 115:6 */
-  private VDMSet getBoughtProducts(final VDMSet tSet) {
-
-    throw new UnsupportedOperationException();
+    /* Client.vdmpp 66:9 */
+    VDMSeq result = SeqUtil.seq();
+    /* Client.vdmpp 67:3 */
+    for (Iterator iterator_1 = g.iterator(); iterator_1.hasNext(); ) {
+      GiftCard giftCard = (GiftCard) iterator_1.next();
+      /* Client.vdmpp 68:5 */
+      result = SeqUtil.conc(Utils.copy(result), SeqUtil.seq(giftCard.getValue()));
+    }
+    /* Client.vdmpp 69:3 */
+    return Utils.copy(result);
   }
   /* Client.vdmpp 1:7 */
   public Client() {}
@@ -77,10 +78,12 @@ public class Client {
         + Utils.toString(id)
         + ", name := "
         + Utils.toString(name)
-        + ", ownedGiftCards := "
-        + Utils.toString(ownedGiftCards)
-        + ", transactions := "
-        + Utils.toString(transactions)
+        + ", boughtProducts := "
+        + Utils.toString(boughtProducts)
+        + ", soldProducts := "
+        + Utils.toString(soldProducts)
+        + ", boughtGiftCards := "
+        + Utils.toString(boughtGiftCards)
         + "}";
   }
 }
