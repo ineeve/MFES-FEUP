@@ -1,14 +1,32 @@
 class Gear is subclass of Product
 types
-	public GearCat = <TODO1> | <TODO2>;
+	public GearCat = <Swings> | <Bathtubs> | <Trolleys>;
 values
 -- TODO Define values here
 instance variables
-	maxAge: nat; -- should default to nil
+	maxAge: [nat] := nil; -- defaults to nil
 	minAge: nat;
-	subcategory: GearCat;
+	subCategory: GearCat;
+	inv minAge < 13 and minAge > 0
 operations
--- TODO Define operations here
+	public Gear: ProductState * nat * GearCat ==> Gear
+	Gear(productState, minAgeInput, subCategoryInput) ==
+		(
+		idCounter := idCounter + 1;
+		id := idCounter;
+		state := productState;
+		minAge := minAgeInput;
+		subCategory := subCategoryInput;
+		setBuyPrice();
+		setSellPrice();
+		)
+		pre minAgeInput > 0 and minAgeInput < 13
+		post minAge = minAgeInput and 
+		subCategory = subCategoryInput and
+		buyPrice <> undefined and
+		sellPrice <> undefined and
+		state = productState and
+		id <> undefined;
 functions
 -- TODO Define functiones here
 traces

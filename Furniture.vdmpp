@@ -1,6 +1,6 @@
 class Furniture is subclass of Product
 types
-	public FurnitureCat = <Crib> | <Low_Use> | <High_Use>;
+	public FurnitureCat = <Cribs> | <Beds> | <ToyBoxes>;
 values
 -- TODO Define values here
 instance variables

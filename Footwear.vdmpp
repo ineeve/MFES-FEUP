@@ -1,6 +1,6 @@
 class Footwear is subclass of Product
 types
-	public FootwearCat = <TODO1> | <TODO2>;
+	public FootwearCat = <Boots> | <Party> | <Sports>;
 values
 -- TODO Define values here
 instance variables
