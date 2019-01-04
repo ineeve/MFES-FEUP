@@ -21,6 +21,18 @@ operations
 			 boughtGiftCards = {} and
 			 RESULT = self;
 	
+	/**
+	* Use to update name of a client
+	*/
+	public setName: NotEmptyString ==> ()
+		setName(newName) ==
+			name := newName
+			pre true
+			post name = newName;
+			
+	/**
+	* Get id of the client
+	*/
 	public pure getId: () ==> nat1
 		getId() == 
 			return id

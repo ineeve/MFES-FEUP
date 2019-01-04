@@ -22,7 +22,8 @@ operations
 	Kid2Kid() ==
 		return self
 		pre true
-		post clients = {} and stores = {} and activeGiftCards = {} and transactions = {} and RESULT = self;
+		post clients = {} and stores = {} and activeGiftCards = {} and transactions = {} and 
+		loggedInType = <LoggedOut> and RESULT = self;
 
 	public login: NotEmptyString ==> UserType
 	login(name) ==
