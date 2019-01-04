@@ -11,7 +11,8 @@ instance variables
 	private description: [NotEmptyString]:=nil; --optional, nil as default
 	private subCategory: ToyCategory;
 operations
-	public Toy(minAgeInput: nat, subCategoryInput: ToyCategory) t: Toy ==
+	public Toy: nat * ToyCategory ==> Toy
+	Toy(minAgeInput, subCategoryInput) ==
 		is not yet specified
 		pre minAgeInput > 0 and minAgeInput < 13
 		post minAge = minAgeInput and subCategory = subCategoryInput;

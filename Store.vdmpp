@@ -60,22 +60,26 @@ operations
 					productsSold = productsSold~ union {p}; -- should also check that creditNotes of client have decreased
 	
 	
-	public pure getCreditNotesOfClient(clientId: nat) res: nat == 
+	public pure getCreditNotesOfClient: nat ==> nat
+	getCreditNotesOfClient(clientId) ==
 		return clientsCreditNotes(clientId)
 		pre clientId in set dom clientsCreditNotes
 		post res = clientsCreditNotes(clientId);
 
-	public getProductsAvailable() p: set of Product ==
+	public getProductsAvailable: () ==> set of Product
+	getProductsAvailable() ==
 		return productsAvailable
 		pre true
-		post p = productsAvailable;
+		post RESULT = productsAvailable;
 		
-	public getCashiers() c: set of StoreCashier ==
+	public getCashiers: () ==> set of StoreCashier
+	getCashiers() ==
 		return cashiers
 		pre true
-		post c = cashiers;
+		post RESULT = cashiers;
 	
-	public addCreditNote(clientId: nat, p: Product) ==
+	public addCreditNote: nat * Product ==> ()
+	addCreditNote(clientId, p) ==
 			(
 			(if clientId not in set dom clientsCreditNotes
 				then clientsCreditNotes := clientsCreditNotes ++ {clientId |-> 0}
@@ -90,22 +94,20 @@ operations
 	Spend a credit note
 	The value of the credit note to send should be less or equal than the creditNotes amount
 	*/		
-	public spendCreditNote(clientId: nat, value: nat) == 
+	public spendCreditNote: nat * nat ==> ()
+	spendCreditNote(clientId, value) ==
 			clientsCreditNotes := clientsCreditNotes ++ {clientId |-> clientsCreditNotes(clientId) - value}
 			pre clientId in set dom clientsCreditNotes and value <= clientsCreditNotes(clientId)
 			post clientsCreditNotes = clientsCreditNotes~ ++ {clientId |-> clientsCreditNotes~(clientId) - value};
 
-	public pure hasProduct(p:Product) res:bool ==
+	public pure hasProduct: Product ==> bool
+	hasProduct(p) ==
 		return p in set productsAvailable
-		post res = p in set productsAvailable;
+		post RESULT = p in set productsAvailable;
 
 functions
-	public checkCreditNotes(
-			clientId: nat,
-			p: Product,
-			newCreditNotes: map nat to nat,
-			oldCreditNotes: map nat to nat
-	) res:bool ==
+	public checkCreditNotes: nat * Product * map nat to nat * map nat to nat -> bool
+	checkCreditNotes(clientId, p, newCreditNotes, oldCreditNotes) ==
 		newCreditNotes = oldCreditNotes ++
 				{clientId |-> oldCreditNotes(clientId) + p.getBuyPrice() * CREDIT_NOTE_MULTIPLIER};
 traces

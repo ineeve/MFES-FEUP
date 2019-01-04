@@ -7,14 +7,16 @@ instance variables
 	store: Store; -- cashier workplace
 	
 operations
-	public StoreCashier(n: NotEmptyString, w: Store) s: StoreCashier ==
+	public StoreCashier: NotEmptyString * Store ==> StoreCashier
+	StoreCashier(n, w) ==
 		(name := n; store := w; return self)
 		pre len name > 0
 		post name = name~ and store = store~;
 		
 	/* Buy from client.
 	*/
-	public buyProductInCash(p: Product) ==
+	public buyProductInCash: Product ==> ()
+	buyProductInCash(p) ==
 		(
 		store.buyProductInCash(p);
 		)
@@ -23,7 +25,8 @@ operations
 		
 	/* Buy from client.
 	*/
-	public buyProductInCreditNotes(p: Product, client: Client) ==
+	public buyProductInCreditNotes: Product * Client ==> ()
+	buyProductInCreditNotes(p, client) ==
 		(
 		store.buyProductInCreditNotes(p, client.getId());
 		)
@@ -33,7 +36,8 @@ operations
 	
 	/* Sell to client. Receive in cash or gift cards
 	*/
-	public sellProduct(p: Product) ==
+	public sellProduct: Product ==> ()
+	sellProduct(p) ==
 		(
 		store.sellProduct(p);
 		)
@@ -42,7 +46,8 @@ operations
 		
 	/* Sell to client. Receive in credit notes
 	*/
-	public sellProductInCreditNotes(p: Product, client: Client) ==
+	public sellProductInCreditNotes: Product * Client ==> ()
+	sellProductInCreditNotes(p, client) ==
 		(
 			store.sellProductInCreditNotes(p, client.getId());
 		)
