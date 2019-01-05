@@ -25,6 +25,11 @@ public class StoreCashier {
     return name;
   }
 
+  public Store getStore() {
+
+    return store;
+  }
+
   public void buyProductInCash(final Product p) {
 
     store.buyProductInCash(p);

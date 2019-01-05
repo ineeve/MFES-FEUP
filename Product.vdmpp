@@ -52,6 +52,13 @@ operations
 	)
 	pre state = <New> or state = <Low_Use> or state = <High_Use>
 	post RESULT = 0.5 or RESULT = 0.8 or RESULT = 1.0;
+	
+	public pure getDescription: () ==> CustomString
+	getDescription() ==
+		return description
+		pre true
+		post RESULT = description;
+	
 functions
 -- TODO Define functiones here
 traces

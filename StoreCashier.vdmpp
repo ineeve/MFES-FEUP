@@ -19,6 +19,12 @@ operations
 		pre true
 		post RESULT = name;
 		
+	public pure getStore: () ==> Store
+	getStore() ==
+		return store
+		pre true
+		post RESULT = store;
+		
 	/* Buy from client.
 	*/
 	public buyProductInCash: Product ==> ()

@@ -106,17 +106,23 @@ operations
 		pre hasAdminPerms()
 		post s in set stores;
 		
-	public getClients: () ==> set of Client 
+	public pure getClients: () ==> set of Client 
 	getClients() ==
 		return clients
 		pre hasCashierPerms()
 		post RESULT = clients;
 		
-	public getStores: () ==> set of Store 
+	public pure getStores: () ==> set of Store 
 	getStores() ==
 		return stores
 		pre hasAdminPerms()
 		post RESULT = stores;
+		
+	public pure getProductsAtStore: Store ==> set of Product
+	getProductsAtStore(store) ==
+		return store.getProductsAvailable()
+		pre store in set stores
+		post RESULT = store.getProductsAvailable();
 	
 	/* Buy product of a client at a store with a specific cashier.
 	*/

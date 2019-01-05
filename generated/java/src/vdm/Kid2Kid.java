@@ -100,6 +100,11 @@ public class Kid2Kid {
     return Utils.copy(stores);
   }
 
+  public VDMSet getProductsAtStore(final Store store) {
+
+    return store.getProductsAvailable();
+  }
+
   public void buyProductInCash(
       final Product product, final Client client, final StoreCashier cashier, final Date date) {
 

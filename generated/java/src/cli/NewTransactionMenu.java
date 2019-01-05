@@ -18,6 +18,7 @@ public class NewTransactionMenu extends Menu {
 		loop();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize() {
 		kid2kid = Kid2KidSingleton.getInstance();
