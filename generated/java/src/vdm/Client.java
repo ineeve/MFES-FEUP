@@ -58,8 +58,8 @@ public class Client {
   private VDMSeq valuesFromGiftCards(final VDMSet g) {
 
     VDMSeq result = SeqUtil.seq();
-    for (Iterator iterator_1 = g.iterator(); iterator_1.hasNext(); ) {
-      GiftCard giftCard = (GiftCard) iterator_1.next();
+    for (Iterator iterator_2 = g.iterator(); iterator_2.hasNext(); ) {
+      GiftCard giftCard = (GiftCard) iterator_2.next();
       result = SeqUtil.conc(Utils.copy(result), SeqUtil.seq(giftCard.getValue()));
     }
     return Utils.copy(result);

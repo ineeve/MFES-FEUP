@@ -16,6 +16,26 @@ operations
 			)
 			pre card ps >= 1
 			post RESULT = self;
+		
+	public pure getValue: () ==> nat
+	getValue() ==
+		return getSumProductValues()
+		pre true
+		post RESULT = getSumProductValues();
+			
+	protected pure sumProductValues: set of Product ==> nat
+	sumProductValues(pSet) ==
+		(
+		dcl result: nat := 0;
+		for all p in set pSet do 
+			(
+			result := result + p.getBuyPrice();
+			);
+		return result;
+		)
+		pre true
+		post true; -- same as body
+		
 functions
 -- TODO Define functiones here
 traces

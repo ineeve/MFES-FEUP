@@ -20,6 +20,21 @@ public class Purchase extends Transaction {
     cg_init_Purchase_1(d, c, Utils.copy(ps), sc);
   }
 
+  public Number getValue() {
+
+    return getSumProductValues();
+  }
+
+  protected Number sumProductValues(final VDMSet pSet) {
+
+    Number result = 0L;
+    for (Iterator iterator_7 = pSet.iterator(); iterator_7.hasNext(); ) {
+      Product p = (Product) iterator_7.next();
+      result = result.longValue() + p.getBuyPrice().doubleValue();
+    }
+    return result;
+  }
+
   public Purchase() {}
 
   public String toString() {

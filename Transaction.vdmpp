@@ -1,9 +1,9 @@
 class Transaction
 instance variables
-	protected value: nat1;
+	protected value: nat1 := 0;
 	protected date: Date;
 	protected client: [Client];
-	protected productsTransacted: set of Product;
+	protected productsTransacted: set of Product := {};
 	protected storeAuthorizer: StoreCashier;
 	
 operations
@@ -18,6 +18,20 @@ operations
 		return storeAuthorizer
 		pre true
 		post RESULT = storeAuthorizer;
+		
+	public pure getValue: () ==> nat
+	getValue() ==
+		is subclass responsibility;
+		
+	public pure getSumProductValues: () ==> nat
+	getSumProductValues() ==
+		return sumProductValues(productsTransacted)
+		pre true
+		post RESULT = sumProductValues(productsTransacted);
+		
+	protected pure sumProductValues: set of Product ==> nat
+	sumProductValues(pSet) ==
+		is subclass responsibility;
 	
 traces
 -- TODO Define Combinatorial Test Traces here
