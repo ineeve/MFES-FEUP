@@ -49,7 +49,7 @@ public class Kid2KidTest {
 
   private void testStoreBuyProductInCash() {
 
-    Product p = new Toy(vdm.quotes.NewQuote.getInstance(), 5L, vdm.quotes.CARSQuote.getInstance());
+    Product p = new Toy(vdm.quotes.NewQuote.getInstance(), 5L, vdm.quotes.CarsQuote.getInstance());
     assertTrue(!(SetUtil.inSet(p, store.getProductsAvailable())));
     assertTrue(!(SetUtil.inSet(p, client.getProductsSold())));
     kid2kid.buyProductInCash(p, client, cashier, today);
@@ -60,7 +60,7 @@ public class Kid2KidTest {
   private void testStoreBuyProductInCreditNotes() {
 
     Product p =
-        new Toy(vdm.quotes.Low_UseQuote.getInstance(), 2L, vdm.quotes.PUZZLESQuote.getInstance());
+        new Toy(vdm.quotes.Low_UseQuote.getInstance(), 2L, vdm.quotes.PuzzlesQuote.getInstance());
     assertTrue(!(SetUtil.inSet(p, store.getProductsAvailable())));
     assertTrue(!(SetUtil.inSet(p, client.getProductsSold())));
     kid2kid.buyProductInCreditNotes(p, client, cashier, today);

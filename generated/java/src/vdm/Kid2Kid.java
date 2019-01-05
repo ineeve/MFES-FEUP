@@ -132,7 +132,7 @@ public class Kid2Kid {
     }
   }
 
-  private void sellGiftCard(
+  public void sellGiftCard(
       final Client c, final StoreCashier sc, final Date d, final Number value) {
 
     GiftCard gc = sc.sellGiftCard(value);

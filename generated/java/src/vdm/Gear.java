@@ -5,9 +5,26 @@ import org.overture.codegen.runtime.*;
 
 @SuppressWarnings("all")
 public class Gear extends Product {
-  private Number maxAge;
+  private Number maxAge = null;
   private Number minAge;
-  private Object subcategory;
+  private Object subCategory;
+
+  public void cg_init_Gear_1(
+      final Object productState, final Number minAgeInput, final Object subCategoryInput) {
+
+    idCounter = Gear.idCounter.longValue() + 1L;
+    id = Gear.idCounter;
+    state = productState;
+    minAge = minAgeInput;
+    subCategory = subCategoryInput;
+    setBuyPrice();
+    setSellPrice();
+  }
+
+  public Gear(final Object productState, final Number minAgeInput, final Object subCategoryInput) {
+
+    cg_init_Gear_1(productState, minAgeInput, subCategoryInput);
+  }
 
   public Gear() {}
 
@@ -18,8 +35,8 @@ public class Gear extends Product {
         + Utils.toString(maxAge)
         + ", minAge := "
         + Utils.toString(minAge)
-        + ", subcategory := "
-        + Utils.toString(subcategory)
+        + ", subCategory := "
+        + Utils.toString(subCategory)
         + "}";
   }
 }

@@ -3,21 +3,21 @@ package vdm.quotes;
 import org.overture.codegen.runtime.*;
 
 @SuppressWarnings("all")
-public class LEGOSQuote {
+public class LegosQuote {
   private static int hc = 0;
-  private static LEGOSQuote instance = null;
+  private static LegosQuote instance = null;
 
-  public LEGOSQuote() {
+  public LegosQuote() {
 
     if (Utils.equals(hc, 0)) {
       hc = super.hashCode();
     }
   }
 
-  public static LEGOSQuote getInstance() {
+  public static LegosQuote getInstance() {
 
     if (Utils.equals(instance, null)) {
-      instance = new LEGOSQuote();
+      instance = new LegosQuote();
     }
 
     return instance;
@@ -30,11 +30,11 @@ public class LEGOSQuote {
 
   public boolean equals(final Object obj) {
 
-    return obj instanceof LEGOSQuote;
+    return obj instanceof LegosQuote;
   }
 
   public String toString() {
 
-    return "<LEGOS>";
+    return "<Legos>";
   }
 }

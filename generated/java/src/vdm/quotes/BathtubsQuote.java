@@ -3,21 +3,21 @@ package vdm.quotes;
 import org.overture.codegen.runtime.*;
 
 @SuppressWarnings("all")
-public class KITCHENSQuote {
+public class BathtubsQuote {
   private static int hc = 0;
-  private static KITCHENSQuote instance = null;
+  private static BathtubsQuote instance = null;
 
-  public KITCHENSQuote() {
+  public BathtubsQuote() {
 
     if (Utils.equals(hc, 0)) {
       hc = super.hashCode();
     }
   }
 
-  public static KITCHENSQuote getInstance() {
+  public static BathtubsQuote getInstance() {
 
     if (Utils.equals(instance, null)) {
-      instance = new KITCHENSQuote();
+      instance = new BathtubsQuote();
     }
 
     return instance;
@@ -30,11 +30,11 @@ public class KITCHENSQuote {
 
   public boolean equals(final Object obj) {
 
-    return obj instanceof KITCHENSQuote;
+    return obj instanceof BathtubsQuote;
   }
 
   public String toString() {
 
-    return "<KITCHENS>";
+    return "<Bathtubs>";
   }
 }

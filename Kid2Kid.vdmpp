@@ -160,7 +160,7 @@ operations
 		post card transactions = card transactions~ + 1 and
 		gc inter activeGiftCards = {};
 		
-	sellGiftCard: Client * StoreCashier * Date * nat1 ==> ()
+	public sellGiftCard: Client * StoreCashier * Date * nat1 ==> ()
 	sellGiftCard(c, sc, d, value) == 
 		(
 		dcl gc: GiftCard := sc.sellGiftCard(value);

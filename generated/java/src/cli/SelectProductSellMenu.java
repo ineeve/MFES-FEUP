@@ -1,10 +1,11 @@
 package cli;
 
 import vdm.Client;
+import vdm.StoreCashier;
 
 public class SelectProductSellMenu extends Menu {
 
-	public SelectProductSellMenu(Client client) {
+	public SelectProductSellMenu(Client client, StoreCashier cashier) {
 		// TODO Auto-generated constructor stub
 	}
 

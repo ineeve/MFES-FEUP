@@ -5,7 +5,7 @@ public class CashierMenu extends Menu  {
 	// private Cashier[] cashiers;
 	private String location;
 	
-	public CashierMenu(String location) {
+	public CashierMenu(String cashierName) {
 		this.location = location;
 		loop();
 	}
