@@ -1,5 +1,6 @@
-package cli;
+package cli.cashier;
 
+import cli.Menu;
 import instance.Kid2KidSingleton;
 import utils.Utils;
 import vdm.Client;

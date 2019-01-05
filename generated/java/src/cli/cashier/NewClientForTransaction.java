@@ -1,9 +1,8 @@
-package cli;
+package cli.cashier;
 
 import java.util.Scanner;
 
 import vdm.Client;
-import vdm.StoreCashier;
 
 public class NewClientForTransaction {
 	

@@ -1,7 +1,8 @@
-package cli;
+package cli.cashier;
 
 import org.overture.codegen.runtime.VDMSet;
 
+import cli.Menu;
 import instance.Kid2KidSingleton;
 import utils.Utils;
 import vdm.Kid2Kid;

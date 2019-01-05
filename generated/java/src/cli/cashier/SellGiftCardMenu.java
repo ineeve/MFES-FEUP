@@ -1,9 +1,6 @@
-package cli;
+package cli.cashier;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
+import cli.Menu;
 import instance.Kid2KidSingleton;
 import utils.Utils;
 import vdm.Client;

@@ -1,5 +1,6 @@
-package cli;
+package cli.admin;
 
+import cli.Menu;
 import instance.Kid2KidSingleton;
 import vdm.StoreCashier;
 

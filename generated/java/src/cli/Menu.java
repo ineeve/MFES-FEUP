@@ -7,7 +7,9 @@ import java.util.TreeMap;
 
 public abstract class Menu {
 
-	private class GoBackException extends Exception {}
+	private class GoBackException extends Exception {
+		private static final long serialVersionUID = -7944661629413575204L;
+	}
 	
 	public final Scanner scanner = new Scanner(System.in);
 	

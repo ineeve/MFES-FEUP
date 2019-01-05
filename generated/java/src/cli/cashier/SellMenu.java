@@ -1,7 +1,7 @@
-package cli;
+package cli.cashier;
 
+import cli.Menu;
 import vdm.Client;
-import vdm.StoreCashier;
 
 public class SellMenu extends Menu {
 

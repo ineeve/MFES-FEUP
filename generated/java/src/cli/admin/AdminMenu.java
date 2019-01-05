@@ -1,4 +1,6 @@
-package cli;
+package cli.admin;
+
+import cli.Menu;
 
 public class AdminMenu extends Menu {
 
