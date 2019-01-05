@@ -14,12 +14,15 @@ public class ListClientsAdminMenu extends Menu {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public void initialize() {
+	protected void initialize() {
 		Kid2Kid kid2kid = Kid2KidSingleton.getInstance();
 		VDMSet clients = kid2kid.getClients();
 		clients.forEach(clientObj -> {
 			Client client = (Client) clientObj;
-			addOption(client.getName(), () -> new ClientAdminMenu(client));
+			addOption(client.getName(), () -> {
+				new ClientAdminMenu(client);
+				reinitialize(); // reflect possible changes to this client
+			});
 		});
 	}
 

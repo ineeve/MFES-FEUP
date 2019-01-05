@@ -15,7 +15,7 @@ public class ListTransactionsAdminMenu extends Menu {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public void initialize() {
+	protected void initialize() {
 		Kid2Kid kid2kid = Kid2KidSingleton.getInstance();
 		VDMSet transactions = kid2kid.getTransactions();
 		transactions.forEach(transactionObj -> {

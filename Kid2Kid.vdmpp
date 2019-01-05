@@ -114,6 +114,18 @@ operations
 		clients := clients union {c}
 		pre hasAdminPerms()
 		post c in set clients;
+	
+	/* Remove client from system.
+	Pre:
+	- Client is part of the system
+	Post:
+	- Client isn't part of the system
+	*/
+	public removeClient: Client ==> ()
+	removeClient(c) ==
+		clients := clients \ {c}
+		pre c in set clients
+		post c not in set clients;
 		
 	/*
 	Post:

@@ -13,7 +13,7 @@ public class SellMenu extends Menu {
 	}
 	
 	@Override
-	public void initialize() {
+	protected void initialize() {
 		addOption("Sell product", () -> new SelectProductSellMenu(client));
 		addOption("Sell gift card", () -> new SellGiftCardMenu(client));
 	}

@@ -18,7 +18,7 @@ public class SelectPaymentForProductSaleMenu extends Menu {
 	}
 
 	@Override
-	public void initialize() {
+	protected void initialize() {
 		Kid2Kid kid2kid = Kid2KidSingleton.getInstance();
 		StoreCashier cashier = kid2kid.getLoggedInCashier();
 		addOption("Cash", () -> kid2kid.sellProductInCash(product, client, cashier, Utils.getToday()));

@@ -14,7 +14,7 @@ public class ClientAdminMenu extends Menu {
 	}
 
 	@Override
-	public void initialize() {
+	protected void initialize() {
 		Kid2Kid kid2kid = Kid2KidSingleton.getInstance();
 		addOption("Rename", () -> renameClient());
 		addOption("Remove", () -> kid2kid.removeClient(client));

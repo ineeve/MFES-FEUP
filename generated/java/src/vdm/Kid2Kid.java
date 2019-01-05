@@ -108,6 +108,11 @@ public class Kid2Kid {
     clients = SetUtil.union(Utils.copy(clients), SetUtil.set(c));
   }
 
+  public void removeClient(final Client c) {
+
+    clients = SetUtil.diff(Utils.copy(clients), SetUtil.set(c));
+  }
+
   public void addStore(final Store s) {
 
     stores = SetUtil.union(Utils.copy(stores), SetUtil.set(s));

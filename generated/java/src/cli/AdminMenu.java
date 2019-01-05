@@ -7,7 +7,7 @@ public class AdminMenu extends Menu {
 	}
 	
 	@Override
-	public void initialize() {
+	protected void initialize() {
 		addOption("List clients", () -> new ListClientsAdminMenu());
 		addOption("List transactions", () -> new ListTransactionsAdminMenu());
 	}
