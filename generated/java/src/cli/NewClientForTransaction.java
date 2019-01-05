@@ -7,12 +7,12 @@ import vdm.StoreCashier;
 
 public class NewClientForTransaction {
 	
-	public NewClientForTransaction(StoreCashier cashier) {
+	public NewClientForTransaction() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Name: ");
 		String name = scanner.next();
 		Client client = new Client(name);
-		new PickNewTransactionTypeMenu(client, cashier);
+		new PickNewTransactionTypeMenu(client);
 	}
 	
 }

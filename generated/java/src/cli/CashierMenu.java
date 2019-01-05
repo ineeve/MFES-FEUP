@@ -3,17 +3,14 @@ package cli;
 import vdm.StoreCashier;
 
 public class CashierMenu extends Menu  {
-
-	private StoreCashier cashier;
 	
-	public CashierMenu(StoreCashier cashier) {
-		this.cashier = cashier;
+	public CashierMenu() {
 		loop();
 	}
 
 	@Override
 	public void initialize() {
-		addOption("New transaction", () -> new NewTransactionMenu(cashier));
+		addOption("New transaction", () -> new NewTransactionMenu());
 	}
 
 }

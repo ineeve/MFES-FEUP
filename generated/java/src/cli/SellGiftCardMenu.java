@@ -14,11 +14,9 @@ import vdm.StoreCashier;
 public class SellGiftCardMenu extends Menu {
 
 	private Client client;
-	private StoreCashier cashier;
 
-	public SellGiftCardMenu(Client client, StoreCashier cashier) {
+	public SellGiftCardMenu(Client client) {
 		this.client = client;
-		this.cashier = cashier;
 		loop();
 	}
 
@@ -32,6 +30,7 @@ public class SellGiftCardMenu extends Menu {
 
 	private void sell(Long value) {
 		Kid2Kid kid2kid = Kid2KidSingleton.getInstance();
+		StoreCashier cashier = kid2kid.getLoggedInCashier();
 		kid2kid.sellGiftCard(client, cashier, Utils.getToday(), value);
 	}
 

@@ -11,20 +11,21 @@ import vdm.StoreCashier;
 public class SelectProductSellMenu extends Menu {
 
 	private Client client;
-	private StoreCashier cashier;
 
-	public SelectProductSellMenu(Client client, StoreCashier cashier) {
+	public SelectProductSellMenu(Client client) {
 		this.client = client;
-		this.cashier = cashier;
+		loop();
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize() {
 		Kid2Kid kid2kid = Kid2KidSingleton.getInstance();
+		StoreCashier cashier = kid2kid.getLoggedInCashier();
 		VDMSet products = kid2kid.getProductsAtStore(cashier.getStore());
 		products.forEach((productObj) -> {
 			Product product = (Product) productObj;
-			addOption(product.getDescription(), () -> new SelectPaymentForProductSaleMenu(client, cashier, product));
+			addOption(product.getDescription(), () -> new SelectPaymentForProductSaleMenu(client, product));
 		});
 	}
 

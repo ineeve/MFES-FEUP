@@ -9,12 +9,10 @@ import vdm.StoreCashier;
 
 public class NewTransactionMenu extends Menu {
 
-	private StoreCashier cashier;
 	private Kid2Kid kid2kid;
 	private VDMSet clients;
 	
-	public NewTransactionMenu(StoreCashier cashier) {
-		this.cashier = cashier;
+	public NewTransactionMenu() {
 		loop();
 	}
 	
@@ -23,10 +21,10 @@ public class NewTransactionMenu extends Menu {
 	public void initialize() {
 		kid2kid = Kid2KidSingleton.getInstance();
 		clients = kid2kid.getClients();
-		addOption("New client", () -> new NewClientForTransaction(cashier));
+		addOption("New client", () -> new NewClientForTransaction());
 		clients.forEach((clientObj) -> {
 			Client client = (Client) clientObj;
-			addOption(client.getName(), () -> new PickNewTransactionTypeMenu(client, cashier));
+			addOption(client.getName(), () -> new PickNewTransactionTypeMenu(client));
 		});
 	}
 }
