@@ -11,7 +11,7 @@ public class CashierMenu extends Menu  {
 	@Override
 	public void initialize() {
 		addOption("New transaction", () -> new NewTransactionMenu());
-		addOption("List transactions", () -> new ListTransactionsMenu());
+		addOption("List transactions", () -> new ListTransactionsCashierMenu());
 	}
 
 }

@@ -7,9 +7,9 @@ import utils.Utils;
 import vdm.Kid2Kid;
 import vdm.Transaction;
 
-public class ListTransactionsMenu extends Menu {
+public class ListTransactionsCashierMenu extends Menu {
 
-	public ListTransactionsMenu() {
+	public ListTransactionsCashierMenu() {
 		loop();
 	}
 	

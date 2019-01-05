@@ -19,6 +19,7 @@ public class BuyMenu extends Menu {
 	}
 
 	private Product enterNewProductInfo() {
+		System.err.println("PLACEHOLDER");
 		return new Product();
 	}
 
