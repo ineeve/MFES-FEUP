@@ -38,7 +38,7 @@ operations
 		pre true
 		post RESULT = loggedInType;
 			
-	public getLoggedInCashier: () ==> StoreCashier
+	public pure getLoggedInCashier: () ==> StoreCashier
 	getLoggedInCashier() ==
 		(
 		dcl cashier: StoreCashier;
@@ -55,6 +55,19 @@ operations
 		return transactions
 		pre hasAdminPerms()
 		post RESULT = transactions;
+		
+	public pure getTransactionsOfLoggedInCashier: () ==> set of Transaction
+	getTransactionsOfLoggedInCashier() ==
+		return getTransactionsOfCashier(getLoggedInCashier())
+		pre loggedInType = <Cashier>
+		post RESULT = getTransactionsOfCashier(getLoggedInCashier());
+	
+	private pure getTransactionsOfCashier: StoreCashier ==> set of Transaction
+	getTransactionsOfCashier(cashier) ==
+		return {x | x in set transactions & x.getCashier() = cashier}
+		pre true
+		post true;
+		
 	
 	/** Bypasses login permissions.
 	*/

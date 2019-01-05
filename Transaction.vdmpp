@@ -1,7 +1,4 @@
 class Transaction
-types
-values
--- TODO Define values here
 instance variables
 	protected value: nat1;
 	protected date: Date;
@@ -10,15 +7,18 @@ instance variables
 	protected storeAuthorizer: StoreCashier;
 	
 operations
-
-public pure getProducts: () ==> set of Product
-getProducts() ==
-	(return productsTransacted)
-	pre true
-	post RESULT = productsTransacted;
-		
-functions
--- TODO Define functiones here
+	public pure getProducts: () ==> set of Product
+	getProducts() ==
+		(return productsTransacted)
+		pre true
+		post RESULT = productsTransacted;
+	
+	public pure getCashier: () ==> StoreCashier
+	getCashier() ==
+		return storeAuthorizer
+		pre true
+		post RESULT = storeAuthorizer;
+	
 traces
 -- TODO Define Combinatorial Test Traces here
 end Transaction
