@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import instance.Kid2KidSingleton;
+import utils.Utils;
 import vdm.Client;
 import vdm.GiftCard;
 import vdm.Kid2Kid;
@@ -31,16 +32,7 @@ public class SellGiftCardMenu extends Menu {
 
 	private void sell(Long value) {
 		Kid2Kid kid2kid = Kid2KidSingleton.getInstance();
-		vdm.Date date = getToday();
-		kid2kid.sellGiftCard(client, cashier, date, value);
-	}
-
-	private vdm.Date getToday() {
-		Calendar today = new GregorianCalendar();
-		int day = today.get(Calendar.DATE);
-		int month = today.get(Calendar.MONTH) + 1;
-		int year = today.get(Calendar.YEAR);
-		return new vdm.Date(day, month, year);
+		kid2kid.sellGiftCard(client, cashier, Utils.getToday(), value);
 	}
 
 }

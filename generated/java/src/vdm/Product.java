@@ -50,6 +50,11 @@ public class Product {
     return 0.5;
   }
 
+  public String getDescription() {
+
+    return description;
+  }
+
   public Product() {}
 
   public String toString() {

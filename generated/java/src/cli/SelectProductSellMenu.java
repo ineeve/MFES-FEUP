@@ -24,7 +24,7 @@ public class SelectProductSellMenu extends Menu {
 		VDMSet products = kid2kid.getProductsAtStore(cashier.getStore());
 		products.forEach((productObj) -> {
 			Product product = (Product) productObj;
-			addOption(product)
+			addOption(product.getDescription(), () -> new SelectPaymentForProductSaleMenu(client, cashier, product));
 		});
 	}
 
