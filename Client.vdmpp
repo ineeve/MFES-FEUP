@@ -79,15 +79,6 @@ operations
 			post card boughtGiftCards = card boughtGiftCards~ + 1 and
 			giftCard in set boughtGiftCards;
 		
-	pure valuesFromGiftCards: set of GiftCard ==> seq of nat 
-		valuesFromGiftCards(g) ==
-		 	(dcl result: seq of nat := [];
-			for all giftCard in set g do 
-				(result := result ^ [giftCard.getValue()];);
-			return result;)
-			pre true
-			post card g = len RESULT;
-		
 	public pure getProductsSold: () ==> set of Product
 		getProductsSold() ==
 			return soldProducts
@@ -99,6 +90,12 @@ operations
 			return boughtProducts
 			pre true
 			post RESULT = boughtProducts;
+			
+	public pure getGiftCardsBought: () ==> set of GiftCard
+		getGiftCardsBought() ==
+			return boughtGiftCards
+			pre true
+			post RESULT = boughtGiftCards;
 		
 functions
 	

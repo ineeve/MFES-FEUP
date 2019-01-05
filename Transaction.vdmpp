@@ -3,7 +3,7 @@ types
 values
 -- TODO Define values here
 instance variables
-	protected value: nat1;
+	protected value: real;
 	protected date: Date;
 	protected client: [Client];
 	protected productsTransacted: set of Product;

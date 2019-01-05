@@ -7,6 +7,7 @@ instance variables
 	store: Store := new Store("Porto");
 	cashier: StoreCashier;
 	today: Date := new Date(4,1,2019);
+	products: seq of Product := [];
 operations
 	
 	private assertTrue: bool ==> ()
@@ -44,34 +45,91 @@ operations
 	private testAddCashierToStore: (NotEmptyString) ==> ()
 		testAddCashierToStore(name) ==
 		(
+			dcl prevNumCashiers: nat := card store.getCashiers();
 			cashier := new StoreCashier(name, store);
 			store.addCashier(cashier);
-			assertTrue(card store.getCashiers() = 1);
+			assertTrue(card store.getCashiers() = prevNumCashiers + 1);
 		);
 		
-	private testStoreBuyProductInCash : () ==> ()
-		testStoreBuyProductInCash() ==
+	private testStoreBuyProductsInCash : () ==> ()
+		testStoreBuyProductsInCash() ==
 		(
-			dcl p: Product := new Toy(<New>, 5, <Cars>);
-			assertTrue(p not in set store.getProductsAvailable());
-			assertTrue(p not in set client.getProductsSold());
-			kid2kid.buyProductInCash(p,client,cashier,today);
-			assertTrue(p in set store.getProductsAvailable());
-			assertTrue(p in set client.getProductsSold());
+			dcl toy: Product := new Toy(<New>, 5, <Cars>);
+			dcl gear: Product := new Gear(<High_Use>, 1, <Bathtubs>);
+			dcl furniture: Product := new Furniture(<New>, <Beds>);
+			products := [toy, gear, furniture];
+			assertTrue(elems products inter store.getProductsAvailable() = {});
+			assertTrue(elems products  inter client.getProductsSold() = {});
+			kid2kid.buyProductInCash(toy,client,cashier,today);
+			kid2kid.buyProductInCash(gear,client,cashier,today);
+			kid2kid.buyProductInCash(furniture,client,cashier,today);
+			assertTrue(elems products subset store.getProductsAvailable());
+			assertTrue(elems products subset client.getProductsSold());
 		);
 		
-	private testStoreBuyProductInCreditNotes: () ==> ()
-		testStoreBuyProductInCreditNotes() ==
+	private testStoreBuyProductsInCreditNotes: () ==> ()
+		testStoreBuyProductsInCreditNotes() ==
 		(
-			dcl p: Product := new Toy(<Low_Use>, 2, <Puzzles>);
-			assertTrue(p not in set store.getProductsAvailable());
-			assertTrue(p not in set client.getProductsSold());
-			kid2kid.buyProductInCreditNotes(p, client, cashier, today);
-			assertTrue(p in set store.getProductsAvailable());
-			assertTrue(p in set client.getProductsSold());
-			assertTrue(store.getCreditNotesOfClient(client.getId()) > 0);
+			dcl boots: Product := new Footwear(<Low_Use>, 20, <Boots>);
+			dcl jeans: Product := new Clothing(<Low_Use>, 1, 2, <Jeans>);
+			dcl productsSet: set of Product := {boots, jeans};
+			assertTrue(productsSet inter store.getProductsAvailable() = {});
+			assertTrue(productsSet inter client.getProductsSold() = {});
+			kid2kid.buyProductInCreditNotes(boots, client, cashier, today);
+			kid2kid.buyProductInCreditNotes(jeans, client, cashier, today);
+			assertTrue(productsSet subset store.getProductsAvailable());
+			assertTrue(productsSet subset client.getProductsSold());
+			assertTrue(store.getCreditNotesOfClient(client.getId()) = boots.getCreditNotesValue() + jeans.getCreditNotesValue());
 		);
-	
+
+	private testGetCashiers: nat ==> ()
+		testGetCashiers(expectedNumber) ==
+		(
+			assertTrue(card kid2kid.getCashiers() = expectedNumber);
+		);
+	private testGetCashierNames: set of NotEmptyString ==> ()
+		testGetCashierNames(namesSet) ==
+		(
+			assertTrue( (namesSet \ kid2kid.getCashierNames()) = {});
+		);
+	public testGetProductsAtStore: (nat) ==> ()
+		testGetProductsAtStore(expectedNum) ==
+		(
+			assertTrue(card kid2kid.getProductsAtStore(store) = expectedNum);
+		);
+		
+	public testStoreGiftCards: () ==> ()
+		testStoreGiftCards() ==
+		(
+		dcl gc: GiftCard := kid2kid.sellGiftCard(client, cashier, today, 40);
+		assertTrue(card kid2kid.getActiveGiftCards() = 1);
+		assertTrue(gc in set client.getGiftCardsBought());
+		kid2kid.sellProductInGiftCards(products(1), client, cashier, {gc}, today);
+		assertTrue(card kid2kid.getActiveGiftCards() = 0);
+		assertTrue(products(1) in set client.getProductsBought());
+		);
+		
+	public testStoreSellProductInCash: () ==> ()
+		testStoreSellProductInCash() ==
+		(
+		assertTrue(products(2) in set store.getProductsAvailable());
+		kid2kid.sellProductInCash(products(2), client, cashier, today);
+		assertTrue(products(2) not in set store.getProductsAvailable());
+		assertTrue(products(2) in set client.getProductsBought());
+		);
+		
+		public testStoreSellProductInCreditNotes: () ==> ()
+			testStoreSellProductInCreditNotes() ==
+			(
+			dcl clientPrevCredit: real := store.getCreditNotesOfClient(client.getId());
+			assertTrue(clientPrevCredit > 0);
+			assertTrue(products(3) in set store.getProductsAvailable());
+			kid2kid.sellProductInCreditNotes(products(3), client, cashier, today);
+			assertTrue(products(3) not in set store.getProductsAvailable());
+			assertTrue(products(3) in set client.getProductsBought());
+			assertTrue(store.getCreditNotesOfClient(client.getId()) = clientPrevCredit - products(3).getSellPrice());
+			);
+
 	public testAdminOperations: () ==> ()
 		testAdminOperations() == 
 			(
@@ -79,14 +137,22 @@ operations
 			testAddClient();
 			testAddStore();
 			testAddCashierToStore("Joao");
+			testAddCashierToStore("Renato");
+			testGetCashiers(2);
+			testGetCashierNames({"Joao", "Renato"});
 			);
 			
+
 	public testCashierOperations: () ==> ()
 		testCashierOperations() ==
 			(
 			loginCashier("Joao");
-			testStoreBuyProductInCash();
-			testStoreBuyProductInCreditNotes();
+			testStoreBuyProductsInCash();
+			testStoreBuyProductsInCreditNotes();
+			testGetProductsAtStore(5);
+			testStoreGiftCards();
+			testStoreSellProductInCash();
+			testStoreSellProductInCreditNotes();
 			);
 	
 	public static main: () ==> ()

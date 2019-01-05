@@ -30,7 +30,7 @@ operations
 	public buyProductInCash: Product ==> ()
 	buyProductInCash(p) ==
 		(
-		store.buyProductInCash(p);
+		store.buyProduct(p);
 		)
 		pre true
 		post true;

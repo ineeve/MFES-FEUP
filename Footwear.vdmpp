@@ -5,9 +5,21 @@ values
 -- TODO Define values here
 instance variables
 	size: nat;
-	subcategory: FootwearCat;
+	subCategory: FootwearCat;
+	inv size > 15 and size < 45;
 operations
--- TODO Define operations here
+	public Footwear: ProductState * nat * FootwearCat ==> Footwear
+		Footwear(productState, sizeInput, footwearCat) ==
+		(
+			size := sizeInput;
+			state := productState;
+			subCategory := footwearCat;
+			setBuyPrice();
+			setSellPrice();
+			return self;
+		)
+		pre true
+		post size = sizeInput and subCategory = footwearCat and state = productState;
 functions
 -- TODO Define functiones here
 traces

@@ -19,14 +19,12 @@ operations
 		subCategory := subCategoryInput;
 		setBuyPrice();
 		setSellPrice();
+		return self;
 		)
 		pre minAgeInput > 0 and minAgeInput < 13
 		post minAge = minAgeInput and 
 		subCategory = subCategoryInput and
-		buyPrice <> undefined and
-		sellPrice <> undefined and
-		state = productState and
-		id <> undefined;
+		RESULT = self;
 functions
 -- TODO Define functiones here
 traces

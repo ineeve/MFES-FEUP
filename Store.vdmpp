@@ -3,7 +3,6 @@ types
 	public NotEmptyString = seq1 of char;
 	public ClientsToCredits = map nat to real;
 values
-	public CREDIT_NOTE_MULTIPLIER: real = 1.2;
 instance variables
 	location: NotEmptyString;
 	productsAvailable: set of Product := {};
@@ -31,8 +30,8 @@ operations
 		pre true
 		post cashiers = cashiers~ union {cashier};
 		
-	public buyProductInCash: Product ==> ()
-		buyProductInCash(p) ==
+	public buyProduct: Product ==> ()
+		buyProduct(p) ==
 		productsAvailable := productsAvailable union {p}
 		pre true
 		post productsAvailable = productsAvailable~ union {p};
@@ -40,7 +39,7 @@ operations
 	public buyProductInCreditNotes: Product * nat1 ==> ()
 	buyProductInCreditNotes(p, clientId) ==
 		(
-		buyProductInCash(p);
+		buyProduct(p);
 		addCreditNote(clientId, p);
 		)
 		pre true
@@ -102,7 +101,7 @@ operations
 				then clientsCreditNotes := clientsCreditNotes ++ {clientId |-> 0}
 			);
 			clientsCreditNotes := clientsCreditNotes ++ 
-				{clientId |-> clientsCreditNotes(clientId) + p.getBuyPrice() * CREDIT_NOTE_MULTIPLIER}
+				{clientId |-> clientsCreditNotes(clientId) + p.getCreditNotesValue()}
 			)
 			pre true
 			post checkCreditNotes(clientId, p, clientsCreditNotes, clientsCreditNotes~);
@@ -126,9 +125,9 @@ functions
 	public checkCreditNotes: nat * Product * ClientsToCredits * ClientsToCredits -> bool
 	checkCreditNotes(clientId, p, newCreditNotes, oldCreditNotes) ==
 	(if clientId not in set dom oldCreditNotes then
-			newCreditNotes(clientId) = p.getBuyPrice() * CREDIT_NOTE_MULTIPLIER
+			newCreditNotes(clientId) = p.getCreditNotesValue()
 	else	
-			newCreditNotes = oldCreditNotes ++ {clientId |-> oldCreditNotes(clientId) + p.getBuyPrice() * CREDIT_NOTE_MULTIPLIER}
+			newCreditNotes = oldCreditNotes ++ {clientId |-> oldCreditNotes(clientId) + p.getCreditNotesValue()}
 	)
 traces
 -- TODO Define Combinatorial Test Traces here

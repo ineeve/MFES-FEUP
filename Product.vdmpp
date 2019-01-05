@@ -3,7 +3,7 @@ types
 	public CustomString = seq1 of char;
 	public ProductState = <New> | <Low_Use> | <High_Use>;
 values
--- TODO Define values here
+	public CREDIT_NOTE_MULTIPLIER: real = 1.2;
 instance variables
 	protected static idCounter: nat := 0;
 	protected id: nat;
@@ -11,6 +11,10 @@ instance variables
 	protected sellPrice: real;
 	protected state: ProductState;
 	protected description: [CustomString];
+	inv buyPrice <> undefined;
+	inv sellPrice <> undefined;
+	inv id <> undefined;
+	inv state <> undefined;
 operations
 	
 	public pure getSellPrice: () ==> real
@@ -24,6 +28,12 @@ operations
 		return buyPrice
 		pre true
 		post RESULT = buyPrice;
+		
+	public pure getCreditNotesValue: () ==> real
+	getCreditNotesValue() ==
+		return buyPrice * CREDIT_NOTE_MULTIPLIER
+		pre true
+		post RESULT = buyPrice * CREDIT_NOTE_MULTIPLIER;
 		
 	public setDescription: CustomString ==> ()
 	setDescription(newDescription) == 

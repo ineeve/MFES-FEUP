@@ -55,6 +55,12 @@ operations
 		return transactions
 		pre hasAdminPerms()
 		post RESULT = transactions;
+		
+	public pure getActiveGiftCards: () ==> set of GiftCard
+	getActiveGiftCards() ==
+		return activeGiftCards
+		pre hasCashierPerms()
+		post RESULT = activeGiftCards;
 	
 	/** Bypasses login permissions.
 	*/
@@ -91,7 +97,7 @@ operations
 		return getCashierNamesInternal()
 		pre hasAdminPerms()
 		post true;
-
+	
 	/*
 	Post:
 	- New client is added to the system
@@ -184,19 +190,22 @@ operations
 		addSaleProductTransaction(d, c, {p}, gc, sc);
 		for all giftCard in set gc do useGiftCard(giftCard);
 		)
-		pre hasCashierPerms() and gc subset activeGiftCards
+		pre hasCashierPerms() and card gc > 0 and gc subset activeGiftCards and
+			sumGiftCardValues(gc) >= p.getSellPrice()
 		post card transactions = card transactions~ + 1 and
-		gc inter activeGiftCards = {};
+			gc inter activeGiftCards = {};
 		
-	public sellGiftCard: Client * StoreCashier * Date * nat1 ==> ()
+	public sellGiftCard: Client * StoreCashier * Date * nat1 ==> GiftCard
 	sellGiftCard(c, sc, d, value) == 
 		(
 		dcl gc: GiftCard := sc.sellGiftCard(value);
 		c.buyGiftCard(gc);
 		addSaleGCTransaction(d, c, {gc}, sc);
+		activateGiftCard(gc);
+		return gc;
 		)
 		pre hasCashierPerms()
-		post true;
+		post card activeGiftCards = card activeGiftCards~ + 1;
 		
 	public activateGiftCard: GiftCard ==> ()
 	activateGiftCard(giftCard) ==
@@ -248,9 +257,18 @@ operations
 		return loggedInType = <Admin>
 		pre true
 		post RESULT = (loggedInType = <Admin>);
-		
+	
+	public pure sumGiftCardValues: (set of GiftCard) ==> nat1
+	sumGiftCardValues(giftCards) ==
+		(
+		dcl res: nat := 0;
+		for all gc in set giftCards do res := res + gc.getValue();
+		return res;
+		)
+		pre card giftCards > 0
+		post RESULT > 0;
 functions
--- TODO Define functiones here
+	
 traces
 -- TODO Define Combinatorial Test Traces here
 end Kid2Kid

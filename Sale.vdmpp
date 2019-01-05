@@ -62,10 +62,10 @@ operations
 		storeAuthorizer = sc and 
 		RESULT = self;
 
-	public pure sumProductValues: set of Product ==> nat
+	public pure sumProductValues: set of Product ==> real
 	sumProductValues(pSet) ==
 		(
-		dcl result: nat := 0;
+		dcl result: real := 0;
 		for all p in set pSet do 
 			(
 			result := result + p.getSellPrice();

@@ -6,9 +6,31 @@ values
 instance variables
 	maxAge: nat;
 	minAge: nat;
-	subcategory: ClothingCat;
+	subCategory: ClothingCat;
+	inv minAge > 0 and minAge < 13;
+	inv maxAge > 0 and maxAge < 13;
+	inv maxAge >= minAge;
 operations
--- TODO Define operations here
+public Clothing: ProductState * nat * nat * ClothingCat ==> Clothing
+	Clothing(productState, minAgeInput, maxAgeInput, subCategoryInput) ==
+		(
+		idCounter := idCounter + 1;
+		id := idCounter;
+		state := productState;
+		minAge := minAgeInput;
+		maxAge := maxAgeInput;
+		subCategory := subCategoryInput;
+		setBuyPrice();
+		setSellPrice();
+		return self;
+		)
+		pre true
+		post 
+			minAge = minAgeInput and
+			maxAge = maxAgeInput and
+			subCategory = subCategoryInput and
+			state = productState and
+			RESULT = self;
 functions
 -- TODO Define functiones here
 traces
