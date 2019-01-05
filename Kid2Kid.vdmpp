@@ -50,6 +50,12 @@ operations
 		pre loggedInType = <Cashier>
 		post RESULT in set getCashiersInternal() and RESULT.getName() = loggedInUsername;
 	
+	public pure getTransactions: () ==> set of Transaction
+	getTransactions() ==
+		return transactions
+		pre hasAdminPerms()
+		post RESULT = transactions;
+	
 	/** Bypasses login permissions.
 	*/
 	private pure getCashierNamesInternal: () ==> set of NotEmptyString

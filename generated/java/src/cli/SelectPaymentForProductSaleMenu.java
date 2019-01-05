@@ -23,7 +23,7 @@ public class SelectPaymentForProductSaleMenu extends Menu {
 		StoreCashier cashier = kid2kid.getLoggedInCashier();
 		addOption("Cash", () -> kid2kid.sellProductInCash(product, client, cashier, Utils.getToday()));
 		addOption("Credit Notes", () -> kid2kid.sellProductInCreditNotes(product, client, cashier, Utils.getToday()));
-		// addOption("Gift Cards", () -> kid2kid.sellProductInGiftCards(product, client, cashier, Utils.getToday()));
+		addOption("Gift Cards", () -> System.err.println("PLACEHOLDER")); //kid2kid.sellProductInGiftCards(product, client, cashier, Utils.getToday()));
 	}
 
 }
