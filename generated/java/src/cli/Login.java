@@ -2,16 +2,15 @@ package cli;
 
 import java.util.Scanner;
 
-import instance.Kid2KidFactory;
+import instance.Kid2KidSingleton;
 import vdm.Kid2Kid;
-import vdm.StoreCashier;
 import vdm.quotes.AdminQuote;
 import vdm.quotes.CashierQuote;
 import vdm.quotes.LoggedOutQuote;
 
 public class Login {
 
-	private Kid2Kid kid2kid = Kid2KidFactory.getKid2Kid();
+	private Kid2Kid kid2kid = Kid2KidSingleton.getInstance();
 
 	public Login() {
 		Scanner scanner = new Scanner(System.in);
