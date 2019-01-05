@@ -94,6 +94,12 @@ operations
 		return cashiers
 		pre true
 		post RESULT = cashiers;
+		
+	public removeCashier: StoreCashier ==> ()
+	removeCashier(c) ==
+		cashiers := cashiers \ {c}
+		pre c in set cashiers
+		post c not in set cashiers;
 	
 	public addCreditNote: real * Product ==> ()
 	addCreditNote(clientId, p) ==

@@ -50,6 +50,11 @@ public class Kid2Kid {
     return cashier;
   }
 
+  public void removeCashier(final StoreCashier c) {
+
+    c.getStore().removeCashier(c);
+  }
+
   public VDMSet getTransactions() {
 
     return Utils.copy(transactions);

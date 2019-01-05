@@ -74,6 +74,11 @@ public class Store {
     return Utils.copy(cashiers);
   }
 
+  public void removeCashier(final StoreCashier c) {
+
+    cashiers = SetUtil.diff(Utils.copy(cashiers), SetUtil.set(c));
+  }
+
   public void addCreditNote(final Number clientId, final Product p) {
 
     {

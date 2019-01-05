@@ -49,6 +49,12 @@ operations
 		)
 		pre loggedInType = <Cashier>
 		post RESULT in set getCashiersInternal() and RESULT.getName() = loggedInUsername;
+		
+	public removeCashier: StoreCashier ==> ()
+	removeCashier(c) ==
+		c.getStore().removeCashier(c)
+		pre hasAdminPerms() and c in set c.getStore().getCashiers()
+		post c not in set c.getStore().getCashiers();
 	
 	public pure getTransactions: () ==> set of Transaction
 	getTransactions() ==
