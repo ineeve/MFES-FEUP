@@ -1,24 +1,38 @@
 class Transaction
-types
-values
--- TODO Define values here
 instance variables
 	protected value: real;
 	protected date: Date;
 	protected client: [Client];
-	protected productsTransacted: set of Product;
+	protected productsTransacted: set of Product := {};
 	protected storeAuthorizer: StoreCashier;
 	
 operations
-
-public pure getProducts: () ==> set of Product
-getProducts() ==
-	(return productsTransacted)
-	pre true
-	post RESULT = productsTransacted;
+	public pure getProducts: () ==> set of Product
+	getProducts() ==
+		(return productsTransacted)
+		pre true
+		post RESULT = productsTransacted;
+	
+	public pure getCashier: () ==> StoreCashier
+	getCashier() ==
+		return storeAuthorizer
+		pre true
+		post RESULT = storeAuthorizer;
 		
-functions
--- TODO Define functiones here
+	public pure getValue: () ==> nat
+	getValue() ==
+		is subclass responsibility;
+		
+	public pure getSumProductValues: () ==> nat
+	getSumProductValues() ==
+		return sumProductValues(productsTransacted)
+		pre true
+		post RESULT = sumProductValues(productsTransacted);
+		
+	protected pure sumProductValues: set of Product ==> nat
+	sumProductValues(pSet) ==
+		is subclass responsibility;
+	
 traces
 -- TODO Define Combinatorial Test Traces here
 end Transaction

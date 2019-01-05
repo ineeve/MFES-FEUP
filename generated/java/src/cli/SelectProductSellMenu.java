@@ -19,7 +19,7 @@ public class SelectProductSellMenu extends Menu {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public void initialize() {
+	protected void initialize() {
 		Kid2Kid kid2kid = Kid2KidSingleton.getInstance();
 		StoreCashier cashier = kid2kid.getLoggedInCashier();
 		VDMSet products = kid2kid.getProductsAtStore(cashier.getStore());

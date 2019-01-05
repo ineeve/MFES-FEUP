@@ -18,7 +18,7 @@ public class NewTransactionMenu extends Menu {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public void initialize() {
+	protected void initialize() {
 		kid2kid = Kid2KidSingleton.getInstance();
 		clients = kid2kid.getClients();
 		addOption("New client", () -> new NewClientForTransaction());

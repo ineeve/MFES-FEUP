@@ -82,6 +82,12 @@ operations
 		pre clientId in set dom clientsCreditNotes
 		post RESULT = clientsCreditNotes(clientId);
 
+	public pure getLocation: () ==> NotEmptyString
+	getLocation() ==
+		return location
+		pre true
+		post RESULT = location;
+
 	public pure getProductsAvailable: () ==> set of Product
 	getProductsAvailable() ==
 		return productsAvailable
@@ -93,6 +99,33 @@ operations
 		return cashiers
 		pre true
 		post RESULT = cashiers;
+		
+	public pure getCashier: NotEmptyString ==> StoreCashier
+	getCashier(name) ==
+		(
+		dcl cashier: StoreCashier;
+		for all c in set cashiers do
+			if (c.getName() = name) then cashier := c;
+		return cashier
+		)
+		pre true
+		post RESULT in set cashiers and RESULT.getName() = name;
+		
+	public pure getCashierNames: () ==> set of NotEmptyString
+	getCashierNames() ==
+		(
+		dcl names: set of NotEmptyString := {};
+		for all cashier in set cashiers do names := names union {cashier.getName()};
+		return names;
+		)
+		pre true
+		post true;
+		
+	public removeCashier: StoreCashier ==> ()
+	removeCashier(c) ==
+		cashiers := cashiers \ {c}
+		pre c in set cashiers
+		post c not in set cashiers;
 	
 	public addCreditNote: real * Product ==> ()
 	addCreditNote(clientId, p) ==

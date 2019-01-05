@@ -4,17 +4,31 @@ import java.util.*;
 import org.overture.codegen.runtime.*;
 
 @SuppressWarnings("all")
-public class Transaction {
+abstract public class Transaction {
   protected Number value;
   protected Date date;
   protected Client client;
-  protected VDMSet productsTransacted;
+  protected VDMSet productsTransacted = SetUtil.set();
   protected StoreCashier storeAuthorizer;
 
   public VDMSet getProducts() {
 
     return Utils.copy(productsTransacted);
   }
+
+  public StoreCashier getCashier() {
+
+    return storeAuthorizer;
+  }
+
+  public abstract Number getValue();
+
+  public Number getSumProductValues() {
+
+    return sumProductValues(Utils.copy(productsTransacted));
+  }
+
+  protected abstract Number sumProductValues(final VDMSet pSet);
 
   public Transaction() {}
 

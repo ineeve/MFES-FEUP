@@ -19,6 +19,12 @@ operations
 		pre true
 		post RESULT = name;
 		
+	public setName: NotEmptyString ==> ()
+	setName(n) ==
+		name := n
+		pre true
+		post name = n;
+		
 	public pure getStore: () ==> Store
 	getStore() ==
 		return store

@@ -15,6 +15,7 @@ instance variables
 	
 	loggedInType: UserType := <LoggedOut>;
 	loggedInUsername: NotEmptyString;
+	loggedInStore: NotEmptyString; -- for logged in cashiers
 	
 operations
 
@@ -25,36 +26,78 @@ operations
 		post clients = {} and stores = {} and activeGiftCards = {} and transactions = {} and 
 		loggedInType = <LoggedOut> and RESULT = self;
 
+	/* Login admin */
 	public login: NotEmptyString ==> UserType
 	login(name) ==
 	(
 		if (name = "Admin")
 		then (loggedInType := <Admin>; loggedInUsername := "Admin")
-		else if (name in set getCashierNames())
-		then (loggedInType := <Cashier>; loggedInUsername := name);
+		else (loggedInType := <LoggedOut>; loggedInUsername := " ");
 		
 		return loggedInType
 	)
 		pre true
 		post RESULT = loggedInType;
+		
+	/* Login cashier */
+	public login: NotEmptyString * NotEmptyString ==> UserType
+	login(storeLocation, cashierName) ==
+		(
+		if (storeLocation in set getStoreLocationsInternal() and cashierName in set getStore(storeLocation).getCashierNames())
+		then (loggedInType := <Cashier>; loggedInUsername := cashierName; loggedInStore := storeLocation)
+		else (loggedInType := <LoggedOut>; loggedInUsername := " "; loggedInStore := " ");
+		
+		return loggedInType
+		)
+		pre true
+		post RESULT = loggedInType;
 			
-	public getLoggedInCashier: () ==> StoreCashier
+	private pure getStore: NotEmptyString ==> Store
+	getStore(name) ==
+		(
+		dcl store: Store;
+		for all s in set stores do
+			if (name = s.getLocation()) then store := s;
+		return store
+		)
+		pre true
+		post RESULT in set stores and RESULT.getLocation() = name;
+			
+	public pure getLoggedInCashier: () ==> StoreCashier
 	getLoggedInCashier() ==
 		(
 		dcl cashier: StoreCashier;
 		for all c in set getCashiersInternal() do
-			if (loggedInUsername = c.getName())
+			if (loggedInUsername = c.getName() and loggedInStore = c.getStore().getLocation())
 			then cashier := c;
 		return cashier
 		)
 		pre loggedInType = <Cashier>
-		post RESULT in set getCashiersInternal() and RESULT.getName() = loggedInUsername;
+		post RESULT in set getCashiersInternal() and RESULT.getName() = loggedInUsername and RESULT.getStore().getLocation() = loggedInStore;
+		
+	public removeCashier: StoreCashier ==> ()
+	removeCashier(c) ==
+		c.getStore().removeCashier(c)
+		pre hasAdminPerms() and c in set c.getStore().getCashiers()
+		post c not in set c.getStore().getCashiers();
 	
 	public pure getTransactions: () ==> set of Transaction
 	getTransactions() ==
 		return transactions
 		pre hasAdminPerms()
 		post RESULT = transactions;
+		
+	public pure getTransactionsOfLoggedInCashier: () ==> set of Transaction
+	getTransactionsOfLoggedInCashier() ==
+		return getTransactionsOfCashier(getLoggedInCashier())
+		pre loggedInType = <Cashier>
+		post RESULT = getTransactionsOfCashier(getLoggedInCashier());
+	
+	private pure getTransactionsOfCashier: StoreCashier ==> set of Transaction
+	getTransactionsOfCashier(cashier) ==
+		return {x | x in set transactions & x.getCashier() = cashier}
+		pre true
+		post true;
 		
 	public pure getActiveGiftCards: () ==> set of GiftCard
 	getActiveGiftCards() ==
@@ -69,6 +112,18 @@ operations
 		(
 		dcl names: set of NotEmptyString := {};
 		for all cashier in set getCashiersInternal() do names := names union {cashier.getName()};
+		return names;
+		)
+		pre true
+		post true;
+		
+	/** Bypasses login permissions.
+	*/
+	private pure getStoreLocationsInternal: () ==> set of NotEmptyString
+	getStoreLocationsInternal() ==
+		(
+		dcl names: set of NotEmptyString := {};
+		for all store in set stores do names := names union {store.getLocation()};
 		return names;
 		)
 		pre true
@@ -107,6 +162,18 @@ operations
 		clients := clients union {c}
 		pre hasAdminPerms()
 		post c in set clients;
+	
+	/* Remove client from system.
+	Pre:
+	- Client is part of the system
+	Post:
+	- Client isn't part of the system
+	*/
+	public removeClient: Client ==> ()
+	removeClient(c) ==
+		clients := clients \ {c}
+		pre c in set clients
+		post c not in set clients;
 		
 	/*
 	Post:

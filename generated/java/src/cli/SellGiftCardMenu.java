@@ -21,7 +21,7 @@ public class SellGiftCardMenu extends Menu {
 	}
 
 	@Override
-	public void initialize() {
+	protected void initialize() {
 		for (Object valueObj : GiftCard.getPossibleValues()) {
 			Long value = (Long) valueObj;
 			addOption(value.toString(), () -> sell(value));

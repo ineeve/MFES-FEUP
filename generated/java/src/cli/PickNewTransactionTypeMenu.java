@@ -13,7 +13,7 @@ public class PickNewTransactionTypeMenu extends Menu {
 	}
 	
 	@Override
-	public void initialize() {
+	protected void initialize() {
 		addOption("Buy", () -> new BuyMenu(client));
 		addOption("Sell", () -> new SellMenu(client));
 	}

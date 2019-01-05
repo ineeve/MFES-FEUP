@@ -3,7 +3,7 @@ package cli;
 public class TransactionMenu extends Menu {
 
 	@Override
-	public void initialize() {
+	protected void initialize() {
 		// TODO Auto-generated method stub
 
 	}

@@ -55,6 +55,10 @@ public abstract class Menu {
 		System.out.println();
 	}
 	
+	/**
+	 * Loop of showing options and executing one of its actions
+	 * until the 'Back' option is selected.
+	 */
 	protected void loop() {
 		try {
 			while (true) {
@@ -69,7 +73,17 @@ public abstract class Menu {
 	}
 	
 	/**
+	 * Deletes all current options and adds them again.
+	 */
+	protected void reinitialize() {
+		newOptionId = 1;
+		optionsStrings.clear();
+		optionsActions.clear();
+		initialize();
+	}
+	
+	/**
 	 * Responsible for adding options to the desired menu.
 	 */
-	public abstract void initialize();
+	protected abstract void initialize();
 }

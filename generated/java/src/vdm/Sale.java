@@ -5,8 +5,8 @@ import org.overture.codegen.runtime.*;
 
 @SuppressWarnings("all")
 public class Sale extends Transaction {
-  private VDMSet giftCardsUsed;
-  private VDMSet giftCardsSold;
+  private VDMSet giftCardsUsed = SetUtil.set();
+  private VDMSet giftCardsSold = SetUtil.set();
 
   public void cg_init_Sale_2(final Date d, final Client c, final VDMSet g, final StoreCashier sc) {
 
@@ -41,21 +41,36 @@ public class Sale extends Transaction {
     cg_init_Sale_2(d, c, Utils.copy(g), sc);
   }
 
-  public Number sumProductValues(final VDMSet pSet) {
+  public VDMSet getGiftCardsUsed() {
+
+    return Utils.copy(giftCardsUsed);
+  }
+
+  public VDMSet getGiftCardsSold() {
+
+    return Utils.copy(giftCardsSold);
+  }
+
+  public Number getValue() {
+
+    return getSumProductValues().longValue() + sumGCValues(Utils.copy(giftCardsSold)).longValue();
+  }
+
+  protected Number sumProductValues(final VDMSet pSet) {
 
     Number result = 0L;
-    for (Iterator iterator_6 = pSet.iterator(); iterator_6.hasNext(); ) {
-      Product p = (Product) iterator_6.next();
+    for (Iterator iterator_10 = pSet.iterator(); iterator_10.hasNext(); ) {
+      Product p = (Product) iterator_10.next();
       result = result.longValue() + p.getSellPrice().doubleValue();
     }
     return result;
   }
 
-  public Number sumGCValues(final VDMSet gcSet) {
+  private Number sumGCValues(final VDMSet gcSet) {
 
     Number result = 0L;
-    for (Iterator iterator_7 = gcSet.iterator(); iterator_7.hasNext(); ) {
-      GiftCard g = (GiftCard) iterator_7.next();
+    for (Iterator iterator_11 = gcSet.iterator(); iterator_11.hasNext(); ) {
+      GiftCard g = (GiftCard) iterator_11.next();
       result = result.longValue() + g.getValue().longValue();
     }
     return result;

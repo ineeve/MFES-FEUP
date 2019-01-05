@@ -11,6 +11,7 @@ public class Kid2Kid {
   private VDMSet transactions = SetUtil.set();
   private Object loggedInType = vdm.quotes.LoggedOutQuote.getInstance();
   private String loggedInUsername;
+  private String loggedInStore;
 
   public void cg_init_Kid2Kid_1() {
 
@@ -29,33 +30,113 @@ public class Kid2Kid {
       loggedInUsername = "Admin";
 
     } else {
-      if (SetUtil.inSet(name, getCashierNames())) {
-        loggedInType = vdm.quotes.CashierQuote.getInstance();
-        loggedInUsername = name;
-      }
+      loggedInType = vdm.quotes.LoggedOutQuote.getInstance();
+      loggedInUsername = " ";
     }
 
     return loggedInType;
   }
 
+  public Object login(final String storeLocation, final String cashierName) {
+
+    Boolean andResult_25 = false;
+
+    if (SetUtil.inSet(storeLocation, getStoreLocationsInternal())) {
+      if (SetUtil.inSet(cashierName, getStore(storeLocation).getCashierNames())) {
+        andResult_25 = true;
+      }
+    }
+
+    if (andResult_25) {
+      loggedInType = vdm.quotes.CashierQuote.getInstance();
+      loggedInUsername = cashierName;
+      loggedInStore = storeLocation;
+
+    } else {
+      loggedInType = vdm.quotes.LoggedOutQuote.getInstance();
+      loggedInUsername = " ";
+      loggedInStore = " ";
+    }
+
+    return loggedInType;
+  }
+
+  private Store getStore(final String name) {
+
+    Store store = null;
+    for (Iterator iterator_3 = stores.iterator(); iterator_3.hasNext(); ) {
+      Store s = (Store) iterator_3.next();
+      if (Utils.equals(name, s.getLocation())) {
+        store = s;
+      }
+    }
+    return store;
+  }
+
   public StoreCashier getLoggedInCashier() {
 
     StoreCashier cashier = null;
-    for (Iterator iterator_2 = getCashiersInternal().iterator(); iterator_2.hasNext(); ) {
-      StoreCashier c = (StoreCashier) iterator_2.next();
+    for (Iterator iterator_4 = getCashiersInternal().iterator(); iterator_4.hasNext(); ) {
+      StoreCashier c = (StoreCashier) iterator_4.next();
+      Boolean andResult_29 = false;
+
       if (Utils.equals(loggedInUsername, c.getName())) {
+        if (Utils.equals(loggedInStore, c.getStore().getLocation())) {
+          andResult_29 = true;
+        }
+      }
+
+      if (andResult_29) {
         cashier = c;
       }
     }
     return cashier;
   }
 
+  public void removeCashier(final StoreCashier c) {
+
+    c.getStore().removeCashier(c);
+  }
+
+  public VDMSet getTransactions() {
+
+    return Utils.copy(transactions);
+  }
+
+  public VDMSet getTransactionsOfLoggedInCashier() {
+
+    return getTransactionsOfCashier(getLoggedInCashier());
+  }
+
+  private VDMSet getTransactionsOfCashier(final StoreCashier cashier) {
+
+    VDMSet setCompResult_1 = SetUtil.set();
+    VDMSet set_1 = Utils.copy(transactions);
+    for (Iterator iterator_1 = set_1.iterator(); iterator_1.hasNext(); ) {
+      Transaction x = ((Transaction) iterator_1.next());
+      if (Utils.equals(x.getCashier(), cashier)) {
+        setCompResult_1.add(x);
+      }
+    }
+    return Utils.copy(setCompResult_1);
+  }
+
   private VDMSet getCashierNamesInternal() {
 
     VDMSet names = SetUtil.set();
-    for (Iterator iterator_3 = getCashiersInternal().iterator(); iterator_3.hasNext(); ) {
-      StoreCashier cashier = (StoreCashier) iterator_3.next();
+    for (Iterator iterator_5 = getCashiersInternal().iterator(); iterator_5.hasNext(); ) {
+      StoreCashier cashier = (StoreCashier) iterator_5.next();
       names = SetUtil.union(Utils.copy(names), SetUtil.set(cashier.getName()));
+    }
+    return Utils.copy(names);
+  }
+
+  private VDMSet getStoreLocationsInternal() {
+
+    VDMSet names = SetUtil.set();
+    for (Iterator iterator_6 = stores.iterator(); iterator_6.hasNext(); ) {
+      Store store = (Store) iterator_6.next();
+      names = SetUtil.union(Utils.copy(names), SetUtil.set(store.getLocation()));
     }
     return Utils.copy(names);
   }
@@ -63,8 +144,8 @@ public class Kid2Kid {
   private VDMSet getCashiersInternal() {
 
     VDMSet cashiers = SetUtil.set();
-    for (Iterator iterator_4 = stores.iterator(); iterator_4.hasNext(); ) {
-      Store store = (Store) iterator_4.next();
+    for (Iterator iterator_7 = stores.iterator(); iterator_7.hasNext(); ) {
+      Store store = (Store) iterator_7.next();
       cashiers = SetUtil.union(Utils.copy(cashiers), store.getCashiers());
     }
     return Utils.copy(cashiers);
@@ -83,6 +164,11 @@ public class Kid2Kid {
   public void addClient(final Client c) {
 
     clients = SetUtil.union(Utils.copy(clients), SetUtil.set(c));
+  }
+
+  public void removeClient(final Client c) {
+
+    clients = SetUtil.diff(Utils.copy(clients), SetUtil.set(c));
   }
 
   public void addStore(final Store s) {
@@ -143,8 +229,8 @@ public class Kid2Kid {
     sc.sellProduct(p);
     c.buyProduct(p);
     addSaleProductTransaction(d, c, SetUtil.set(p), Utils.copy(gc), sc);
-    for (Iterator iterator_5 = gc.iterator(); iterator_5.hasNext(); ) {
-      GiftCard giftCard = (GiftCard) iterator_5.next();
+    for (Iterator iterator_8 = gc.iterator(); iterator_8.hasNext(); ) {
+      GiftCard giftCard = (GiftCard) iterator_8.next();
       useGiftCard(giftCard);
     }
   }
@@ -215,6 +301,8 @@ public class Kid2Kid {
         + Utils.toString(loggedInType)
         + ", loggedInUsername := "
         + Utils.toString(loggedInUsername)
+        + ", loggedInStore := "
+        + Utils.toString(loggedInStore)
         + "}";
   }
 }

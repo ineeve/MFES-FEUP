@@ -64,6 +64,11 @@ public class Store {
     return ((Number) Utils.get(clientsCreditNotes, clientId));
   }
 
+  public String getLocation() {
+
+    return location;
+  }
+
   public VDMSet getProductsAvailable() {
 
     return Utils.copy(productsAvailable);
@@ -72,6 +77,33 @@ public class Store {
   public VDMSet getCashiers() {
 
     return Utils.copy(cashiers);
+  }
+
+  public StoreCashier getCashier(final String name) {
+
+    StoreCashier cashier = null;
+    for (Iterator iterator_12 = cashiers.iterator(); iterator_12.hasNext(); ) {
+      StoreCashier c = (StoreCashier) iterator_12.next();
+      if (Utils.equals(c.getName(), name)) {
+        cashier = c;
+      }
+    }
+    return cashier;
+  }
+
+  public VDMSet getCashierNames() {
+
+    VDMSet names = SetUtil.set();
+    for (Iterator iterator_13 = cashiers.iterator(); iterator_13.hasNext(); ) {
+      StoreCashier cashier = (StoreCashier) iterator_13.next();
+      names = SetUtil.union(Utils.copy(names), SetUtil.set(cashier.getName()));
+    }
+    return Utils.copy(names);
+  }
+
+  public void removeCashier(final StoreCashier c) {
+
+    cashiers = SetUtil.diff(Utils.copy(cashiers), SetUtil.set(c));
   }
 
   public void addCreditNote(final Number clientId, final Product p) {

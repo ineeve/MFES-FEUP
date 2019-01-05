@@ -25,6 +25,11 @@ public class StoreCashier {
     return name;
   }
 
+  public void setName(final String n) {
+
+    name = n;
+  }
+
   public Store getStore() {
 
     return store;

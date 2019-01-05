@@ -5,8 +5,8 @@ types
 values
 -- TODO Define values here
 instance variables
-	giftCardsUsed: set of GiftCard;
-	giftCardsSold: set of GiftCard;
+	giftCardsUsed: set of GiftCard := {};
+	giftCardsSold: set of GiftCard := {};
 	
 operations
 
@@ -62,7 +62,25 @@ operations
 		storeAuthorizer = sc and 
 		RESULT = self;
 
-	public pure sumProductValues: set of Product ==> real
+	public pure getGiftCardsUsed: () ==> set of GiftCard
+	getGiftCardsUsed() ==
+		return giftCardsUsed
+		pre true
+		post RESULT = giftCardsUsed;
+
+	public pure getGiftCardsSold: () ==> set of GiftCard
+	getGiftCardsSold() ==
+		return giftCardsSold
+		pre true
+		post RESULT = giftCardsSold;
+		
+	public pure getValue: () ==> nat
+	getValue() ==
+		return getSumProductValues() + sumGCValues(giftCardsSold)
+		pre true
+		post RESULT = getSumProductValues() + sumGCValues(giftCardsSold);
+		
+	protected pure sumProductValues: set of Product ==> real
 	sumProductValues(pSet) ==
 		(
 		dcl result: real := 0;
@@ -75,7 +93,7 @@ operations
 		pre true
 		post true; -- same as body
 	
-	public pure sumGCValues: set of GiftCard ==> nat
+	private pure sumGCValues: set of GiftCard ==> nat
 	sumGCValues(gcSet) ==
 		(
 		dcl result: nat := 0;
