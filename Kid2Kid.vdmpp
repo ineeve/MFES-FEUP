@@ -37,7 +37,21 @@ operations
 	)
 		pre true
 		post RESULT = loggedInType;
-		
+			
+	public getLoggedInCashier: () ==> StoreCashier
+	getLoggedInCashier() ==
+		(
+		dcl cashier: StoreCashier;
+		for all c in set getCashiersInternal() do
+			if (loggedInUsername = c.getName())
+			then cashier := c;
+		return cashier
+		)
+		pre loggedInType = <Cashier>
+		post RESULT in set getCashiersInternal() and RESULT.getName() = loggedInUsername;
+	
+	/** Bypasses login permissions.
+	*/
 	private pure getCashierNamesInternal: () ==> set of NotEmptyString
 	getCashierNamesInternal() ==
 		(
@@ -48,6 +62,8 @@ operations
 		pre true
 		post true;
 
+	/** Bypasses login permissions.
+	*/
 	private pure getCashiersInternal: () ==> set of StoreCashier
 	getCashiersInternal() ==
 		(

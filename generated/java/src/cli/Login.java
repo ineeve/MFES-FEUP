@@ -27,7 +27,8 @@ public class Login {
 			if (loginStatus instanceof AdminQuote) {
 				new AdminMenu();
 			} else if (loginStatus instanceof CashierQuote) {
-				new CashierMenu(username);
+				StoreCashier cashier = kid2kid.getLoggedInCashier();
+				new CashierMenu(cashier);
 			}
 		}
 	}
