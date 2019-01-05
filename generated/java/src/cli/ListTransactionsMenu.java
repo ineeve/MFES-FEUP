@@ -19,7 +19,7 @@ public class ListTransactionsMenu extends Menu {
 		VDMSet transactions = kid2kid.getTransactionsOfLoggedInCashier();
 		transactions.forEach(transactionObj -> {
 			Transaction transaction = (Transaction) transactionObj;
-			addOption(Utils.prettifyTransaction(transaction), () -> System.out.println("PLACEHOLDER"));
+			addOption(Utils.prettifyTransaction(transaction), () -> System.out.println(transaction));
 		});
 	}
 
