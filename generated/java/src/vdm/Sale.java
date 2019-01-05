@@ -59,8 +59,8 @@ public class Sale extends Transaction {
   protected Number sumProductValues(final VDMSet pSet) {
 
     Number result = 0L;
-    for (Iterator iterator_8 = pSet.iterator(); iterator_8.hasNext(); ) {
-      Product p = (Product) iterator_8.next();
+    for (Iterator iterator_10 = pSet.iterator(); iterator_10.hasNext(); ) {
+      Product p = (Product) iterator_10.next();
       result = result.longValue() + p.getSellPrice().doubleValue();
     }
     return result;
@@ -69,8 +69,8 @@ public class Sale extends Transaction {
   private Number sumGCValues(final VDMSet gcSet) {
 
     Number result = 0L;
-    for (Iterator iterator_9 = gcSet.iterator(); iterator_9.hasNext(); ) {
-      GiftCard g = (GiftCard) iterator_9.next();
+    for (Iterator iterator_11 = gcSet.iterator(); iterator_11.hasNext(); ) {
+      GiftCard g = (GiftCard) iterator_11.next();
       result = result.longValue() + g.getValue().longValue();
     }
     return result;

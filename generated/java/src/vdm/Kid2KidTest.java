@@ -21,9 +21,10 @@ public class Kid2KidTest {
     assertTrue(Utils.equals(kid2kid.login("Admin"), vdm.quotes.AdminQuote.getInstance()));
   }
 
-  private void loginCashier(final String cashierName) {
+  private void loginCashier(final String storeName, final String cashierName) {
 
-    assertTrue(Utils.equals(kid2kid.login(cashierName), vdm.quotes.CashierQuote.getInstance()));
+    assertTrue(
+        Utils.equals(kid2kid.login(storeName, cashierName), vdm.quotes.CashierQuote.getInstance()));
   }
 
   private void testAddClient() {
@@ -79,7 +80,7 @@ public class Kid2KidTest {
 
   public void testCashierOperations() {
 
-    loginCashier("Joao");
+    loginCashier("Porto", "Joao");
     testStoreBuyProductInCash();
     testStoreBuyProductInCreditNotes();
   }

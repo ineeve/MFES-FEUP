@@ -1,6 +1,6 @@
 class Transaction
 instance variables
-	protected value: nat1 := 0;
+	protected value: nat1;
 	protected date: Date;
 	protected client: [Client];
 	protected productsTransacted: set of Product := {};

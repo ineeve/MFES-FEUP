@@ -29,20 +29,52 @@ public class Kid2Kid {
       loggedInUsername = "Admin";
 
     } else {
-      if (SetUtil.inSet(name, getCashierNames())) {
-        loggedInType = vdm.quotes.CashierQuote.getInstance();
-        loggedInUsername = name;
-      }
+      loggedInType = vdm.quotes.LoggedOutQuote.getInstance();
+      loggedInUsername = " ";
     }
 
     return loggedInType;
   }
 
+  public Object login(final String storeName, final String cashierName) {
+
+    Boolean andResult_25 = false;
+
+    if (SetUtil.inSet(storeName, getStoreNamesInternal())) {
+      if (SetUtil.inSet(cashierName, getStore(storeName).getCashierNames())) {
+        andResult_25 = true;
+      }
+    }
+
+    if (andResult_25) {
+      loggedInType = vdm.quotes.CashierQuote.getInstance();
+      loggedInUsername = cashierName;
+
+    } else {
+      loggedInType = vdm.quotes.LoggedOutQuote.getInstance();
+      loggedInUsername = " ";
+    }
+
+    return loggedInType;
+  }
+
+  private Store getStore(final String name) {
+
+    Store store = null;
+    for (Iterator iterator_3 = stores.iterator(); iterator_3.hasNext(); ) {
+      Store s = (Store) iterator_3.next();
+      if (Utils.equals(name, s.getLocation())) {
+        store = s;
+      }
+    }
+    return store;
+  }
+
   public StoreCashier getLoggedInCashier() {
 
     StoreCashier cashier = null;
-    for (Iterator iterator_3 = getCashiersInternal().iterator(); iterator_3.hasNext(); ) {
-      StoreCashier c = (StoreCashier) iterator_3.next();
+    for (Iterator iterator_4 = getCashiersInternal().iterator(); iterator_4.hasNext(); ) {
+      StoreCashier c = (StoreCashier) iterator_4.next();
       if (Utils.equals(loggedInUsername, c.getName())) {
         cashier = c;
       }
@@ -81,9 +113,19 @@ public class Kid2Kid {
   private VDMSet getCashierNamesInternal() {
 
     VDMSet names = SetUtil.set();
-    for (Iterator iterator_4 = getCashiersInternal().iterator(); iterator_4.hasNext(); ) {
-      StoreCashier cashier = (StoreCashier) iterator_4.next();
+    for (Iterator iterator_5 = getCashiersInternal().iterator(); iterator_5.hasNext(); ) {
+      StoreCashier cashier = (StoreCashier) iterator_5.next();
       names = SetUtil.union(Utils.copy(names), SetUtil.set(cashier.getName()));
+    }
+    return Utils.copy(names);
+  }
+
+  private VDMSet getStoreNamesInternal() {
+
+    VDMSet names = SetUtil.set();
+    for (Iterator iterator_6 = stores.iterator(); iterator_6.hasNext(); ) {
+      Store store = (Store) iterator_6.next();
+      names = SetUtil.union(Utils.copy(names), SetUtil.set(store.getLocation()));
     }
     return Utils.copy(names);
   }
@@ -91,8 +133,8 @@ public class Kid2Kid {
   private VDMSet getCashiersInternal() {
 
     VDMSet cashiers = SetUtil.set();
-    for (Iterator iterator_5 = stores.iterator(); iterator_5.hasNext(); ) {
-      Store store = (Store) iterator_5.next();
+    for (Iterator iterator_7 = stores.iterator(); iterator_7.hasNext(); ) {
+      Store store = (Store) iterator_7.next();
       cashiers = SetUtil.union(Utils.copy(cashiers), store.getCashiers());
     }
     return Utils.copy(cashiers);
@@ -176,8 +218,8 @@ public class Kid2Kid {
     sc.sellProduct(p);
     c.buyProduct(p);
     addSaleProductTransaction(d, c, SetUtil.set(p), Utils.copy(gc), sc);
-    for (Iterator iterator_6 = gc.iterator(); iterator_6.hasNext(); ) {
-      GiftCard giftCard = (GiftCard) iterator_6.next();
+    for (Iterator iterator_8 = gc.iterator(); iterator_8.hasNext(); ) {
+      GiftCard giftCard = (GiftCard) iterator_8.next();
       useGiftCard(giftCard);
     }
   }

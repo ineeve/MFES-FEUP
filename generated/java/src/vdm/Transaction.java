@@ -5,7 +5,7 @@ import org.overture.codegen.runtime.*;
 
 @SuppressWarnings("all")
 abstract public class Transaction {
-  protected Number value = 0L;
+  protected Number value;
   protected Date date;
   protected Client client;
   protected VDMSet productsTransacted = SetUtil.set();

@@ -28,8 +28,8 @@ public class Purchase extends Transaction {
   protected Number sumProductValues(final VDMSet pSet) {
 
     Number result = 0L;
-    for (Iterator iterator_7 = pSet.iterator(); iterator_7.hasNext(); ) {
-      Product p = (Product) iterator_7.next();
+    for (Iterator iterator_9 = pSet.iterator(); iterator_9.hasNext(); ) {
+      Product p = (Product) iterator_9.next();
       result = result.longValue() + p.getBuyPrice().doubleValue();
     }
     return result;

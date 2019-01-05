@@ -19,10 +19,10 @@ operations
 		assertTrue(kid2kid.login("Admin") = <Admin>)
 	);
 	
-	private loginCashier: NotEmptyString ==> ()
-	loginCashier(cashierName) ==
+	private loginCashier: NotEmptyString * NotEmptyString ==> ()
+	loginCashier(storeName, cashierName) ==
 	(
-		assertTrue(kid2kid.login(cashierName) = <Cashier>)
+		assertTrue(kid2kid.login(storeName, cashierName) = <Cashier>)
 	);
 	 
 	private testAddClient: () ==> ()
@@ -84,7 +84,7 @@ operations
 	public testCashierOperations: () ==> ()
 		testCashierOperations() ==
 			(
-			loginCashier("Joao");
+			loginCashier("Porto", "Joao");
 			testStoreBuyProductInCash();
 			testStoreBuyProductInCreditNotes();
 			);
