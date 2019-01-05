@@ -11,6 +11,7 @@ public class Kid2Kid {
   private VDMSet transactions = SetUtil.set();
   private Object loggedInType = vdm.quotes.LoggedOutQuote.getInstance();
   private String loggedInUsername;
+  private String loggedInStore;
 
   public void cg_init_Kid2Kid_1() {
 
@@ -36,12 +37,12 @@ public class Kid2Kid {
     return loggedInType;
   }
 
-  public Object login(final String storeName, final String cashierName) {
+  public Object login(final String storeLocation, final String cashierName) {
 
     Boolean andResult_25 = false;
 
-    if (SetUtil.inSet(storeName, getStoreNamesInternal())) {
-      if (SetUtil.inSet(cashierName, getStore(storeName).getCashierNames())) {
+    if (SetUtil.inSet(storeLocation, getStoreLocationsInternal())) {
+      if (SetUtil.inSet(cashierName, getStore(storeLocation).getCashierNames())) {
         andResult_25 = true;
       }
     }
@@ -49,10 +50,12 @@ public class Kid2Kid {
     if (andResult_25) {
       loggedInType = vdm.quotes.CashierQuote.getInstance();
       loggedInUsername = cashierName;
+      loggedInStore = storeLocation;
 
     } else {
       loggedInType = vdm.quotes.LoggedOutQuote.getInstance();
       loggedInUsername = " ";
+      loggedInStore = " ";
     }
 
     return loggedInType;
@@ -75,7 +78,15 @@ public class Kid2Kid {
     StoreCashier cashier = null;
     for (Iterator iterator_4 = getCashiersInternal().iterator(); iterator_4.hasNext(); ) {
       StoreCashier c = (StoreCashier) iterator_4.next();
+      Boolean andResult_29 = false;
+
       if (Utils.equals(loggedInUsername, c.getName())) {
+        if (Utils.equals(loggedInStore, c.getStore().getLocation())) {
+          andResult_29 = true;
+        }
+      }
+
+      if (andResult_29) {
         cashier = c;
       }
     }
@@ -120,7 +131,7 @@ public class Kid2Kid {
     return Utils.copy(names);
   }
 
-  private VDMSet getStoreNamesInternal() {
+  private VDMSet getStoreLocationsInternal() {
 
     VDMSet names = SetUtil.set();
     for (Iterator iterator_6 = stores.iterator(); iterator_6.hasNext(); ) {
@@ -290,6 +301,8 @@ public class Kid2Kid {
         + Utils.toString(loggedInType)
         + ", loggedInUsername := "
         + Utils.toString(loggedInUsername)
+        + ", loggedInStore := "
+        + Utils.toString(loggedInStore)
         + "}";
   }
 }
