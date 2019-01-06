@@ -16,6 +16,10 @@ public class ListClientsAdminMenu extends Menu {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void initialize() {
+		addOption("New client", () -> {
+			addNewClient();
+			reinitialize();
+		});
 		Kid2Kid kid2kid = Kid2KidSingleton.getInstance();
 		VDMSet clients = kid2kid.getClients();
 		clients.forEach(clientObj -> {
@@ -25,6 +29,12 @@ public class ListClientsAdminMenu extends Menu {
 				reinitialize(); // reflect possible changes to this client
 			});
 		});
+	}
+
+	private void addNewClient() {
+		System.out.print("Client name: ");
+		String name = scanner.next();
+		Kid2KidSingleton.getInstance().addClient(new Client(name));
 	}
 
 }
