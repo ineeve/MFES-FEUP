@@ -121,6 +121,34 @@ operations
 		pre true
 		post true;
 		
+	public pure getInventoryValue: () ==> real
+	getInventoryValue() ==
+		(
+		dcl sum: real := 0;
+		for all product in set productsAvailable do
+			sum := sum + product.getBuyPrice();
+		return sum;
+		)
+		pre true
+		post true;
+		
+	public pure getRevenue: () ==> real
+	getRevenue() ==
+		(
+		dcl sum: real := 0;
+		for all product in set productsSold do
+			sum := sum + (product.getSellPrice() - product.getBuyPrice());
+		return sum;
+		)
+		pre true
+		post true;
+		
+	public setLocation: NotEmptyString ==> ()
+	setLocation(l) ==
+		location := l
+		pre true
+		post location = l;
+		
 	public removeCashier: StoreCashier ==> ()
 	removeCashier(c) ==
 		cashiers := cashiers \ {c}

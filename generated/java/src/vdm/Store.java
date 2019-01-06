@@ -100,6 +100,34 @@ public class Store {
     return Utils.copy(names);
   }
 
+  public Number getInventoryValue() {
+
+    Number sum = 0L;
+    for (Iterator iterator_14 = productsAvailable.iterator(); iterator_14.hasNext(); ) {
+      Product product = (Product) iterator_14.next();
+      sum = sum.doubleValue() + product.getBuyPrice().doubleValue();
+    }
+    return sum;
+  }
+
+  public Number getRevenue() {
+
+    Number sum = 0L;
+    for (Iterator iterator_15 = productsSold.iterator(); iterator_15.hasNext(); ) {
+      Product product = (Product) iterator_15.next();
+      sum =
+          sum.doubleValue()
+              + product.getSellPrice().doubleValue()
+              - product.getBuyPrice().doubleValue();
+    }
+    return sum;
+  }
+
+  public void setLocation(final String l) {
+
+    location = l;
+  }
+
   public void removeCashier(final StoreCashier c) {
 
     cashiers = SetUtil.diff(Utils.copy(cashiers), SetUtil.set(c));

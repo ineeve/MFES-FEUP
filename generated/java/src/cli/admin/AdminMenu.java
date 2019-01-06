@@ -12,7 +12,7 @@ public class AdminMenu extends Menu {
 	protected void initialize() {
 		addOption("List clients", () -> new ListClientsAdminMenu());
 		addOption("List transactions", () -> new ListTransactionsAdminMenu());
-		addOption("List cashiers", () -> new ListCashiersAdminMenu());
+		addOption("List stores", () -> new ListStoresAdminMenu());
 	}
 
 }

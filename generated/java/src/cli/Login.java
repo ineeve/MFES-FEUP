@@ -21,7 +21,7 @@ public class Login {
 			String username;
 			Object loginStatus;
 			do {
-				System.out.print("Username ['Admin'/'Store_CashierName']: ");
+				System.out.print("Username ['Admin'/Store_CashierName]: ");
 				username = scanner.next();
 				loginStatus = login(username);
 			} while (loginStatus instanceof LoggedOutQuote);
