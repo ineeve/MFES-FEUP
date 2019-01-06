@@ -44,7 +44,7 @@ public class ProductFactory {
 
 	private static String getProductDescription() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.print("Description (optional): ");
+		System.out.print("Description: ");
 		return scanner.next();
 	}
 
@@ -103,7 +103,7 @@ public class ProductFactory {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Minimum age: ");
 		int minAge = scanner.nextInt();
-		System.out.print("Maximum age (optional): ");
+		System.out.print("Maximum age: ");
 		int maxAge = scanner.nextInt();
 		System.out.print("Sub category (Swings, Bathtubs, Trolleys): ");
 		String subCategoryStr = scanner.next();
@@ -122,7 +122,7 @@ public class ProductFactory {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Minimum age: ");
 		int minAge = scanner.nextInt();
-		System.out.print("Maximum age (optional): ");
+		System.out.print("Maximum age: ");
 		int maxAge = scanner.nextInt();
 		System.out.print("Sub category (Puzzles, Legos, Cars): ");
 		String subCategoryStr = scanner.next();
