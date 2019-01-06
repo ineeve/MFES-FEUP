@@ -63,6 +63,11 @@ public class Store {
     return ((Number) Utils.get(clientsCreditNotes, clientId));
   }
 
+  public VDMMap getClientsCreditNotes() {
+
+    return Utils.copy(clientsCreditNotes);
+  }
+
   public String getLocation() {
 
     return location;

@@ -82,6 +82,12 @@ operations
 		pre clientId in set dom clientsCreditNotes
 		post RESULT = clientsCreditNotes(clientId);
 
+	public pure getClientsCreditNotes: () ==> ClientsToCredits
+	getClientsCreditNotes() ==
+		return clientsCreditNotes
+		pre true
+		post RESULT = clientsCreditNotes;
+
 	public pure getLocation: () ==> NotEmptyString
 	getLocation() ==
 		return location

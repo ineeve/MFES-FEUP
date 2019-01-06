@@ -14,7 +14,7 @@ public class StoreAdminMenu extends Menu {
 	
 	@Override
 	protected void initialize() {
-		addOption("Show statistics", () -> showStatistics());
+		addOption("Show details", () -> showStatistics());
 		addOption("Set location", () -> {
 			setLocation();
 			reinitialize();
@@ -31,6 +31,7 @@ public class StoreAdminMenu extends Menu {
 	private void showStatistics() {
 		System.out.println("Inventory value: " + store.getInventoryValue());
 		System.out.println("Revenue: " + store.getRevenue());
+		System.out.println("Clients' credit notes: " + store.getClientsCreditNotes());
 	}
 
 }
