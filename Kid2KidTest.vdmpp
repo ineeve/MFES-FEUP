@@ -130,6 +130,16 @@ operations
 			assertTrue(store.getCreditNotesOfClient(client.getId()) = clientPrevCredit - products(3).getSellPrice());
 			);
 
+	public testEditClient: () ==> ()
+		testEditClient() ==
+		(
+		assertTrue(client in set kid2kid.getClients());
+		client.setName("123");
+		assertTrue("123" = client.getName());
+		client.setName("abc");
+		assertTrue("abc" = client.getName());
+		);
+
 	public testAdminOperations: () ==> ()
 		testAdminOperations() == 
 			(
@@ -153,6 +163,7 @@ operations
 			testStoreGiftCards();
 			testStoreSellProductInCash();
 			testStoreSellProductInCreditNotes();
+			testEditClient();
 			);
 	
 	public static main: () ==> ()

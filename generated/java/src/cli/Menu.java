@@ -47,7 +47,7 @@ public abstract class Menu {
 	}
 	
 	private void pickOption() throws GoBackException {
-		System.out.println("Pick an option: ");
+		System.out.print("Pick an option: ");
 		Integer option = scanner.nextInt();
 		if (isValidOption(option)) {
 			executeOption(option);
