@@ -12,6 +12,7 @@ public class CashierMenu extends Menu  {
 	protected void initialize() {
 		addOption("New transaction", () -> new NewTransactionMenu());
 		addOption("List transactions", () -> new ListTransactionsCashierMenu());
+		addOption("List products", () -> new ListProductsCashierMenu());
 	}
 
 }

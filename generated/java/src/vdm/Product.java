@@ -43,6 +43,11 @@ public class Product {
     sellPrice = 1.3 * buyPrice.doubleValue();
   }
 
+  public void setSellPrice(final Number newPrice) {
+
+    sellPrice = newPrice;
+  }
+
   public Number getStateValue() {
 
     if (Utils.equals(state, vdm.quotes.NewQuote.getInstance())) {
