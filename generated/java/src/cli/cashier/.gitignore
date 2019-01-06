@@ -1,0 +1,12 @@
+/BuyMenu.class
+/CashierMenu.class
+/ListTransactionsCashierMenu.class
+/NewClientForTransaction.class
+/NewTransactionMenu.class
+/PickNewTransactionTypeMenu.class
+/PickPaymentBuyMenu.class
+/PickProductStateBuyMenu.class
+/SelectPaymentForProductSaleMenu.class
+/SelectProductSellMenu.class
+/SellGiftCardMenu.class
+/SellMenu.class
