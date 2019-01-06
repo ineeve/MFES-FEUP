@@ -3,8 +3,6 @@ package cli.admin;
 import org.overture.codegen.runtime.VDMSet;
 
 import cli.Menu;
-import instance.Kid2KidSingleton;
-import vdm.Kid2Kid;
 import vdm.Store;
 import vdm.StoreCashier;
 
@@ -21,6 +19,11 @@ public class ListCashiersAdminMenu extends Menu {
 	// Needed so it runs after the constructor sets the store.
 	@SuppressWarnings("unchecked")
 	private void addCashierOptions() {
+		addOption("New cashier", () -> {
+			addCashier();
+			reinitialize();
+			addCashierOptions();
+		});
 		VDMSet cashiers = store.getCashiers();
 		cashiers.forEach(cashierObj -> {
 			StoreCashier cashier = (StoreCashier) cashierObj;
@@ -30,6 +33,12 @@ public class ListCashiersAdminMenu extends Menu {
 				addCashierOptions();
 			});
 		});
+	}
+
+	private void addCashier() {
+		System.out.print("Cashier name: ");
+		String name = scanner.next();
+		store.addCashier(new StoreCashier(name, store));
 	}
 
 	@Override

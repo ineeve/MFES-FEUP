@@ -15,11 +15,15 @@ public class StoreAdminMenu extends Menu {
 	@Override
 	protected void initialize() {
 		addOption("Show statistics", () -> showStatistics());
-		addOption("Set location", () -> setLocation());
+		addOption("Set location", () -> {
+			setLocation();
+			reinitialize();
+		});
 		addOption("Cashiers", () -> new ListCashiersAdminMenu(store));
 	}
 
 	private void setLocation() {
+		System.out.print("Location: ");
 		String l = scanner.next();
 		store.setLocation(l);
 	}
