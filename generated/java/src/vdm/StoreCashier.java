@@ -37,7 +37,7 @@ public class StoreCashier {
 
   public void buyProductInCash(final Product p) {
 
-    store.buyProductInCash(p);
+    store.buyProduct(p);
   }
 
   public void buyProductInCreditNotes(final Product p, final Client client) {

@@ -55,16 +55,6 @@ public class Client {
     boughtGiftCards = SetUtil.union(Utils.copy(boughtGiftCards), SetUtil.set(giftCard));
   }
 
-  private VDMSeq valuesFromGiftCards(final VDMSet g) {
-
-    VDMSeq result = SeqUtil.seq();
-    for (Iterator iterator_2 = g.iterator(); iterator_2.hasNext(); ) {
-      GiftCard giftCard = (GiftCard) iterator_2.next();
-      result = SeqUtil.conc(Utils.copy(result), SeqUtil.seq(giftCard.getValue()));
-    }
-    return Utils.copy(result);
-  }
-
   public VDMSet getProductsSold() {
 
     return Utils.copy(soldProducts);
@@ -73,6 +63,11 @@ public class Client {
   public VDMSet getProductsBought() {
 
     return Utils.copy(boughtProducts);
+  }
+
+  public VDMSet getGiftCardsBought() {
+
+    return Utils.copy(boughtGiftCards);
   }
 
   public Client() {}

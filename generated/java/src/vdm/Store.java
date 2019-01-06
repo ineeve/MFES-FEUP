@@ -5,7 +5,6 @@ import org.overture.codegen.runtime.*;
 
 @SuppressWarnings("all")
 public class Store {
-  public static final Number CREDIT_NOTE_MULTIPLIER = 1.2;
   private String location;
   private VDMSet productsAvailable = SetUtil.set();
   private VDMSet productsSold = SetUtil.set();
@@ -29,14 +28,14 @@ public class Store {
     cashiers = SetUtil.union(Utils.copy(cashiers), SetUtil.set(cashier));
   }
 
-  public void buyProductInCash(final Product p) {
+  public void buyProduct(final Product p) {
 
     productsAvailable = SetUtil.union(Utils.copy(productsAvailable), SetUtil.set(p));
   }
 
   public void buyProductInCreditNotes(final Product p, final Number clientId) {
 
-    buyProductInCash(p);
+    buyProduct(p);
     addCreditNote(clientId, p);
   }
 
@@ -122,8 +121,7 @@ public class Store {
                 new Maplet(
                     clientId,
                     ((Number) Utils.get(clientsCreditNotes, clientId)).doubleValue()
-                        + p.getBuyPrice().doubleValue()
-                            * Store.CREDIT_NOTE_MULTIPLIER.doubleValue())));
+                        + p.getCreditNotesValue().doubleValue())));
   }
 
   public void spendCreditNote(final Number clientId, final Number value) {
@@ -152,9 +150,7 @@ public class Store {
       final VDMMap oldCreditNotes) {
 
     if (!(SetUtil.inSet(clientId, MapUtil.dom(Utils.copy(oldCreditNotes))))) {
-      return Utils.equals(
-          ((Number) Utils.get(newCreditNotes, clientId)),
-          p.getBuyPrice().doubleValue() * Store.CREDIT_NOTE_MULTIPLIER.doubleValue());
+      return Utils.equals(((Number) Utils.get(newCreditNotes, clientId)), p.getCreditNotesValue());
 
     } else {
       return Utils.equals(
@@ -165,17 +161,14 @@ public class Store {
                   new Maplet(
                       clientId,
                       ((Number) Utils.get(oldCreditNotes, clientId)).doubleValue()
-                          + p.getBuyPrice().doubleValue()
-                              * Store.CREDIT_NOTE_MULTIPLIER.doubleValue()))));
+                          + p.getCreditNotesValue().doubleValue()))));
     }
   }
 
   public String toString() {
 
     return "Store{"
-        + "CREDIT_NOTE_MULTIPLIER = "
-        + Utils.toString(CREDIT_NOTE_MULTIPLIER)
-        + ", location := "
+        + "location := "
         + Utils.toString(location)
         + ", productsAvailable := "
         + Utils.toString(productsAvailable)

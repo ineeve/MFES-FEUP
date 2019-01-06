@@ -61,7 +61,7 @@ public class Sale extends Transaction {
     Number result = 0L;
     for (Iterator iterator_10 = pSet.iterator(); iterator_10.hasNext(); ) {
       Product p = (Product) iterator_10.next();
-      result = result.longValue() + p.getSellPrice().doubleValue();
+      result = result.doubleValue() + p.getSellPrice().doubleValue();
     }
     return result;
   }

@@ -19,6 +19,7 @@ public class Toy extends Product {
     subCategory = subCategoryInput;
     setBuyPrice();
     setSellPrice();
+    return;
   }
 
   public Toy(final Object productState, final Number minAgeInput, final Object subCategoryInput) {

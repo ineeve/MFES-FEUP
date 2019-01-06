@@ -5,6 +5,7 @@ import org.overture.codegen.runtime.*;
 
 @SuppressWarnings("all")
 public class Product {
+  public static final Number CREDIT_NOTE_MULTIPLIER = 1.2;
   protected static Number idCounter = 0L;
   protected Number id;
   protected Number buyPrice;
@@ -20,6 +21,11 @@ public class Product {
   public Number getBuyPrice() {
 
     return buyPrice;
+  }
+
+  public Number getCreditNotesValue() {
+
+    return buyPrice.doubleValue() * Product.CREDIT_NOTE_MULTIPLIER.doubleValue();
   }
 
   public void setDescription(final String newDescription) {
@@ -60,7 +66,9 @@ public class Product {
   public String toString() {
 
     return "Product{"
-        + "idCounter := "
+        + "CREDIT_NOTE_MULTIPLIER = "
+        + Utils.toString(CREDIT_NOTE_MULTIPLIER)
+        + ", idCounter := "
         + Utils.toString(idCounter)
         + ", id := "
         + Utils.toString(id)

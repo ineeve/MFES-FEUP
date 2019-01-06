@@ -19,6 +19,7 @@ public class Gear extends Product {
     subCategory = subCategoryInput;
     setBuyPrice();
     setSellPrice();
+    return;
   }
 
   public Gear(final Object productState, final Number minAgeInput, final Object subCategoryInput) {
