@@ -39,15 +39,15 @@ public class Kid2Kid {
 
   public Object login(final String storeLocation, final String cashierName) {
 
-    Boolean andResult_27 = false;
+    Boolean andResult_30 = false;
 
     if (SetUtil.inSet(storeLocation, getStoreLocationsInternal())) {
       if (SetUtil.inSet(cashierName, getStore(storeLocation).getCashierNames())) {
-        andResult_27 = true;
+        andResult_30 = true;
       }
     }
 
-    if (andResult_27) {
+    if (andResult_30) {
       loggedInType = vdm.quotes.CashierQuote.getInstance();
       loggedInUsername = cashierName;
       loggedInStore = storeLocation;
@@ -78,15 +78,15 @@ public class Kid2Kid {
     StoreCashier cashier = null;
     for (Iterator iterator_3 = getCashiersInternal().iterator(); iterator_3.hasNext(); ) {
       StoreCashier c = (StoreCashier) iterator_3.next();
-      Boolean andResult_31 = false;
+      Boolean andResult_34 = false;
 
       if (Utils.equals(loggedInUsername, c.getName())) {
         if (Utils.equals(loggedInStore, c.getStore().getLocation())) {
-          andResult_31 = true;
+          andResult_34 = true;
         }
       }
 
-      if (andResult_31) {
+      if (andResult_34) {
         cashier = c;
       }
     }
