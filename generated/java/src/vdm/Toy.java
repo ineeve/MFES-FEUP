@@ -10,21 +10,32 @@ public class Toy extends Product {
   private Object subCategory;
 
   public void cg_init_Toy_1(
-      final Object productState, final Number minAgeInput, final Object subCategoryInput) {
+      final Object productState,
+      final String desc,
+      final Number minAgeInput,
+      final Number maxAgeInput,
+      final Object subCategoryInput) {
 
     idCounter = Toy.idCounter.longValue() + 1L;
     id = Toy.idCounter;
     state = productState;
+    description = desc;
     minAge = minAgeInput;
+    maxAge = maxAgeInput;
     subCategory = subCategoryInput;
     setBuyPrice();
     setSellPrice();
     return;
   }
 
-  public Toy(final Object productState, final Number minAgeInput, final Object subCategoryInput) {
+  public Toy(
+      final Object productState,
+      final String desc,
+      final Number minAgeInput,
+      final Number maxAgeInput,
+      final Object subCategoryInput) {
 
-    cg_init_Toy_1(productState, minAgeInput, subCategoryInput);
+    cg_init_Toy_1(productState, desc, minAgeInput, maxAgeInput, subCategoryInput);
   }
 
   public Toy() {}

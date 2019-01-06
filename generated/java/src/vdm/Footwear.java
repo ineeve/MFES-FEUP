@@ -9,19 +9,27 @@ public class Footwear extends Product {
   private Object subCategory;
 
   public void cg_init_Footwear_1(
-      final Object productState, final Number sizeInput, final Object footwearCat) {
+      final Object productState,
+      final String desc,
+      final Number sizeInput,
+      final Object footwearCat) {
 
     size = sizeInput;
     state = productState;
+    description = desc;
     subCategory = footwearCat;
     setBuyPrice();
     setSellPrice();
     return;
   }
 
-  public Footwear(final Object productState, final Number sizeInput, final Object footwearCat) {
+  public Footwear(
+      final Object productState,
+      final String desc,
+      final Number sizeInput,
+      final Object footwearCat) {
 
-    cg_init_Footwear_1(productState, sizeInput, footwearCat);
+    cg_init_Footwear_1(productState, desc, sizeInput, footwearCat);
   }
 
   public Footwear() {}

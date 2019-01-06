@@ -14,6 +14,7 @@ public class ProductCashierMenu extends Menu {
 
 	@Override
 	protected void initialize() {
+		addOption("Show details", () -> System.out.println(product));
 		addOption("Set description", () -> setProductDescription());
 		addOption("Set sale price", () -> setProductSalePrice());
 	}

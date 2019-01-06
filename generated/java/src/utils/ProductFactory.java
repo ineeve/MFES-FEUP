@@ -14,17 +14,18 @@ public class ProductFactory {
 
 	public static Product make(String productType, String productState) {
 		Object state = getProductState(productState);
+		String description = getProductDescription();
 		switch (productType) {
 		case "Clothing":
-			return makeClothing(state);
+			return makeClothing(state, description);
 		case "Footwear":
-			return makeFootwear(state);
+			return makeFootwear(state, description);
 		case "Furniture":
-			return makeFurniture(state);
+			return makeFurniture(state, description);
 		case "Gear":
-			return makeGear(state);
+			return makeGear(state, description);
 		case "Toy":
-			return makeToy(state);
+			return makeToy(state, description);
 		default:
 			System.err.println("Invalid product type");
 			return null;
@@ -41,7 +42,13 @@ public class ProductFactory {
 		}
 	}
 
-	private static Clothing makeClothing(Object state) {
+	private static String getProductDescription() {
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("Description (optional): ");
+		return scanner.next();
+	}
+
+	private static Clothing makeClothing(Object state, String description) {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Minimum age: ");
 		int minAge = scanner.nextInt();
@@ -57,10 +64,10 @@ public class ProductFactory {
 			e.printStackTrace();
 		}
 		
-		return new Clothing(state, minAge, maxAge, subCategory);
+		return new Clothing(state, description, minAge, maxAge, subCategory);
 	}
 	
-	private static Footwear makeFootwear(Object state) {
+	private static Footwear makeFootwear(Object state, String description) {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Size: ");
 		int size = scanner.nextInt();
@@ -74,10 +81,10 @@ public class ProductFactory {
 			e.printStackTrace();
 		}
 		
-		return new Footwear(state, size, subCategory);
+		return new Footwear(state, description, size, subCategory);
 	}
 	
-	private static Furniture makeFurniture(Object state) {
+	private static Furniture makeFurniture(Object state, String description) {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Sub category (Cribs, Beds, ToyBoxes): ");
 		String subCategoryStr = scanner.next();
@@ -89,13 +96,15 @@ public class ProductFactory {
 			e.printStackTrace();
 		}
 		
-		return new Furniture(state, subCategory);
+		return new Furniture(state, description, subCategory);
 	}
 	
-	private static Gear makeGear(Object state) {
+	private static Gear makeGear(Object state, String description) {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Minimum age: ");
 		int minAge = scanner.nextInt();
+		System.out.print("Maximum age (optional): ");
+		int maxAge = scanner.nextInt();
 		System.out.print("Sub category (Swings, Bathtubs, Trolleys): ");
 		String subCategoryStr = scanner.next();
 		Object subCategory = null;
@@ -106,13 +115,15 @@ public class ProductFactory {
 			e.printStackTrace();
 		}
 		
-		return new Gear(state, minAge, subCategory);
+		return new Gear(state, description, minAge, maxAge, subCategory);
 	}
 	
-	private static Toy makeToy(Object state) {
+	private static Toy makeToy(Object state, String description) {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Minimum age: ");
 		int minAge = scanner.nextInt();
+		System.out.print("Maximum age (optional): ");
+		int maxAge = scanner.nextInt();
 		System.out.print("Sub category (Puzzles, Legos, Cars): ");
 		String subCategoryStr = scanner.next();
 		Object subCategory = null;
@@ -123,7 +134,7 @@ public class ProductFactory {
 			e.printStackTrace();
 		}
 		
-		return new Toy(state, minAge, subCategory);
+		return new Toy(state, description, minAge, maxAge, subCategory);
 	}
 
 }

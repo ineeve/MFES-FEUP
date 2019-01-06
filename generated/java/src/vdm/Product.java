@@ -11,7 +11,7 @@ public class Product {
   protected Number buyPrice;
   protected Number sellPrice;
   protected Object state;
-  protected String description;
+  protected String description = null;
 
   public Number getSellPrice() {
 

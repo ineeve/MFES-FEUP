@@ -54,9 +54,9 @@ operations
 	private testStoreBuyProductsInCash : () ==> ()
 		testStoreBuyProductsInCash() ==
 		(
-			dcl toy: Product := new Toy(<New>, 5, <Cars>);
-			dcl gear: Product := new Gear(<High_Use>, 1, <Bathtubs>);
-			dcl furniture: Product := new Furniture(<New>, <Beds>);
+			dcl toy: Product := new Toy(<New>, nil, 5, nil, <Cars>);
+			dcl gear: Product := new Gear(<High_Use>, nil, 1, 20, <Bathtubs>);
+			dcl furniture: Product := new Furniture(<New>, nil, <Beds>);
 			products := [toy, gear, furniture];
 			assertTrue(elems products inter store.getProductsAvailable() = {});
 			assertTrue(elems products  inter client.getProductsSold() = {});
@@ -70,8 +70,8 @@ operations
 	private testStoreBuyProductsInCreditNotes: () ==> ()
 		testStoreBuyProductsInCreditNotes() ==
 		(
-			dcl boots: Product := new Footwear(<Low_Use>, 20, <Boots>);
-			dcl jeans: Product := new Clothing(<Low_Use>, 1, 2, <Jeans>);
+			dcl boots: Product := new Footwear(<Low_Use>, "Boots", 20, <Boots>);
+			dcl jeans: Product := new Clothing(<Low_Use>, "Blue Jeans", 1, 2, <Jeans>);
 			dcl productsSet: set of Product := {boots, jeans};
 			assertTrue(productsSet inter store.getProductsAvailable() = {});
 			assertTrue(productsSet inter client.getProductsSold() = {});

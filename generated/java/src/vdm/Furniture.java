@@ -7,20 +7,22 @@ import org.overture.codegen.runtime.*;
 public class Furniture extends Product {
   private Object subCategory;
 
-  public void cg_init_Furniture_1(final Object productState, final Object furnitureCat) {
+  public void cg_init_Furniture_1(
+      final Object productState, final String desc, final Object furnitureCat) {
 
     idCounter = Furniture.idCounter.longValue() + 1L;
     id = Furniture.idCounter;
     state = productState;
+    description = desc;
     subCategory = furnitureCat;
     setBuyPrice();
     setSellPrice();
     return;
   }
 
-  public Furniture(final Object productState, final Object furnitureCat) {
+  public Furniture(final Object productState, final String desc, final Object furnitureCat) {
 
-    cg_init_Furniture_1(productState, furnitureCat);
+    cg_init_Furniture_1(productState, desc, furnitureCat);
   }
 
   public Furniture() {}

@@ -10,21 +10,32 @@ public class Gear extends Product {
   private Object subCategory;
 
   public void cg_init_Gear_1(
-      final Object productState, final Number minAgeInput, final Object subCategoryInput) {
+      final Object productState,
+      final String desc,
+      final Number minAgeInput,
+      final Number maxAgeInput,
+      final Object subCategoryInput) {
 
     idCounter = Gear.idCounter.longValue() + 1L;
     id = Gear.idCounter;
     state = productState;
+    description = desc;
     minAge = minAgeInput;
+    maxAge = maxAgeInput;
     subCategory = subCategoryInput;
     setBuyPrice();
     setSellPrice();
     return;
   }
 
-  public Gear(final Object productState, final Number minAgeInput, final Object subCategoryInput) {
+  public Gear(
+      final Object productState,
+      final String desc,
+      final Number minAgeInput,
+      final Number maxAgeInput,
+      final Object subCategoryInput) {
 
-    cg_init_Gear_1(productState, minAgeInput, subCategoryInput);
+    cg_init_Gear_1(productState, desc, minAgeInput, maxAgeInput, subCategoryInput);
   }
 
   public Gear() {}

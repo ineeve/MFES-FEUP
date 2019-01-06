@@ -11,12 +11,13 @@ instance variables
 	inv maxAge > 0 and maxAge < 13;
 	inv maxAge >= minAge;
 operations
-public Clothing: ProductState * nat * nat * ClothingCat ==> Clothing
-	Clothing(productState, minAgeInput, maxAgeInput, subCategoryInput) ==
+public Clothing: ProductState * [CustomString] * nat * nat * ClothingCat ==> Clothing
+	Clothing(productState, desc, minAgeInput, maxAgeInput, subCategoryInput) ==
 		(
 		idCounter := idCounter + 1;
 		id := idCounter;
 		state := productState;
+		description := desc;
 		minAge := minAgeInput;
 		maxAge := maxAgeInput;
 		subCategory := subCategoryInput;

@@ -9,13 +9,15 @@ instance variables
 	subCategory: GearCat;
 	inv minAge < 13 and minAge > 0
 operations
-	public Gear: ProductState * nat * GearCat ==> Gear
-	Gear(productState, minAgeInput, subCategoryInput) ==
+	public Gear: ProductState * [CustomString] * nat * [nat] * GearCat ==> Gear
+	Gear(productState, desc, minAgeInput, maxAgeInput, subCategoryInput) ==
 		(
 		idCounter := idCounter + 1;
 		id := idCounter;
 		state := productState;
+		description := desc;
 		minAge := minAgeInput;
+		maxAge := maxAgeInput;
 		subCategory := subCategoryInput;
 		setBuyPrice();
 		setSellPrice();
@@ -23,8 +25,8 @@ operations
 		)
 		pre minAgeInput > 0 and minAgeInput < 13
 		post minAge = minAgeInput and 
-		subCategory = subCategoryInput and
-		RESULT = self;
+			subCategory = subCategoryInput and
+			RESULT = self;
 functions
 -- TODO Define functiones here
 traces

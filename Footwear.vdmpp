@@ -8,11 +8,12 @@ instance variables
 	subCategory: FootwearCat;
 	inv size > 15 and size < 45;
 operations
-	public Footwear: ProductState * nat * FootwearCat ==> Footwear
-		Footwear(productState, sizeInput, footwearCat) ==
+	public Footwear: ProductState * [CustomString] * nat * FootwearCat ==> Footwear
+		Footwear(productState, desc, sizeInput, footwearCat) ==
 		(
 			size := sizeInput;
 			state := productState;
+			description := desc;
 			subCategory := footwearCat;
 			setBuyPrice();
 			setSellPrice();

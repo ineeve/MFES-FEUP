@@ -53,12 +53,17 @@ public class Kid2KidTest {
   private void testStoreBuyProductsInCash() {
 
     Product toy =
-        new Toy(vdm.quotes.NewQuote.getInstance(), 5L, vdm.quotes.CarsQuote.getInstance());
+        new Toy(
+            vdm.quotes.NewQuote.getInstance(), null, 5L, null, vdm.quotes.CarsQuote.getInstance());
     Product gear =
         new Gear(
-            vdm.quotes.High_UseQuote.getInstance(), 1L, vdm.quotes.BathtubsQuote.getInstance());
+            vdm.quotes.High_UseQuote.getInstance(),
+            null,
+            1L,
+            20L,
+            vdm.quotes.BathtubsQuote.getInstance());
     Product furniture =
-        new Furniture(vdm.quotes.NewQuote.getInstance(), vdm.quotes.BedsQuote.getInstance());
+        new Furniture(vdm.quotes.NewQuote.getInstance(), null, vdm.quotes.BedsQuote.getInstance());
     products = SeqUtil.seq(toy, gear, furniture);
     assertTrue(
         Utils.empty(
@@ -77,10 +82,17 @@ public class Kid2KidTest {
 
     Product boots =
         new Footwear(
-            vdm.quotes.Low_UseQuote.getInstance(), 20L, vdm.quotes.BootsQuote.getInstance());
+            vdm.quotes.Low_UseQuote.getInstance(),
+            "Boots",
+            20L,
+            vdm.quotes.BootsQuote.getInstance());
     Product jeans =
         new Clothing(
-            vdm.quotes.Low_UseQuote.getInstance(), 1L, 2L, vdm.quotes.JeansQuote.getInstance());
+            vdm.quotes.Low_UseQuote.getInstance(),
+            "Blue Jeans",
+            1L,
+            2L,
+            vdm.quotes.JeansQuote.getInstance());
     VDMSet productsSet = SetUtil.set(boots, jeans);
     assertTrue(
         Utils.empty(SetUtil.intersect(Utils.copy(productsSet), store.getProductsAvailable())));

@@ -11,13 +11,15 @@ instance variables
 	private subCategory: ToyCategory;
 	inv minAge < 13 and minAge > 0
 operations
-	public Toy: ProductState * nat * ToyCategory ==> Toy
-	Toy(productState, minAgeInput, subCategoryInput) ==
+	public Toy: ProductState * [CustomString] * nat * [nat] * ToyCategory ==> Toy
+	Toy(productState, desc, minAgeInput, maxAgeInput, subCategoryInput) ==
 		(
 		idCounter := idCounter + 1;
 		id := idCounter;
 		state := productState;
+		description := desc;
 		minAge := minAgeInput;
+		maxAge := maxAgeInput;
 		subCategory := subCategoryInput;
 		setBuyPrice();
 		setSellPrice();

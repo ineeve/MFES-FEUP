@@ -11,6 +11,7 @@ public class Clothing extends Product {
 
   public void cg_init_Clothing_1(
       final Object productState,
+      final String desc,
       final Number minAgeInput,
       final Number maxAgeInput,
       final Object subCategoryInput) {
@@ -18,6 +19,7 @@ public class Clothing extends Product {
     idCounter = Clothing.idCounter.longValue() + 1L;
     id = Clothing.idCounter;
     state = productState;
+    description = desc;
     minAge = minAgeInput;
     maxAge = maxAgeInput;
     subCategory = subCategoryInput;
@@ -28,11 +30,12 @@ public class Clothing extends Product {
 
   public Clothing(
       final Object productState,
+      final String desc,
       final Number minAgeInput,
       final Number maxAgeInput,
       final Object subCategoryInput) {
 
-    cg_init_Clothing_1(productState, minAgeInput, maxAgeInput, subCategoryInput);
+    cg_init_Clothing_1(productState, desc, minAgeInput, maxAgeInput, subCategoryInput);
   }
 
   public Clothing() {}

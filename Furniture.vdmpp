@@ -6,12 +6,13 @@ values
 instance variables
 	subCategory: FurnitureCat;
 operations
-	public Furniture: ProductState * FurnitureCat ==> Furniture
-		Furniture(productState, furnitureCat) ==
+	public Furniture: ProductState * [CustomString] * FurnitureCat ==> Furniture
+		Furniture(productState, desc, furnitureCat) ==
 		(
 			idCounter := idCounter + 1;
 			id := idCounter;
 			state := productState;
+			description := desc;
 			subCategory := furnitureCat;
 			setBuyPrice();
 			setSellPrice();
