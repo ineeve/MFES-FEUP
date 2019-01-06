@@ -21,7 +21,10 @@ public class NewTransactionMenu extends Menu {
 	protected void initialize() {
 		kid2kid = Kid2KidSingleton.getInstance();
 		clients = kid2kid.getClients();
-		addOption("New client", () -> new NewClientForTransaction());
+		addOption("New client", () -> {
+			new NewClientForTransaction();
+			reinitialize();
+		});
 		clients.forEach((clientObj) -> {
 			Client client = (Client) clientObj;
 			addOption(client.getName(), () -> new PickNewTransactionTypeMenu(client));

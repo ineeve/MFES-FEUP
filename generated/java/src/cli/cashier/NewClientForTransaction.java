@@ -2,6 +2,7 @@ package cli.cashier;
 
 import java.util.Scanner;
 
+import instance.Kid2KidSingleton;
 import vdm.Client;
 
 public class NewClientForTransaction {
@@ -11,6 +12,7 @@ public class NewClientForTransaction {
 		System.out.print("Name: ");
 		String name = scanner.next();
 		Client client = new Client(name);
+		Kid2KidSingleton.getInstance().addClient(client);
 		new PickNewTransactionTypeMenu(client);
 	}
 	
