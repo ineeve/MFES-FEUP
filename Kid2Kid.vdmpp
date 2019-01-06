@@ -212,7 +212,7 @@ operations
 		client.sellProduct(product);
 		addPurchaseTransaction(date, client, {product}, cashier);
 		)
-		pre hasCashierPerms()
+		pre hasCashierPerms() and client in set clients and cashier in set getCashiersInternal()
 		post true;
 		
 	/* Buy product of a client at a store with a specific cashier.
@@ -224,7 +224,7 @@ operations
 		client.sellProduct(product);
 		addPurchaseTransaction(date, client, {product}, cashier);
 		)
-		pre hasCashierPerms()
+		pre hasCashierPerms() and client in set clients and cashier in set getCashiersInternal()
 		post true;
 		
 	/* Sell product to a client at a store with a specific cashier.
@@ -236,7 +236,7 @@ operations
 		c.buyProduct(p);
 		addSaleProductTransaction(d, c, {p}, {}, sc);
 		)
-		pre hasCashierPerms()
+		pre hasCashierPerms() and c in set clients and sc in set getCashiersInternal()
 		post true;
 		
 	public sellProductInCreditNotes: Product * Client * StoreCashier * Date ==> ()
@@ -246,7 +246,7 @@ operations
 		c.buyProduct(p);
 		addSaleProductTransaction(d, c, {p}, {}, sc);
 		)
-		pre hasCashierPerms()
+		pre hasCashierPerms() and c in set clients and sc in set getCashiersInternal()
 		post card transactions = card transactions~ + 1;
 		
 	public sellProductInGiftCards: Product * Client * StoreCashier * set of GiftCard * Date ==> ()
@@ -258,7 +258,9 @@ operations
 		for all giftCard in set gc do useGiftCard(giftCard);
 		)
 		pre hasCashierPerms() and card gc > 0 and gc subset activeGiftCards and
-			sumGiftCardValues(gc) >= p.getSellPrice()
+			sumGiftCardValues(gc) >= p.getSellPrice() and 
+			c in set clients and 
+			sc in set getCashiersInternal()
 		post card transactions = card transactions~ + 1 and
 			gc inter activeGiftCards = {};
 		
@@ -271,7 +273,7 @@ operations
 		activateGiftCard(gc);
 		return gc;
 		)
-		pre hasCashierPerms()
+		pre hasCashierPerms() and c in set clients and sc in set getCashiersInternal()
 		post card activeGiftCards = card activeGiftCards~ + 1;
 		
 	public activateGiftCard: GiftCard ==> ()
@@ -292,7 +294,8 @@ operations
 		dcl transaction: Transaction := new Sale(d,c,sp,gcs,sc);
 		transactions := transactions union {transaction};
 		)
-		pre hasCashierPerms() and card sp >= 1
+		pre hasCashierPerms() and card sp >= 1 and
+		c in set clients and sc in set getCashiersInternal()
 		post card transactions = card transactions~ + 1;
 		
 	private addSaleGCTransaction: Date * Client * set of GiftCard * StoreCashier ==> ()
@@ -301,7 +304,8 @@ operations
 		dcl transaction: Transaction := new Sale(d,c,gcs,sc);
 		transactions := transactions union {transaction};
 		)
-		pre hasCashierPerms() and card gcs >= 1
+		pre hasCashierPerms() and card gcs >= 1 and
+		c in set clients and sc in set getCashiersInternal()
 		post card transactions = card transactions~ + 1;
 	
 	private addPurchaseTransaction: Date * Client * set of Product * StoreCashier ==> () 
@@ -311,6 +315,7 @@ operations
 		transactions := transactions union {transaction};
 		)
 		pre hasCashierPerms() and card sp >= 1
+		and c in set clients and sc in set getCashiersInternal()
 		post card transactions = card transactions~ + 1;
 		
 	private pure hasCashierPerms: () ==> bool
