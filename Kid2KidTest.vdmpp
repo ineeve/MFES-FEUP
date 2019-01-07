@@ -108,6 +108,17 @@ operations
 		assertTrue(c in set kid2kid.getCashiers());
 		);
 		
+	private testRemoveClient: () ==> ()
+		testRemoveClient() ==
+		(
+		dcl c: Client := client;
+		assertTrue(c in set kid2kid.getClients());
+		kid2kid.removeClient(c);
+		assertTrue(c not in set kid2kid.getClients());
+		kid2kid.addClient(c);
+		assertTrue(c in set kid2kid.getClients());
+		);
+		
 	private testGetProductsAtStore: (nat) ==> ()
 		testGetProductsAtStore(expectedNum) ==
 		(
@@ -182,6 +193,7 @@ operations
 			testGetCashiers(2);
 			testGetCashierNames({"Joao", "Renato"});
 			testRemoveCashier();
+			testRemoveClient();
 			);
 			
 
