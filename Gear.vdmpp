@@ -1,8 +1,7 @@
+-- Gear sold in Kid2Kid stores
 class Gear is subclass of Product
 types
 	public GearCat = <Swings> | <Bathtubs> | <Trolleys>;
-values
--- TODO Define values here
 instance variables
 	maxAge: [nat] := nil; -- defaults to nil
 	minAge: nat;
@@ -27,8 +26,4 @@ operations
 		post minAge = minAgeInput and 
 			subCategory = subCategoryInput and
 			RESULT = self;
-functions
--- TODO Define functiones here
-traces
--- TODO Define Combinatorial Test Traces here
 end Gear

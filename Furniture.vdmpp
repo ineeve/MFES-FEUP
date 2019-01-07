@@ -1,8 +1,7 @@
+-- Furniture sold in Kid2Kid stores
 class Furniture is subclass of Product
 types
 	public FurnitureCat = <Cribs> | <Beds> | <ToyBoxes>;
-values
--- TODO Define values here
 instance variables
 	subCategory: FurnitureCat;
 operations
@@ -20,8 +19,4 @@ operations
 		)
 		pre true
 		post subCategory = furnitureCat and state = productState and RESULT=self;
-functions
--- TODO Define functiones here
-traces
--- TODO Define Combinatorial Test Traces here
 end Furniture

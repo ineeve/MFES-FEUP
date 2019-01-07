@@ -1,8 +1,7 @@
+-- Footwear sold in Kid2Kid stores
 class Footwear is subclass of Product
 types
 	public FootwearCat = <Boots> | <Party> | <Sports>;
-values
--- TODO Define values here
 instance variables
 	size: nat;
 	subCategory: FootwearCat;
@@ -20,9 +19,8 @@ operations
 			return self;
 		)
 		pre true
-		post size = sizeInput and subCategory = footwearCat and state = productState;
-functions
--- TODO Define functiones here
-traces
--- TODO Define Combinatorial Test Traces here
+		post size = sizeInput and 
+		subCategory = footwearCat and 
+		state = productState and 
+		RESULT=self;
 end Footwear

@@ -1,7 +1,11 @@
+/*
+* GiftCards can be used to buy products in a store, but they can onle be used once.
+* GiftCards can be bought in one store and used in any other.
+*/
 class GiftCard
 types
 values
-	private static GiftValues : set of nat1 = {10, 20, 40};
+	private static GiftValues : set of nat1 = {10, 20, 40}; -- Set of possible GiftCard values
 instance variables
 	static idCounter: nat := 0;
 	id: nat1;
@@ -14,21 +18,18 @@ operations
 		(idCounter := idCounter + 1; id := idCounter; value := v; return self;)
 		pre v in set GiftValues
 		post id = idCounter~+1 and value = v and RESULT=self;
-		
+	
+	-- Get value of the GiftCard
 	public pure getValue: () ==> nat1 
 	getValue() ==
 		return value
 		pre true
 		post RESULT = value;
-	
+		
+	-- Get possible values of any GiftCard
 	public static pure getPossibleValues: () ==> set of nat1 
 	getPossibleValues() == 
 		return GiftValues
 		pre true
 		post RESULT = GiftValues;
-
-functions
-
-traces
--- TODO Define Combinatorial Test Traces here
 end GiftCard
