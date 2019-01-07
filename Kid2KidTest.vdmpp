@@ -119,6 +119,12 @@ operations
 		assertTrue(c in set kid2kid.getClients());
 		);
 		
+	private testGetTransactions: nat ==> ()
+		testGetTransactions(expectedNumber) ==
+		(
+		assertTrue(card kid2kid.getTransactions() = expectedNumber);
+		);
+		
 	private testGetProductsAtStore: (nat) ==> ()
 		testGetProductsAtStore(expectedNum) ==
 		(
@@ -192,6 +198,7 @@ operations
 			testAddCashierToStore("Renato");
 			testGetCashiers(2);
 			testGetCashierNames({"Joao", "Renato"});
+			testGetTransactions(0);
 			testRemoveCashier();
 			testRemoveClient();
 			);
