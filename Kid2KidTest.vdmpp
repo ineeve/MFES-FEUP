@@ -35,7 +35,7 @@ operations
 	);
 	 
 	-- Add a client to the system
-	-- Covers requirement R3 
+	-- Covers R3 
 	private testAddClient: () ==> ()
 		testAddClient() ==
 		(
@@ -48,7 +48,7 @@ operations
 		);
 	
 	-- Add a store to the system
-	-- Covers requirement R10
+	-- Covers R10
 	private testAddStore: () ==> ()
 		testAddStore() ==
 		(
@@ -58,6 +58,7 @@ operations
 		);
 		
 	-- Add a cashier to an existing store
+	-- Covers R12 partially
 	private testAddCashierToStore: (NotEmptyString) ==> ()
 		testAddCashierToStore(name) ==
 		(
@@ -128,6 +129,7 @@ operations
 		);
 
 	-- Get cashiers returns expected number of cashiers
+	-- Covers R12
 	private testGetCashiers: nat ==> ()
 		testGetCashiers(expectedNumber) ==
 		(
@@ -135,13 +137,15 @@ operations
 		);
 		
 	-- Cashier names are as expected
+	-- Covers R12
 	private testGetCashierNames: set of NotEmptyString ==> ()
 		testGetCashierNames(namesSet) ==
 		(
 			assertTrue( (namesSet \ kid2kid.getCashierNames()) = {});
 		);
 		
-	-- Remove a cashier and re-add him.	
+	-- Remove a cashier and re-add him.
+	-- Covers R12
 	private testRemoveCashier: () ==> ()
 		testRemoveCashier() ==
 		(
@@ -154,6 +158,7 @@ operations
 		);
 		
 	-- Remove a client and re-add him
+	-- Covers R4 and R3
 	private testRemoveClient: () ==> ()
 		testRemoveClient() ==
 		(
@@ -166,6 +171,7 @@ operations
 		);
 		
 	-- Number of transactions is as expected
+	-- Covers R7
 	private testGetTransactions: nat ==> ()
 		testGetTransactions(expectedNumber) ==
 		(
@@ -173,6 +179,7 @@ operations
 		);
 		
 	-- Number of products in the store is as expected
+	-- Covers R19
 	private testGetProductsAtStore: (nat) ==> ()
 		testGetProductsAtStore(expectedNum) ==
 		(
@@ -180,6 +187,7 @@ operations
 		);
 		
 	-- GiftCards work as expected
+	-- Covers R15 and R14 partially
 	private testStoreGiftCards: (bool) ==> ()
 		testStoreGiftCards(isAdmin) ==
 		(
@@ -203,6 +211,7 @@ operations
 		);
 		
 	-- Check store products available and client products bought.
+	-- Covers R14 partially
 	private testStoreSellProductInCash: () ==> ()
 		testStoreSellProductInCash() ==
 		(
@@ -213,6 +222,7 @@ operations
 		);
 		
 	-- Check that credit notes of client decrease when store sells a product and client pays with credit notes
+	-- Covers R14 partially
 	private testStoreSellProductInCreditNotes: () ==> ()
 		testStoreSellProductInCreditNotes() ==
 		(
@@ -226,6 +236,7 @@ operations
 		);
 	
 	-- Edit client name
+	-- Covers R4
 	private testEditClient: () ==> ()
 		testEditClient() ==
 		(
@@ -244,6 +255,7 @@ operations
 		);
 		
 	-- Test set description of product
+	-- Covers R21
 	private testProductEdit: () ==> ()
 		testProductEdit() ==
 		(
@@ -254,6 +266,7 @@ operations
 		);
 		
 	-- Test udpate sell price of product
+	-- Covers R22
 	private testProductPricing: () ==> ()
 		testProductPricing() ==
 		(
