@@ -17,6 +17,6 @@ operations
 		year := y;
 		return self;
 		)
-		pre true
+		pre d <= 31 and y >= 2000 and m <= 12
 		post day=d and month=m and year = y and RESULT=self;
 end Date
