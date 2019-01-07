@@ -22,7 +22,10 @@ public class ListStoresAdminMenu extends Menu {
 		});
 		stores.forEach(storeObj -> {
 			Store store = (Store) storeObj;
-			addOption(store.getLocation(), () -> new StoreAdminMenu(store));
+			addOption(store.getLocation(), () -> {
+				new StoreAdminMenu(store);
+				reinitialize();
+			});
 		});
 	}
 
