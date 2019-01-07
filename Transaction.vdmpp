@@ -32,16 +32,16 @@ operations
 	pre true
 	post RESULT = value;
 		
+	-- Get the total value of the products transacted
 	public pure getSumProductValues: () ==> nat
 	getSumProductValues() ==
 		return sumProductValues(productsTransacted)
 		pre true
 		post RESULT = sumProductValues(productsTransacted);
-		
+	
+	-- Sum product values
 	protected pure sumProductValues: set of Product ==> nat
 	sumProductValues(pSet) ==
 		is subclass responsibility;
-	
-traces
--- TODO Define Combinatorial Test Traces here
+
 end Transaction

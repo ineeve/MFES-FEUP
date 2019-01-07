@@ -1,15 +1,16 @@
+-- A physical Kid2Kid store
 class Store
 types
 	public NotEmptyString = seq1 of char;
 	public ClientsToCredits = map nat to real;
 values
 instance variables
-	location: NotEmptyString;
-	productsAvailable: set of Product := {};
-	productsSold: set of Product := {};
-	giftCardsSold: set of GiftCard := {};
+	location: NotEmptyString; -- geographic place, like the city
+	productsAvailable: set of Product := {}; -- products that the store has in stock
+	productsSold: set of Product := {}; -- products that the store already sold
+	giftCardsSold: set of GiftCard := {}; -- gift cards that the store already sold 
 	clientsCreditNotes: ClientsToCredits := { |-> }; -- map ids of clients to its credit notes
-	cashiers: set of StoreCashier := {};
+	cashiers: set of StoreCashier := {}; -- set of store cashiers that work here
 	
 operations
 	public Store: NotEmptyString ==> Store
@@ -24,18 +25,21 @@ operations
 			clientsCreditNotes = { |-> } and
 			cashiers = {};
 			
+	-- Add a cashier to the store
 	public addCashier: StoreCashier ==> ()
 		addCashier(cashier) ==
 		cashiers := cashiers union {cashier}
 		pre true
 		post cashiers = cashiers~ union {cashier};
-		
+	
+	-- Add a product to the store and pay in cash
 	public buyProduct: Product ==> ()
 		buyProduct(p) ==
 		productsAvailable := productsAvailable union {p}
 		pre true
 		post productsAvailable = productsAvailable~ union {p};
 	
+	-- Add a product to the store and pay with credit notes
 	public buyProductInCreditNotes: Product * nat1 ==> ()
 	buyProductInCreditNotes(p, clientId) ==
 		(
@@ -46,6 +50,7 @@ operations
 		post productsAvailable = productsAvailable~ union {p} and
 		checkCreditNotes(clientId, p, clientsCreditNotes, clientsCreditNotes~);
 	
+	-- Sell a giftcard
 	public sellGiftCard: (nat1) ==> GiftCard
 	sellGiftCard(value) ==
 		(
@@ -56,6 +61,7 @@ operations
 		pre true
 		post card giftCardsSold = card giftCardsSold~ + 1;
 	
+	-- Sell a product that is available and receive in cash
 	public sellProduct: Product ==> ()
 	sellProduct(p) ==
 		(
@@ -65,6 +71,7 @@ operations
 		pre hasProduct(p)
 		post productsAvailable = productsAvailable~ \ {p} and productsSold = productsSold~ union {p};
 	
+	-- Sell a product that is available and receive in credit notes
 	public sellProductInCreditNotes: Product * nat ==> ()
 	sellProductInCreditNotes(p, clientId) ==
 		(
@@ -75,7 +82,7 @@ operations
 		post productsAvailable = productsAvailable~ \ {p} and
 					productsSold = productsSold~ union {p}; -- should also check that creditNotes of client have decreased
 	
-	
+	-- Get creditnotes of a client. Returns 0 if client has no credit notes yet.
 	public getCreditNotesOfClient: nat ==> real
 	getCreditNotesOfClient(clientId) ==
 		if clientId in set dom clientsCreditNotes then
@@ -87,30 +94,35 @@ operations
 		pre true
 		post RESULT = clientsCreditNotes(clientId);
 
+	-- Get credit notes of all clients
 	public pure getClientsCreditNotes: () ==> ClientsToCredits
 	getClientsCreditNotes() ==
 		return clientsCreditNotes
 		pre true
 		post RESULT = clientsCreditNotes;
 
+	-- Get location of the store
 	public pure getLocation: () ==> NotEmptyString
 	getLocation() ==
 		return location
 		pre true
 		post RESULT = location;
 
+	-- Get products available at the store
 	public pure getProductsAvailable: () ==> set of Product
 	getProductsAvailable() ==
 		return productsAvailable
 		pre true
 		post RESULT = productsAvailable;
 		
+	-- Get cashiers that work in the store
 	public pure getCashiers: () ==> set of StoreCashier
 	getCashiers() ==
 		return cashiers
 		pre true
 		post RESULT = cashiers;
-		
+	
+	-- Get cashier using his name
 	public pure getCashier: NotEmptyString ==> StoreCashier
 	getCashier(name) ==
 		(
@@ -121,7 +133,8 @@ operations
 		)
 		pre true
 		post RESULT in set cashiers and RESULT.getName() = name;
-		
+	
+	-- Get the names of all cashiers that work in the store
 	public pure getCashierNames: () ==> set of NotEmptyString
 	getCashierNames() ==
 		(
@@ -131,7 +144,8 @@ operations
 		)
 		pre true
 		post true;
-		
+	
+	-- Calculate inventory value
 	public pure getInventoryValue: () ==> real
 	getInventoryValue() ==
 		(
@@ -142,7 +156,8 @@ operations
 		)
 		pre true
 		post true;
-		
+	
+	-- Calculate revenue using products sold
 	public pure getRevenue: () ==> real
 	getRevenue() ==
 		(
@@ -153,19 +168,22 @@ operations
 		)
 		pre true
 		post true;
-		
+	
+	-- Update the location
 	public setLocation: NotEmptyString ==> ()
 	setLocation(l) ==
 		location := l
 		pre true
 		post location = l;
-		
+	
+	-- Remove a cashier from the store
 	public removeCashier: StoreCashier ==> ()
 	removeCashier(c) ==
 		cashiers := cashiers \ {c}
 		pre c in set cashiers
 		post c not in set cashiers;
 	
+	-- Add a credit note to a client
 	public addCreditNote: real * Product ==> ()
 	addCreditNote(clientId, p) ==
 			(
@@ -187,13 +205,15 @@ operations
 			clientsCreditNotes := clientsCreditNotes ++ {clientId |-> clientsCreditNotes(clientId) - value}
 			pre clientId in set dom clientsCreditNotes and value <= clientsCreditNotes(clientId)
 			post clientsCreditNotes = clientsCreditNotes~ ++ {clientId |-> clientsCreditNotes~(clientId) - value};
-
+	
+	-- Check if the store has a given product in stock
 	public pure hasProduct: Product ==> bool
 	hasProduct(p) ==
 		return p in set productsAvailable
 		post RESULT = p in set productsAvailable;
 
 functions
+	-- Check that the credit notes amount of a client has increased by the value of the product
 	public checkCreditNotes: nat * Product * ClientsToCredits * ClientsToCredits -> bool
 	checkCreditNotes(clientId, p, newCreditNotes, oldCreditNotes) ==
 	(if clientId not in set dom oldCreditNotes then
@@ -201,6 +221,4 @@ functions
 	else	
 			newCreditNotes = oldCreditNotes ++ {clientId |-> oldCreditNotes(clientId) + p.getCreditNotesValue()}
 	)
-traces
--- TODO Define Combinatorial Test Traces here
 end Store

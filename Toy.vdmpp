@@ -1,13 +1,11 @@
--- max age should be optional, min age is mandatory
+-- A toy that is sold in the Kid2Kid stores.
 class Toy is subclass of Product
 types
 	public ToyCategory = <Puzzles> | <Legos> | <Cars>;
 	public NotEmptyString = seq1 of char;
-values
--- TODO Define values here
 instance variables
-	private minAge: nat;
-	private maxAge: [nat]:=nil; --optional, nil as default
+	private minAge: nat; -- Min age is mandatory
+	private maxAge: [nat]:=nil; -- optional, nil as default
 	private subCategory: ToyCategory;
 	inv minAge < 13 and minAge > 0
 operations
@@ -30,8 +28,5 @@ operations
 		subCategory = subCategoryInput and
 		state = productState and
 		RESULT = self;
-functions
--- TODO Define functiones here
-traces
--- TODO Define Combinatorial Test Traces here
+
 end Toy

@@ -1,3 +1,5 @@
+-- A cashier that works in a store
+-- A cashier needs to authorize most most of the operations
 class StoreCashier
 types
 	public NotEmptyString = seq1 of char;
@@ -11,28 +13,30 @@ operations
 	StoreCashier(n, w) ==
 		(name := n; store := w; return self)
 		pre len n > 0
-		post name = n and store = w;
+		post name = n and store = w and RESULT = self;
 		
+	-- Get the name of the cashier	
 	public pure getName: () ==> NotEmptyString
 	getName() ==
 		return name
 		pre true
 		post RESULT = name;
-		
+	
+	-- Update the name of the cashier
 	public setName: NotEmptyString ==> ()
 	setName(n) ==
 		name := n
 		pre true
 		post name = n;
-		
+	
+	-- Get the store in which the cashier works	
 	public pure getStore: () ==> Store
 	getStore() ==
 		return store
 		pre true
 		post RESULT = store;
 		
-	/* Buy from client.
-	*/
+	-- Register that a product was bought.
 	public buyProductInCash: Product ==> ()
 	buyProductInCash(p) ==
 		(
@@ -41,8 +45,7 @@ operations
 		pre true
 		post true;
 		
-	/* Buy from client.
-	*/
+	-- Register that a product was bought and credit notes were created for the client.
 	public buyProductInCreditNotes: Product * Client ==> ()
 	buyProductInCreditNotes(p, client) ==
 		(
@@ -52,8 +55,7 @@ operations
 		post true;
 		
 	
-	/* Sell to client. Receive in cash or gift cards
-	*/
+	-- Sell to client. Receive in cash or gift cards
 	public sellProduct: Product ==> ()
 	sellProduct(p) ==
 		(
@@ -62,8 +64,7 @@ operations
 		pre true
 		post true;
 		
-	/* Sell to client. Receive in credit notes
-	*/
+	-- Sell to client. Receive in credit notes
 	public sellProductInCreditNotes: Product * Client ==> ()
 	sellProductInCreditNotes(p, client) ==
 		(
@@ -72,16 +73,11 @@ operations
 		pre true
 		post true;
 		
+	-- Sell a giftcard to a client
 	public sellGiftCard: (nat1) ==> GiftCard
 	sellGiftCard(value) ==
 		return store.sellGiftCard(value)
 		pre true
 		post true
 		
-		
-		
-functions
--- TODO Define functiones here
-traces
--- TODO Define Combinatorial Test Traces here
 end StoreCashier
