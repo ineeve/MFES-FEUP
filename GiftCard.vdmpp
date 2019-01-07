@@ -12,7 +12,7 @@ operations
 	public GiftCard: nat1 ==> GiftCard
 	GiftCard(v) ==
 		(idCounter := idCounter + 1; id := idCounter; value := v; return self;)
-		pre true
+		pre v in set GiftValues
 		post id = idCounter~+1 and value = v and RESULT=self;
 		
 	public pure getValue: () ==> nat1 
