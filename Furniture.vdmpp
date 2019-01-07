@@ -13,8 +13,7 @@ operations
 			state := productState;
 			description := desc;
 			subCategory := furnitureCat;
-			setBuyPrice();
-			setSellPrice();
+			setPrices();
 			return self;
 		)
 		pre true

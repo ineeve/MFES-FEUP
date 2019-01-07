@@ -14,8 +14,7 @@ operations
 			state := productState;
 			description := desc;
 			subCategory := footwearCat;
-			setBuyPrice();
-			setSellPrice();
+			setPrices();
 			return self;
 		)
 		pre true
