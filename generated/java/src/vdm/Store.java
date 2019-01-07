@@ -60,7 +60,14 @@ public class Store {
 
   public Number getCreditNotesOfClient(final Number clientId) {
 
-    return ((Number) Utils.get(clientsCreditNotes, clientId));
+    if (SetUtil.inSet(clientId, MapUtil.dom(Utils.copy(clientsCreditNotes)))) {
+      return ((Number) Utils.get(clientsCreditNotes, clientId));
+
+    } else {
+      clientsCreditNotes =
+          MapUtil.override(Utils.copy(clientsCreditNotes), MapUtil.map(new Maplet(clientId, 0L)));
+      return 0L;
+    }
   }
 
   public VDMMap getClientsCreditNotes() {

@@ -51,7 +51,7 @@ operations
 			assertTrue(card store.getCashiers() = prevNumCashiers + 1);
 		);
 		
-	private testStoreBuyProductsInCash : () ==> ()
+	private testStoreBuyProductsInCash : () ==> (nat)
 		testStoreBuyProductsInCash() ==
 		(
 			dcl toy: Product := new Toy(<New>, nil, 5, nil, <Cars>);
@@ -65,21 +65,24 @@ operations
 			kid2kid.buyProductInCash(furniture,client,cashier,today);
 			assertTrue(elems products subset store.getProductsAvailable());
 			assertTrue(elems products subset client.getProductsSold());
+			return len products;
 		);
 		
-	private testStoreBuyProductsInCreditNotes: () ==> ()
+	private testStoreBuyProductsInCreditNotes: () ==> (nat)
 		testStoreBuyProductsInCreditNotes() ==
 		(
 			dcl boots: Product := new Footwear(<Low_Use>, "Boots", 20, <Boots>);
 			dcl jeans: Product := new Clothing(<Low_Use>, "Blue Jeans", 1, 2, <Jeans>);
 			dcl productsSet: set of Product := {boots, jeans};
+			dcl clientPrevCredit: real := store.getCreditNotesOfClient(client.getId());
 			assertTrue(productsSet inter store.getProductsAvailable() = {});
 			assertTrue(productsSet inter client.getProductsSold() = {});
 			kid2kid.buyProductInCreditNotes(boots, client, cashier, today);
 			kid2kid.buyProductInCreditNotes(jeans, client, cashier, today);
 			assertTrue(productsSet subset store.getProductsAvailable());
 			assertTrue(productsSet subset client.getProductsSold());
-			assertTrue(store.getCreditNotesOfClient(client.getId()) = boots.getCreditNotesValue() + jeans.getCreditNotesValue());
+			assertTrue(store.getCreditNotesOfClient(client.getId()) = clientPrevCredit + boots.getCreditNotesValue() + jeans.getCreditNotesValue());
+			return card productsSet;
 		);
 
 	private testGetCashiers: nat ==> ()
@@ -143,23 +146,23 @@ operations
 	public testAdminOperations: () ==> ()
 		testAdminOperations() == 
 			(
-			loginAdmin();
 			testAddClient();
 			testAddStore();
 			testAddCashierToStore("Joao");
 			testAddCashierToStore("Renato");
 			testGetCashiers(2);
 			testGetCashierNames({"Joao", "Renato"});
+			testCashierOperations();
 			);
 			
 
 	public testCashierOperations: () ==> ()
 		testCashierOperations() ==
 			(
-			loginCashier("Porto", "Joao");
-			testStoreBuyProductsInCash();
-			testStoreBuyProductsInCreditNotes();
-			testGetProductsAtStore(5);
+			dcl numProducts: nat := card kid2kid.getProductsAtStore(store);
+			numProducts := numProducts + testStoreBuyProductsInCash();
+			numProducts := numProducts + testStoreBuyProductsInCreditNotes();
+			testGetProductsAtStore(numProducts);
 			testStoreGiftCards();
 			testStoreSellProductInCash();
 			testStoreSellProductInCreditNotes();
@@ -170,7 +173,9 @@ operations
 		main() ==
 		(
 			dcl kid2KidTest: Kid2KidTest := new Kid2KidTest();
+			kid2KidTest.loginAdmin();
 			kid2KidTest.testAdminOperations();
+			kid2KidTest.loginCashier("Porto", "Joao");
 			kid2KidTest.testCashierOperations();
 		);
 

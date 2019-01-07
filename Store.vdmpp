@@ -71,15 +71,20 @@ operations
 		sellProduct(p);
 		spendCreditNote(clientId, p.getSellPrice());
 		)
-		pre hasProduct(p) and getCreditNotesOfClient(clientId) >= p.getSellPrice()
+		pre hasProduct(p) and clientsCreditNotes(clientId) >= p.getSellPrice()
 		post productsAvailable = productsAvailable~ \ {p} and
 					productsSold = productsSold~ union {p}; -- should also check that creditNotes of client have decreased
 	
 	
-	public pure getCreditNotesOfClient: nat ==> real
+	public getCreditNotesOfClient: nat ==> real
 	getCreditNotesOfClient(clientId) ==
-		return clientsCreditNotes(clientId)
-		pre clientId in set dom clientsCreditNotes
+		if clientId in set dom clientsCreditNotes then
+			(return clientsCreditNotes(clientId))
+		else (
+				clientsCreditNotes := clientsCreditNotes ++ {clientId |-> 0};
+				return 0
+			)
+		pre true
 		post RESULT = clientsCreditNotes(clientId);
 
 	public pure getClientsCreditNotes: () ==> ClientsToCredits

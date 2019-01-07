@@ -50,7 +50,7 @@ public class Kid2KidTest {
     assertTrue(Utils.equals(store.getCashiers().size(), prevNumCashiers.longValue() + 1L));
   }
 
-  private void testStoreBuyProductsInCash() {
+  private Number testStoreBuyProductsInCash() {
 
     Product toy =
         new Toy(
@@ -76,9 +76,10 @@ public class Kid2KidTest {
     kid2kid.buyProductInCash(furniture, client, cashier, today);
     assertTrue(SetUtil.subset(SeqUtil.elems(Utils.copy(products)), store.getProductsAvailable()));
     assertTrue(SetUtil.subset(SeqUtil.elems(Utils.copy(products)), client.getProductsSold()));
+    return products.size();
   }
 
-  private void testStoreBuyProductsInCreditNotes() {
+  private Number testStoreBuyProductsInCreditNotes() {
 
     Product boots =
         new Footwear(
@@ -94,6 +95,7 @@ public class Kid2KidTest {
             2L,
             vdm.quotes.JeansQuote.getInstance());
     VDMSet productsSet = SetUtil.set(boots, jeans);
+    Number clientPrevCredit = store.getCreditNotesOfClient(client.getId());
     assertTrue(
         Utils.empty(SetUtil.intersect(Utils.copy(productsSet), store.getProductsAvailable())));
     assertTrue(Utils.empty(SetUtil.intersect(Utils.copy(productsSet), client.getProductsSold())));
@@ -104,7 +106,10 @@ public class Kid2KidTest {
     assertTrue(
         Utils.equals(
             store.getCreditNotesOfClient(client.getId()),
-            boots.getCreditNotesValue().doubleValue() + jeans.getCreditNotesValue().doubleValue()));
+            clientPrevCredit.doubleValue()
+                + boots.getCreditNotesValue().doubleValue()
+                + jeans.getCreditNotesValue().doubleValue()));
+    return productsSet.size();
   }
 
   private void testGetCashiers(final Number expectedNumber) {
@@ -156,32 +161,44 @@ public class Kid2KidTest {
                 - ((Product) Utils.get(products, 3L)).getSellPrice().doubleValue()));
   }
 
+  public void testEditClient() {
+
+    assertTrue(SetUtil.inSet(client, kid2kid.getClients()));
+    client.setName("123");
+    assertTrue(Utils.equals("123", client.getName()));
+    client.setName("abc");
+    assertTrue(Utils.equals("abc", client.getName()));
+  }
+
   public void testAdminOperations() {
 
-    loginAdmin();
     testAddClient();
     testAddStore();
     testAddCashierToStore("Joao");
     testAddCashierToStore("Renato");
     testGetCashiers(2L);
     testGetCashierNames(SetUtil.set("Joao", "Renato"));
+    testCashierOperations();
   }
 
   public void testCashierOperations() {
 
-    loginCashier("Porto", "Joao");
-    testStoreBuyProductsInCash();
-    testStoreBuyProductsInCreditNotes();
-    testGetProductsAtStore(5L);
+    Number numProducts = kid2kid.getProductsAtStore(store).size();
+    numProducts = numProducts.longValue() + testStoreBuyProductsInCash().longValue();
+    numProducts = numProducts.longValue() + testStoreBuyProductsInCreditNotes().longValue();
+    testGetProductsAtStore(numProducts);
     testStoreGiftCards();
     testStoreSellProductInCash();
     testStoreSellProductInCreditNotes();
+    testEditClient();
   }
 
   public static void main() {
 
     Kid2KidTest kid2KidTest = new Kid2KidTest();
+    kid2KidTest.loginAdmin();
     kid2KidTest.testAdminOperations();
+    kid2KidTest.loginCashier("Porto", "Joao");
     kid2KidTest.testCashierOperations();
   }
 
