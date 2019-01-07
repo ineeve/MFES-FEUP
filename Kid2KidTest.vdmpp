@@ -148,6 +148,15 @@ operations
 		(
 		assertTrue(GiftCard`getPossibleValues() = {10, 20, 40});
 		);
+		
+	private testProductEdit: () ==> ()
+		testProductEdit() ==
+		(
+		dcl p: Clothing := new Clothing(<New>, "J", 10, 12, <Jeans>);
+		assertTrue(p.getDescription() = "J");
+		p.setDescription("abc");
+		assertTrue(p.getDescription() = "abc");
+		);
 
 	public testAdminOperations: () ==> ()
 		testAdminOperations() == 
@@ -179,6 +188,7 @@ operations
 		testMiscOperations() ==
 		(
 		testGiftCardPossibleValues();
+		testProductEdit();
 		);
 	
 	public static main: () ==> ()
