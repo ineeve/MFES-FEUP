@@ -1,3 +1,5 @@
+-- A client of the store.
+-- A client may as well be a supplier of products.
 class Client
 types
 	public NotEmptyString = seq1 of char;
@@ -21,34 +23,28 @@ operations
 			 boughtGiftCards = {} and
 			 RESULT = self;
 	
-	/**
-	* Use to update name of a client
-	*/
+	-- Update name of the client
 	public setName: NotEmptyString ==> ()
 		setName(newName) ==
 			name := newName
 			pre true
 			post name = newName;
 			
+	-- Get name of the client		
 	public getName: () ==> NotEmptyString
 		getName() ==
 			return name
 			pre true
 			post RESULT = name;
 			
-	/**
-	* Get id of the client
-	*/
+	-- Get id of the client
 	public pure getId: () ==> nat1
 		getId() == 
 			return id
 			pre true
 			post RESULT = id;
 
-	/*
-	Post:
-	- Has one more product of the bought kind in purchase transactions than previously.
-	*/
+	-- Register that the client bought a product.
 	public buyProduct: Product ==> ()
 		buyProduct(product) ==
 			(
@@ -56,41 +52,41 @@ operations
 			)
 			pre true
 			post
-				card boughtProducts = card boughtProducts~ + 1
+				card boughtProducts = card boughtProducts~ + 1 -- Has one more product bought than previously.
 				and product in set boughtProducts;
 		
-	/*
-	Pre:
-	Post:
-	- Has one more product of the sold kind in sales transactions than previously.
-	*/
+	-- Register that the client sold a product
 	public sellProduct: Product ==> ()
 	sellProduct(product) ==
 		soldProducts := soldProducts union {product}
 			pre true
 			post
-				card soldProducts = card soldProducts~ + 1
+				card soldProducts = card soldProducts~ + 1  -- Has one more product sold than previously.
 				and product in set soldProducts;
-			
+				
+	-- Register that the client bought a gift card
 	public buyGiftCard: GiftCard ==> ()
 		buyGiftCard(giftCard) ==
 			boughtGiftCards := boughtGiftCards union {giftCard}
 			pre true
 			post card boughtGiftCards = card boughtGiftCards~ + 1 and
 			giftCard in set boughtGiftCards;
-		
+	
+	-- Get the set of products sold by the client	
 	public pure getProductsSold: () ==> set of Product
 		getProductsSold() ==
 			return soldProducts
 			pre true
 			post RESULT = soldProducts;
 	
+	-- Get the set of products bought by the client
 	public pure getProductsBought: () ==> set of Product
 		getProductsBought() ==
 			return boughtProducts
 			pre true
 			post RESULT = boughtProducts;
-			
+	
+	-- Get the set of gift cards bought by the client		
 	public pure getGiftCardsBought: () ==> set of GiftCard
 		getGiftCardsBought() ==
 			return boughtGiftCards
