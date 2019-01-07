@@ -16,6 +16,7 @@ operations
 	 pre cond;
 	
 	-- Login as admin
+	-- Covers 50% of requirement R1 
 	private loginAdmin: () ==> ()
 	loginAdmin() ==
 	(
@@ -24,6 +25,7 @@ operations
 	);
 	
 	-- Login as cashier
+	-- Covers 50% of requirement R1
 	private loginCashier: NotEmptyString * NotEmptyString ==> ()
 	loginCashier(storeName, cashierName) ==
 	(
@@ -33,6 +35,7 @@ operations
 	);
 	 
 	-- Add a client to the system
+	-- Covers requirement R3 
 	private testAddClient: () ==> ()
 		testAddClient() ==
 		(
@@ -45,6 +48,7 @@ operations
 		);
 	
 	-- Add a store to the system
+	-- Covers requirement R10
 	private testAddStore: () ==> ()
 		testAddStore() ==
 		(
@@ -64,6 +68,7 @@ operations
 		);
 		
 	-- Buy products as Admin and pay in cash. Test that transactions of cashier have increased
+	-- Covers R20 partially.
 	private testStoreBuyProductsInCashAsAdmin: () ==> ()
 	testStoreBuyProductsInCashAsAdmin() ==
 		(
@@ -74,6 +79,7 @@ operations
 		);
 	
 	-- Buy products as cashier. Test that transactions of cashier have increased
+	-- Covers R13 
 	private testStoreBuyProductsInCashAsCashier: () ==> ()
 	testStoreBuyProductsInCashAsCashier() ==
 		(
@@ -84,6 +90,7 @@ operations
 		);
 	
 	-- Products sold are saved in the store and in the client
+	-- Covers R13 and R16
 	private testStoreBuyProductsInCash: () ==> (nat)
 		testStoreBuyProductsInCash() ==
 		(
@@ -102,6 +109,7 @@ operations
 		);
 		
 	-- Credit notes are added to a client
+	-- Covers R13 and R16
 	private testStoreBuyProductsInCreditNotes: () ==> (nat)
 		testStoreBuyProductsInCreditNotes() ==
 		(
