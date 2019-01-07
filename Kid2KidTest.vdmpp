@@ -190,6 +190,16 @@ operations
 		p.setDescription("abc");
 		assertTrue(p.getDescription() = "abc");
 		);
+		
+	private testProductPricing: () ==> ()
+		testProductPricing() ==
+		(
+		dcl p: Clothing := new Clothing(<New>, "J", 10, 12, <Jeans>);
+		assertTrue(p.getBuyPrice() = 10);
+		assertTrue(p.getSellPrice() = 13);
+		p.setSellPrice(20);
+		assertTrue(p.getSellPrice() = 20);
+		);
 
 	public testAdminOperations: () ==> ()
 		testAdminOperations() == 
@@ -225,6 +235,7 @@ operations
 		(
 		testGiftCardPossibleValues();
 		testProductEdit();
+		testProductPricing();
 		);
 	
 	public static main: () ==> ()
