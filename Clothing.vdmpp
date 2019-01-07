@@ -1,13 +1,12 @@
+-- Cloths sold in Kid2Kid stores
 class Clothing is subclass of Product
 types
 	public ClothingCat = <Jeans> | <Dresses> | <Pajamas>;
-values
--- TODO Define values here
 instance variables
 	maxAge: nat;
 	minAge: nat;
 	subCategory: ClothingCat;
-	inv minAge > 0 and minAge < 13;
+	inv minAge > 0 and minAge < 13; -- Kid2Kid only has cloths for children less than 13 years old.
 	inv maxAge > 0 and maxAge < 13;
 	inv maxAge >= minAge;
 operations
@@ -32,8 +31,4 @@ public Clothing: ProductState * [CustomString] * nat * nat * ClothingCat ==> Clo
 			subCategory = subCategoryInput and
 			state = productState and
 			RESULT = self;
-functions
--- TODO Define functiones here
-traces
--- TODO Define Combinatorial Test Traces here
 end Clothing

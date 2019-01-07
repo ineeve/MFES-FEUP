@@ -1,4 +1,4 @@
--- A client of the store.
+-- A client of a Kid2Kid store.
 -- A client may as well be a supplier of products.
 class Client
 types
@@ -92,11 +92,4 @@ operations
 			return boughtGiftCards
 			pre true
 			post RESULT = boughtGiftCards;
-		
-functions
-	
-		
-
-traces
--- TODO Define Combinatorial Test Traces here
 end Client

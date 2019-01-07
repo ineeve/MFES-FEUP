@@ -1,15 +1,12 @@
+-- A simple date class with only day, year and month
 class Date
-types
--- TODO Define types here
-values
--- TODO Define values here
 instance variables
-year : nat1;
-month: nat1;
-day : nat1;
-inv day <= 31;
-inv year >= 2000;
-inv month <= 12;
+	year : nat1;
+	month: nat1;
+	day : nat1;
+	inv day <= 31;
+	inv year >= 2000;
+	inv month <= 12;
 
 operations
 	public Date: nat1 * nat1 * nat1 ==> Date 
@@ -22,8 +19,4 @@ operations
 		)
 		pre true
 		post day=d and month=m and year = y and RESULT=self;
-functions
--- TODO Define functiones here
-traces
--- TODO Define Combinatorial Test Traces here
 end Date
