@@ -90,11 +90,24 @@ operations
 		(
 			assertTrue(card kid2kid.getCashiers() = expectedNumber);
 		);
+		
 	private testGetCashierNames: set of NotEmptyString ==> ()
 		testGetCashierNames(namesSet) ==
 		(
 			assertTrue( (namesSet \ kid2kid.getCashierNames()) = {});
 		);
+		
+	private testRemoveCashier: () ==> ()
+		testRemoveCashier() ==
+		(
+		dcl c: StoreCashier := cashier;
+		assertTrue(c in set kid2kid.getCashiers());
+		kid2kid.removeCashier(c);
+		assertTrue(c not in set kid2kid.getCashiers());
+		store.addCashier(c);
+		assertTrue(c in set kid2kid.getCashiers());
+		);
+		
 	private testGetProductsAtStore: (nat) ==> ()
 		testGetProductsAtStore(expectedNum) ==
 		(
@@ -168,6 +181,7 @@ operations
 			testAddCashierToStore("Renato");
 			testGetCashiers(2);
 			testGetCashierNames({"Joao", "Renato"});
+			testRemoveCashier();
 			);
 			
 
