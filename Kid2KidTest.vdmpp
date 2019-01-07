@@ -54,7 +54,25 @@ operations
 			assertTrue(card store.getCashiers() = prevNumCashiers + 1);
 		);
 		
-	private testStoreBuyProductsInCash : () ==> (nat)
+	private testStoreBuyProductsInCashAsAdmin: () ==> ()
+	testStoreBuyProductsInCashAsAdmin() ==
+		(
+			dcl toy: Product := new Toy(<New>, nil, 5, nil, <Cars>);
+			dcl numTransactions: nat := card kid2kid.getTransactionsOfCashier(cashier);
+			kid2kid.buyProductInCash(toy,client,cashier,today);
+			assertTrue(card kid2kid.getTransactionsOfCashier(cashier) = numTransactions + 1);
+		);
+	
+	private testStoreBuyProductsInCashAsCashier: () ==> ()
+	testStoreBuyProductsInCashAsCashier() ==
+		(
+			dcl toy: Product := new Toy(<New>, nil, 5, nil, <Cars>);
+			dcl numTransactions: nat := card kid2kid.getTransactionsOfLoggedInCashier();
+			kid2kid.buyProductInCash(toy, client, kid2kid.getLoggedInCashier(), today);
+			assertTrue(card kid2kid.getTransactionsOfLoggedInCashier() = numTransactions + 1);
+		);
+		
+	private testStoreBuyProductsInCash: () ==> (nat)
 		testStoreBuyProductsInCash() ==
 		(
 			dcl toy: Product := new Toy(<New>, nil, 5, nil, <Cars>);
@@ -213,6 +231,7 @@ operations
 			testGetTransactions(0);
 			testRemoveCashier();
 			testRemoveClient();
+			testStoreBuyProductsInCashAsAdmin();
 			testCashierOperations();
 			);
 			
@@ -246,6 +265,7 @@ operations
 			kid2KidTest.testAdminOperations();
 			kid2KidTest.loginCashier("Porto", "Joao");
 			kid2KidTest.testCashierOperations();
+			kid2KidTest.testStoreBuyProductsInCashAsCashier();
 			kid2KidTest.testMiscOperations();
 		);
 

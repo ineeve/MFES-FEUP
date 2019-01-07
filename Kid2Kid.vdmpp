@@ -89,12 +89,20 @@ operations
 		
 	public pure getTransactionsOfLoggedInCashier: () ==> set of Transaction
 	getTransactionsOfLoggedInCashier() ==
-		return getTransactionsOfCashier(getLoggedInCashier())
+		return getTransactionsOfCashierInternal(getLoggedInCashier())
 		pre loggedInType = <Cashier>
-		post RESULT = getTransactionsOfCashier(getLoggedInCashier());
+		post RESULT = getTransactionsOfCashierInternal(getLoggedInCashier());
 	
-	private pure getTransactionsOfCashier: StoreCashier ==> set of Transaction
+	public pure getTransactionsOfCashier: StoreCashier ==> set of Transaction
 	getTransactionsOfCashier(cashier) ==
+		return getTransactionsOfCashierInternal(cashier)
+		pre hasAdminPerms()
+		post RESULT = getTransactionsOfCashierInternal(cashier);
+		
+	/* Bypasses permissions.
+	*/
+	private pure getTransactionsOfCashierInternal: StoreCashier ==> set of Transaction
+	getTransactionsOfCashierInternal(cashier) ==
 		return {x | x in set transactions & x.getCashier() = cashier}
 		pre true
 		post true;
