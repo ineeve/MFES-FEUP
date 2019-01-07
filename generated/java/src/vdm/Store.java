@@ -93,8 +93,8 @@ public class Store {
   public StoreCashier getCashier(final String name) {
 
     StoreCashier cashier = null;
-    for (Iterator iterator_12 = cashiers.iterator(); iterator_12.hasNext(); ) {
-      StoreCashier c = (StoreCashier) iterator_12.next();
+    for (Iterator iterator_16 = cashiers.iterator(); iterator_16.hasNext(); ) {
+      StoreCashier c = (StoreCashier) iterator_16.next();
       if (Utils.equals(c.getName(), name)) {
         cashier = c;
       }
@@ -105,8 +105,8 @@ public class Store {
   public VDMSet getCashierNames() {
 
     VDMSet names = SetUtil.set();
-    for (Iterator iterator_13 = cashiers.iterator(); iterator_13.hasNext(); ) {
-      StoreCashier cashier = (StoreCashier) iterator_13.next();
+    for (Iterator iterator_17 = cashiers.iterator(); iterator_17.hasNext(); ) {
+      StoreCashier cashier = (StoreCashier) iterator_17.next();
       names = SetUtil.union(Utils.copy(names), SetUtil.set(cashier.getName()));
     }
     return Utils.copy(names);
@@ -115,8 +115,8 @@ public class Store {
   public Number getInventoryValue() {
 
     Number sum = 0L;
-    for (Iterator iterator_14 = productsAvailable.iterator(); iterator_14.hasNext(); ) {
-      Product product = (Product) iterator_14.next();
+    for (Iterator iterator_18 = productsAvailable.iterator(); iterator_18.hasNext(); ) {
+      Product product = (Product) iterator_18.next();
       sum = sum.doubleValue() + product.getBuyPrice().doubleValue();
     }
     return sum;
@@ -125,8 +125,8 @@ public class Store {
   public Number getRevenue() {
 
     Number sum = 0L;
-    for (Iterator iterator_15 = productsSold.iterator(); iterator_15.hasNext(); ) {
-      Product product = (Product) iterator_15.next();
+    for (Iterator iterator_19 = productsSold.iterator(); iterator_19.hasNext(); ) {
+      Product product = (Product) iterator_19.next();
       sum =
           sum.doubleValue()
               + product.getSellPrice().doubleValue()

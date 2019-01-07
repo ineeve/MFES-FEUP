@@ -10,11 +10,11 @@ public class Sale extends Transaction {
 
   public void cg_init_Sale_2(final Date d, final Client c, final VDMSet g, final StoreCashier sc) {
 
-    value = sumGCValues(Utils.copy(g));
     date = d;
     client = c;
     giftCardsSold = Utils.copy(g);
     storeAuthorizer = sc;
+    value = sumGCValues(Utils.copy(g));
     return;
   }
 
@@ -51,16 +51,11 @@ public class Sale extends Transaction {
     return Utils.copy(giftCardsSold);
   }
 
-  public Number getValue() {
-
-    return getSumProductValues().longValue() + sumGCValues(Utils.copy(giftCardsSold)).longValue();
-  }
-
   protected Number sumProductValues(final VDMSet pSet) {
 
     Number result = 0L;
-    for (Iterator iterator_10 = pSet.iterator(); iterator_10.hasNext(); ) {
-      Product p = (Product) iterator_10.next();
+    for (Iterator iterator_14 = pSet.iterator(); iterator_14.hasNext(); ) {
+      Product p = (Product) iterator_14.next();
       result = result.doubleValue() + p.getSellPrice().doubleValue();
     }
     return result;
@@ -69,8 +64,8 @@ public class Sale extends Transaction {
   private Number sumGCValues(final VDMSet gcSet) {
 
     Number result = 0L;
-    for (Iterator iterator_11 = gcSet.iterator(); iterator_11.hasNext(); ) {
-      GiftCard g = (GiftCard) iterator_11.next();
+    for (Iterator iterator_15 = gcSet.iterator(); iterator_15.hasNext(); ) {
+      GiftCard g = (GiftCard) iterator_15.next();
       result = result.longValue() + g.getValue().longValue();
     }
     return result;

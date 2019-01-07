@@ -8,8 +8,8 @@ public class Product {
   public static final Number CREDIT_NOTE_MULTIPLIER = 1.2;
   protected static Number idCounter = 0L;
   protected Number id;
-  protected Number buyPrice;
-  protected Number sellPrice;
+  protected Number buyPrice = 0L;
+  protected Number sellPrice = 9999999L;
   protected Object state;
   protected String description = null;
 
@@ -33,13 +33,9 @@ public class Product {
     description = newDescription;
   }
 
-  protected void setBuyPrice() {
+  protected void setPrices() {
 
     buyPrice = 10L * getStateValue().doubleValue();
-  }
-
-  protected void setSellPrice() {
-
     sellPrice = 1.3 * buyPrice.doubleValue();
   }
 

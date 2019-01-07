@@ -23,8 +23,7 @@ public class Toy extends Product {
     minAge = minAgeInput;
     maxAge = maxAgeInput;
     subCategory = subCategoryInput;
-    setBuyPrice();
-    setSellPrice();
+    setPrices();
     return;
   }
 

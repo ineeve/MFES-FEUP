@@ -15,8 +15,7 @@ public class Furniture extends Product {
     state = productState;
     description = desc;
     subCategory = furnitureCat;
-    setBuyPrice();
-    setSellPrice();
+    setPrices();
     return;
   }
 

@@ -18,8 +18,7 @@ public class Footwear extends Product {
     state = productState;
     description = desc;
     subCategory = footwearCat;
-    setBuyPrice();
-    setSellPrice();
+    setPrices();
     return;
   }
 

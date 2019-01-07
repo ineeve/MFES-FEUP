@@ -12,6 +12,7 @@ public class Purchase extends Transaction {
     client = c;
     productsTransacted = Utils.copy(ps);
     storeAuthorizer = sc;
+    value = sumProductValues(Utils.copy(productsTransacted));
     return;
   }
 
@@ -20,16 +21,11 @@ public class Purchase extends Transaction {
     cg_init_Purchase_1(d, c, Utils.copy(ps), sc);
   }
 
-  public Number getValue() {
-
-    return getSumProductValues();
-  }
-
   protected Number sumProductValues(final VDMSet pSet) {
 
     Number result = 0L;
-    for (Iterator iterator_9 = pSet.iterator(); iterator_9.hasNext(); ) {
-      Product p = (Product) iterator_9.next();
+    for (Iterator iterator_13 = pSet.iterator(); iterator_13.hasNext(); ) {
+      Product p = (Product) iterator_13.next();
       result = result.longValue() + p.getBuyPrice().doubleValue();
     }
     return result;

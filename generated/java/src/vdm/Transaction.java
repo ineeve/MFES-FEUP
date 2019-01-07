@@ -21,7 +21,10 @@ abstract public class Transaction {
     return storeAuthorizer;
   }
 
-  public abstract Number getValue();
+  public Number getValue() {
+
+    return value;
+  }
 
   public Number getSumProductValues() {
 
