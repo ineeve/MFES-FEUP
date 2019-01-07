@@ -12,10 +12,6 @@ instance variables
 	protected sellPrice: real := 9999999;
 	protected state: ProductState;
 	protected description: [CustomString] := nil;
-	inv buyPrice <> undefined;
-	inv sellPrice <> undefined;
-	inv id <> undefined;
-	inv state <> undefined;
 	inv sellPrice >= buyPrice;
 operations
 
