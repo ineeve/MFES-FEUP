@@ -177,7 +177,7 @@ operations
 	public removeClient: Client ==> ()
 	removeClient(c) ==
 		clients := clients \ {c}
-		pre c in set clients -- Client is part of the system
+		pre hasAdminPerms() and c in set clients -- Client is part of the system
 		post c not in set clients; -- Client isn't part of the system
 		
 	-- Add a store to the system and check for admin permissions.
