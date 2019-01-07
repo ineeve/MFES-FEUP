@@ -16,6 +16,7 @@ instance variables
 	inv sellPrice <> undefined;
 	inv id <> undefined;
 	inv state <> undefined;
+	inv sellPrice >= buyPrice;
 operations
 
 	-- Get the sell price of the Product
