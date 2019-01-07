@@ -26,7 +26,7 @@ operations
 		post clients = {} and stores = {} and activeGiftCards = {} and transactions = {} and 
 		loggedInType = <LoggedOut> and RESULT = self;
 
-	/* Login admin */
+	-- Login as admin
 	public login: NotEmptyString ==> UserType
 	login(name) ==
 	(
@@ -39,7 +39,7 @@ operations
 		pre true
 		post RESULT = loggedInType;
 		
-	/* Login cashier */
+	-- Login as cashier
 	public login: NotEmptyString * NotEmptyString ==> UserType
 	login(storeLocation, cashierName) ==
 		(
@@ -51,7 +51,8 @@ operations
 		)
 		pre true
 		post RESULT = loggedInType;
-			
+	
+	-- Get a store using its name		
 	private pure getStore: NotEmptyString ==> Store
 	getStore(name) ==
 		(
@@ -62,7 +63,8 @@ operations
 		)
 		pre true
 		post RESULT in set stores and RESULT.getLocation() = name;
-			
+	
+	-- Get the cashier that is loggedin
 	public pure getLoggedInCashier: () ==> StoreCashier
 	getLoggedInCashier() ==
 		(
@@ -74,47 +76,50 @@ operations
 		)
 		pre loggedInType = <Cashier>
 		post RESULT in set getCashiersInternal() and RESULT.getName() = loggedInUsername and RESULT.getStore().getLocation() = loggedInStore;
-		
+	
+	-- Remove a cashier from the system	
 	public removeCashier: StoreCashier ==> ()
 	removeCashier(c) ==
 		c.getStore().removeCashier(c)
 		pre hasAdminPerms() and c in set c.getStore().getCashiers()
 		post c not in set c.getStore().getCashiers();
 	
+	-- Get all the transactions created
 	public pure getTransactions: () ==> set of Transaction
 	getTransactions() ==
 		return transactions
 		pre hasAdminPerms()
 		post RESULT = transactions;
 		
+	-- Get all the transactions authrozied by the logged in cashier
 	public pure getTransactionsOfLoggedInCashier: () ==> set of Transaction
 	getTransactionsOfLoggedInCashier() ==
 		return getTransactionsOfCashierInternal(getLoggedInCashier())
 		pre loggedInType = <Cashier>
 		post RESULT = getTransactionsOfCashierInternal(getLoggedInCashier());
 	
+	-- Get all the transactions of a given cashier
 	public pure getTransactionsOfCashier: StoreCashier ==> set of Transaction
 	getTransactionsOfCashier(cashier) ==
 		return getTransactionsOfCashierInternal(cashier)
 		pre hasAdminPerms()
 		post RESULT = getTransactionsOfCashierInternal(cashier);
 		
-	/* Bypasses permissions.
-	*/
+	-- Get transactions of a given cashier. Bypasses permissions.
 	private pure getTransactionsOfCashierInternal: StoreCashier ==> set of Transaction
 	getTransactionsOfCashierInternal(cashier) ==
 		return {x | x in set transactions & x.getCashier() = cashier}
 		pre true
 		post true;
 		
+	-- Get the set of active giftcards
 	public pure getActiveGiftCards: () ==> set of GiftCard
 	getActiveGiftCards() ==
 		return activeGiftCards
 		pre hasCashierPerms()
 		post RESULT = activeGiftCards;
 	
-	/** Bypasses login permissions.
-	*/
+	-- Get names of all cashiers. Bypasses login permissions.
 	private pure getCashierNamesInternal: () ==> set of NotEmptyString
 	getCashierNamesInternal() ==
 		(
@@ -125,8 +130,7 @@ operations
 		pre true
 		post true;
 		
-	/** Bypasses login permissions.
-	*/
+	-- Get set of locations of all stores. Bypasses login permissions.
 	private pure getStoreLocationsInternal: () ==> set of NotEmptyString
 	getStoreLocationsInternal() ==
 		(
@@ -137,8 +141,7 @@ operations
 		pre true
 		post true;
 
-	/** Bypasses login permissions.
-	*/
+	-- Get all cashiers. Bypasses login permissions.
 	private pure getCashiersInternal: () ==> set of StoreCashier
 	getCashiersInternal() ==
 		(
@@ -149,70 +152,63 @@ operations
 		pre true
 		post true;
 		
+	-- Get all cashiers and check for admin permissions.
 	public pure getCashiers: () ==> set of StoreCashier
 	getCashiers() ==
 		return getCashiersInternal()
 		pre hasAdminPerms()
 		post true;
 		
+	-- Get names of all cashiers and check for admin permissions.
 	public pure getCashierNames: () ==> set of NotEmptyString
 	getCashierNames() ==
 		return getCashierNamesInternal()
 		pre hasAdminPerms()
 		post true;
 	
-	/*
-	Post:
-	- New client is added to the system
-	*/
+	-- Add a client to the system
 	public addClient: Client ==> ()
 	addClient(c) ==
 		clients := clients union {c}
 		pre hasAdminPerms()
-		post c in set clients;
+		post c in set clients; -- New client is added to the system
 	
-	/* Remove client from system.
-	Pre:
-	- Client is part of the system
-	Post:
-	- Client isn't part of the system
-	*/
+	-- Remove client from system.
 	public removeClient: Client ==> ()
 	removeClient(c) ==
 		clients := clients \ {c}
-		pre c in set clients
-		post c not in set clients;
+		pre c in set clients -- Client is part of the system
+		post c not in set clients; -- Client isn't part of the system
 		
-	/*
-	Post:
-	- New store is added to the system
-	*/
+	-- Add a store to the system and check for admin permissions.
 	public addStore: Store ==> ()
 	addStore(s) ==
 		stores := stores union {s}
-		pre hasAdminPerms()
+		pre hasAdminPerms() -- New store is added to the system
 		post s in set stores;
-		
+	
+	-- Get all the clients of the system and check for cashier permissions.
 	public pure getClients: () ==> set of Client 
 	getClients() ==
 		return clients
 		pre hasCashierPerms()
 		post RESULT = clients;
 		
+	-- Get all the stores of the system and check for admin permissions.
 	public pure getStores: () ==> set of Store 
 	getStores() ==
 		return stores
 		pre hasAdminPerms()
 		post RESULT = stores;
 		
+	-- Get all the products at a given store.
 	public pure getProductsAtStore: Store ==> set of Product
 	getProductsAtStore(store) ==
 		return store.getProductsAvailable()
 		pre store in set stores
 		post RESULT = store.getProductsAvailable();
 	
-	/* Buy product of a client at a store with a specific cashier.
-	*/
+	-- Buy product of a client at a store with a specific cashier.
 	public buyProductInCash: Product* Client * StoreCashier * Date ==> ()
 	buyProductInCash(product, client, cashier, date) ==
 		(
@@ -223,8 +219,7 @@ operations
 		pre hasCashierPerms() and client in set clients and cashier in set getCashiersInternal()
 		post true;
 		
-	/* Buy product of a client at a store with a specific cashier.
-	*/
+	-- Buy product of a client at a store with a specific cashier and pay in credit notes
 	public buyProductInCreditNotes: Product * Client * StoreCashier * Date ==> ()
 	buyProductInCreditNotes(product, client, cashier, date) ==
 		(
@@ -235,8 +230,7 @@ operations
 		pre hasCashierPerms() and client in set clients and cashier in set getCashiersInternal()
 		post true;
 		
-	/* Sell product to a client at a store with a specific cashier.
-	*/
+	-- Sell product to a client at a store with a specific cashier.
 	public sellProductInCash: Product * Client * StoreCashier * Date ==> ()
 	sellProductInCash(p,c,sc,d) ==
 		(
@@ -247,6 +241,7 @@ operations
 		pre hasCashierPerms() and c in set clients and sc in set getCashiersInternal()
 		post true;
 		
+	-- Sell product to a client at a store and receive in credit notes.
 	public sellProductInCreditNotes: Product * Client * StoreCashier * Date ==> ()
 	sellProductInCreditNotes(p, c, sc, d) ==
 		(
@@ -257,6 +252,7 @@ operations
 		pre hasCashierPerms() and c in set clients and sc in set getCashiersInternal()
 		post card transactions = card transactions~ + 1;
 		
+	-- Sell product to a client at a store and receive in gift cards.
 	public sellProductInGiftCards: Product * Client * StoreCashier * set of GiftCard * Date ==> ()
 	sellProductInGiftCards(p, c, sc, gc, d) ==
 		(
@@ -272,6 +268,7 @@ operations
 		post card transactions = card transactions~ + 1 and
 			gc inter activeGiftCards = {};
 		
+	-- Sell a giftcard to a client at a store
 	public sellGiftCard: Client * StoreCashier * Date * nat1 ==> GiftCard
 	sellGiftCard(c, sc, d, value) == 
 		(
@@ -284,18 +281,21 @@ operations
 		pre hasCashierPerms() and c in set clients and sc in set getCashiersInternal()
 		post card activeGiftCards = card activeGiftCards~ + 1;
 		
-	public activateGiftCard: GiftCard ==> ()
+	-- Activate a given giftcard
+	private activateGiftCard: GiftCard ==> ()
 	activateGiftCard(giftCard) ==
 		activeGiftCards := activeGiftCards union {giftCard}
 		pre hasCashierPerms()
 		post activeGiftCards = activeGiftCards union {giftCard};
 		
-	public useGiftCard: GiftCard ==> ()
+	-- Use a given giftcard, making it unusable	
+	private useGiftCard: GiftCard ==> ()
 	useGiftCard(giftCard) ==
 		activeGiftCards := activeGiftCards \ {giftCard}
 		pre hasCashierPerms() and giftCard in set activeGiftCards
 		post activeGiftCards = activeGiftCards~ \ {giftCard};
-		
+	
+	-- Create and save the transaction that sells a set of products
 	private addSaleProductTransaction: Date * Client * set of Product * set of GiftCard * StoreCashier ==> ()
 	addSaleProductTransaction(d,c,sp,gcs,sc) ==
 		(
@@ -306,6 +306,7 @@ operations
 		c in set clients and sc in set getCashiersInternal()
 		post card transactions = card transactions~ + 1;
 		
+	-- Create and save the transaction that sells a set of giftcards
 	private addSaleGCTransaction: Date * Client * set of GiftCard * StoreCashier ==> ()
 	addSaleGCTransaction(d,c,gcs,sc) ==	
 	(
@@ -316,6 +317,7 @@ operations
 		c in set clients and sc in set getCashiersInternal()
 		post card transactions = card transactions~ + 1;
 	
+	-- Create and save the transaction that purchases a set of products
 	private addPurchaseTransaction: Date * Client * set of Product * StoreCashier ==> () 
 	addPurchaseTransaction(d,c,sp,sc) ==	
 	(
@@ -325,19 +327,22 @@ operations
 		pre hasCashierPerms() and card sp >= 1
 		and c in set clients and sc in set getCashiersInternal()
 		post card transactions = card transactions~ + 1;
-		
+	
+	-- Check if the logged in user has cashier permissions
 	private pure hasCashierPerms: () ==> bool
 	hasCashierPerms() ==
 		return loggedInType in set {<Admin>, <Cashier>}
 		pre true
 		post RESULT = loggedInType in set {<Admin>, <Cashier>};
 		
+	-- Check if the logged in user has admin permissions
 	private pure hasAdminPerms: () ==> bool
 	hasAdminPerms() ==
 		return loggedInType = <Admin>
 		pre true
 		post RESULT = (loggedInType = <Admin>);
 	
+	-- Sum the values of a set of giftcards
 	public pure sumGiftCardValues: (set of GiftCard) ==> nat1
 	sumGiftCardValues(giftCards) ==
 		(
@@ -347,8 +352,4 @@ operations
 		)
 		pre card giftCards > 0
 		post RESULT > 0;
-functions
-	
-traces
--- TODO Define Combinatorial Test Traces here
 end Kid2Kid
