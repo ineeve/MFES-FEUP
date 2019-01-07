@@ -1,27 +1,36 @@
+/* 
+A transfer of value between a client and a store.
+Every transaction needs to be authorized by a store cashier 
+*/
 class Transaction
 instance variables
 	protected value: real;
 	protected date: Date;
-	protected client: [Client];
+	protected client: Client;
 	protected productsTransacted: set of Product := {};
 	protected storeAuthorizer: StoreCashier;
 	
 operations
+	-- Get the products transacted
 	public pure getProducts: () ==> set of Product
 	getProducts() ==
 		(return productsTransacted)
 		pre true
 		post RESULT = productsTransacted;
-	
+		
+	-- Get the cashier that authorized the transaction
 	public pure getCashier: () ==> StoreCashier
 	getCashier() ==
 		return storeAuthorizer
 		pre true
 		post RESULT = storeAuthorizer;
-		
+	
+	-- Get the value of the the transaction	
 	public pure getValue: () ==> nat
 	getValue() ==
-		is subclass responsibility;
+		return value
+	pre true
+	post RESULT = value;
 		
 	public pure getSumProductValues: () ==> nat
 	getSumProductValues() ==

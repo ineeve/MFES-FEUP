@@ -1,22 +1,12 @@
 -- Represents a collection of items that were sold by a store
 class Sale is subclass of Transaction
-types
--- TODO Define types here
-values
--- TODO Define values here
 instance variables
 	giftCardsUsed: set of GiftCard := {};
 	giftCardsSold: set of GiftCard := {};
 	
 operations
 
-	/*  Sell products, possibly using active gift cards.
-	Pre:
-	- 
-	- Client owns gift cards used.
-	Post:
-	- 
-	*/
+	-- Store sells products. Client possibly uses active gift cards.
 	public Sale: Date * Client * set of Product * set of GiftCard * StoreCashier ==> Sale
 	Sale(d, c, p, cardsUsed, sc) ==
 		(
@@ -28,7 +18,7 @@ operations
 		value:=sumProductValues(p);
 		return self
 		)
-		pre card p >= 1
+		pre card p >= 1 -- there is at least on product being sold
 		post 
 			date = d and 
 			client = c and 
@@ -38,20 +28,15 @@ operations
 			value = sumProductValues(productsTransacted) and
 			RESULT = self;
 		
-	/* Client buys gift cards.
-	Pre:
-	- 
-	Post:
-	- 
-	*/
+	-- Store sells gift cards.
 	public Sale: Date * Client * set of GiftCard * StoreCashier ==> Sale
 	Sale(d, c, g, sc) ==
 		(
-		value := sumGCValues(g);
 		date := d;
 		client := c;
 		giftCardsSold := g;
 		storeAuthorizer := sc;
+		value := sumGCValues(g);
 		return self;
 		)
 		pre card g >= 1
@@ -61,25 +46,23 @@ operations
 		giftCardsSold = g and 
 		storeAuthorizer = sc and 
 		RESULT = self;
-
+	
+	-- Get gift cards that were used in the transaction
 	public pure getGiftCardsUsed: () ==> set of GiftCard
 	getGiftCardsUsed() ==
 		return giftCardsUsed
 		pre true
 		post RESULT = giftCardsUsed;
-
+		
+	-- Get gift cards that were sold in the transaction
 	public pure getGiftCardsSold: () ==> set of GiftCard
 	getGiftCardsSold() ==
 		return giftCardsSold
 		pre true
 		post RESULT = giftCardsSold;
-		
-	public pure getValue: () ==> nat
-	getValue() ==
-		return sumProductValues(productsTransacted) + sumGCValues(giftCardsSold)
-		pre true
-		post RESULT = sumProductValues(productsTransacted) + sumGCValues(giftCardsSold);
-		
+	
+	
+	-- Sum the sell prices of the products	
 	protected pure sumProductValues: set of Product ==> real
 	sumProductValues(pSet) ==
 		(
@@ -93,6 +76,7 @@ operations
 		pre true
 		post true; -- same as body
 	
+	-- Sum the values of a set of giftcards
 	private pure sumGCValues: set of GiftCard ==> nat
 	sumGCValues(gcSet) ==
 		(
@@ -105,9 +89,5 @@ operations
 		)
 		pre true
 		post true; -- same as body
-		
-functions
-	
-traces
--- TODO Define Combinatorial Test Traces here
+
 end Sale

@@ -1,8 +1,5 @@
+-- A purchase transaction
 class Purchase is subclass of Transaction
-types
--- TODO Define types here
-values
--- TODO Define values here
 instance variables
 operations
 	public Purchase: Date * Client * set of Product * StoreCashier ==> Purchase
@@ -12,17 +9,14 @@ operations
 			client := c;
 			productsTransacted := ps;
 			storeAuthorizer := sc;
+			value := sumProductValues(productsTransacted);
 			return self;
 			)
 			pre card ps >= 1
 			post RESULT = self;
-		
-	public pure getValue: () ==> nat
-	getValue() ==
-		return getSumProductValues()
-		pre true
-		post RESULT = getSumProductValues();
-			
+	
+	
+	-- Sum the buy prices of the products in the transaction		
 	protected pure sumProductValues: set of Product ==> nat
 	sumProductValues(pSet) ==
 		(
@@ -36,8 +30,6 @@ operations
 		pre true
 		post true; -- same as body
 		
-functions
--- TODO Define functiones here
 traces
 -- TODO Define Combinatorial Test Traces here
 end Purchase
