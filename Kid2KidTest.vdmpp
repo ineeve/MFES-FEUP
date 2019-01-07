@@ -1,3 +1,4 @@
+-- Test the Kid2Kid system
 class Kid2KidTest
 types
 	public NotEmptyString = seq1 of char;
@@ -13,7 +14,8 @@ operations
 	private assertTrue: bool ==> ()
 	 assertTrue(cond) == return
 	 pre cond;
-	 
+	
+	-- Login as admin
 	private loginAdmin: () ==> ()
 	loginAdmin() ==
 	(
@@ -21,6 +23,7 @@ operations
 		assertTrue(kid2kid.login("Admin") = <Admin>);
 	);
 	
+	-- Login as cashier
 	private loginCashier: NotEmptyString * NotEmptyString ==> ()
 	loginCashier(storeName, cashierName) ==
 	(
@@ -29,6 +32,7 @@ operations
 		assertTrue(kid2kid.getLoggedInCashier().getName() = cashierName);
 	);
 	 
+	-- Add a client to the system
 	private testAddClient: () ==> ()
 		testAddClient() ==
 		(
@@ -36,7 +40,8 @@ operations
 			kid2kid.addClient(client);
 			assertTrue(card kid2kid.getClients() = 1);
 		);
-			
+	
+	-- Add a store to the system
 	private testAddStore: () ==> ()
 		testAddStore() ==
 		(
@@ -45,6 +50,7 @@ operations
 			assertTrue(card kid2kid.getStores() = 1);
 		);
 		
+	-- Add a cashier to an existing store
 	private testAddCashierToStore: (NotEmptyString) ==> ()
 		testAddCashierToStore(name) ==
 		(
@@ -54,6 +60,7 @@ operations
 			assertTrue(card store.getCashiers() = prevNumCashiers + 1);
 		);
 		
+	-- Buy products as Admin and pay in cash. Test that transactions of cashier have increased
 	private testStoreBuyProductsInCashAsAdmin: () ==> ()
 	testStoreBuyProductsInCashAsAdmin() ==
 		(
@@ -63,6 +70,7 @@ operations
 			assertTrue(card kid2kid.getTransactionsOfCashier(cashier) = numTransactions + 1);
 		);
 	
+	-- Buy products as cashier. Test that transactions of cashier have increased
 	private testStoreBuyProductsInCashAsCashier: () ==> ()
 	testStoreBuyProductsInCashAsCashier() ==
 		(
@@ -71,7 +79,8 @@ operations
 			kid2kid.buyProductInCash(toy, client, kid2kid.getLoggedInCashier(), today);
 			assertTrue(card kid2kid.getTransactionsOfLoggedInCashier() = numTransactions + 1);
 		);
-		
+	
+	-- Products sold are saved in the store and in the client
 	private testStoreBuyProductsInCash: () ==> (nat)
 		testStoreBuyProductsInCash() ==
 		(
@@ -89,6 +98,7 @@ operations
 			return len products;
 		);
 		
+	-- Credit notes are added to a client
 	private testStoreBuyProductsInCreditNotes: () ==> (nat)
 		testStoreBuyProductsInCreditNotes() ==
 		(
@@ -106,18 +116,21 @@ operations
 			return card productsSet;
 		);
 
+	-- Get cashiers returns expected number of cashiers
 	private testGetCashiers: nat ==> ()
 		testGetCashiers(expectedNumber) ==
 		(
 			assertTrue(card kid2kid.getCashiers() = expectedNumber);
 		);
 		
+	-- Cashier names are as expected
 	private testGetCashierNames: set of NotEmptyString ==> ()
 		testGetCashierNames(namesSet) ==
 		(
 			assertTrue( (namesSet \ kid2kid.getCashierNames()) = {});
 		);
 		
+	-- Remove a cashier and re-add him.	
 	private testRemoveCashier: () ==> ()
 		testRemoveCashier() ==
 		(
@@ -129,6 +142,7 @@ operations
 		assertTrue(c in set kid2kid.getCashiers());
 		);
 		
+	-- Remove a client and re-add him
 	private testRemoveClient: () ==> ()
 		testRemoveClient() ==
 		(
@@ -140,39 +154,44 @@ operations
 		assertTrue(c in set kid2kid.getClients());
 		);
 		
+	-- Number of transactions is as expected
 	private testGetTransactions: nat ==> ()
 		testGetTransactions(expectedNumber) ==
 		(
 		assertTrue(card kid2kid.getTransactions() = expectedNumber);
 		);
 		
+	-- Number of products in the store is as expected
 	private testGetProductsAtStore: (nat) ==> ()
 		testGetProductsAtStore(expectedNum) ==
 		(
 			assertTrue(card kid2kid.getProductsAtStore(store) = expectedNum);
 		);
 		
+	-- GiftCards work as expected
 	private testStoreGiftCards: (bool) ==> ()
 		testStoreGiftCards(isAdmin) ==
 		(
 		dcl gcValue:nat := 40;
 		dcl gc: GiftCard := kid2kid.sellGiftCard(client, cashier, today, gcValue);
 		dcl saleProducts: Sale, saleGC: Sale;
-		assertTrue(card kid2kid.getActiveGiftCards() = 1);
-		assertTrue(gc in set client.getGiftCardsBought());
-		kid2kid.sellProductInGiftCards(products(1), client, cashier, {gc}, today);
-		assertTrue(card kid2kid.getActiveGiftCards() = 0);
+		assertTrue(card kid2kid.getActiveGiftCards() = 1); -- GiftCards are activated when sold. 
+		assertTrue(gc in set client.getGiftCardsBought()); -- Client saves GiftCards bought.
+		kid2kid.sellProductInGiftCards(products(1), client, cashier, {gc}, today); -- A client buys a product with a giftcard
+		assertTrue(card kid2kid.getActiveGiftCards() = 0); -- GiftCards gets deactivated.
 		assertTrue(products(1) in set client.getProductsBought());
 		if isAdmin then (
+			-- Test sale transactions with GiftCards
 			saleProducts := iota x in set kid2kid.getTransactions() & isofclass(Sale, x) and x.getValue() = gcValue;
 			assertTrue(card saleProducts.getGiftCardsUsed() = 0);
-			assertTrue(card saleProducts.getGiftCardsSold() = 1);
+			assertTrue(card saleProducts.getGiftCardsSold() = 1); 
 			saleGC := iota x in set kid2kid.getTransactions() & isofclass(Sale, x) and x.getValue() = products(1).getSellPrice();
 			assertTrue(card saleGC.getGiftCardsUsed() = 1);
 			assertTrue(card saleGC.getGiftCardsSold() = 0);
 			)
 		);
 		
+	-- Check store products available and client products bought.
 	private testStoreSellProductInCash: () ==> ()
 		testStoreSellProductInCash() ==
 		(
@@ -182,6 +201,7 @@ operations
 		assertTrue(products(2) in set client.getProductsBought());
 		);
 		
+	-- Check that credit notes of client decrease when store sells a product and client pays with credit notes
 	private testStoreSellProductInCreditNotes: () ==> ()
 		testStoreSellProductInCreditNotes() ==
 		(
@@ -191,9 +211,10 @@ operations
 		kid2kid.sellProductInCreditNotes(products(3), client, cashier, today);
 		assertTrue(products(3) not in set store.getProductsAvailable());
 		assertTrue(products(3) in set client.getProductsBought());
-		assertTrue(store.getCreditNotesOfClient(client.getId()) = clientPrevCredit - products(3).getSellPrice());
+		assertTrue(store.getCreditNotesOfClient(client.getId()) = clientPrevCredit - products(3).getSellPrice()); -- credit notes decreased
 		);
-
+	
+	-- Edit client name
 	private testEditClient: () ==> ()
 		testEditClient() ==
 		(
@@ -203,13 +224,15 @@ operations
 		client.setName("abc");
 		assertTrue("abc" = client.getName());
 		);
-
+	
+	-- Get static value of giftcards possible values
 	private testGiftCardPossibleValues: () ==> ()
 		testGiftCardPossibleValues() ==
 		(
 		assertTrue(GiftCard`getPossibleValues() = {10, 20, 40});
 		);
 		
+	-- Test set description of product
 	private testProductEdit: () ==> ()
 		testProductEdit() ==
 		(
@@ -219,6 +242,7 @@ operations
 		assertTrue(p.getDescription() = "abc");
 		);
 		
+	-- Test udpate sell price of product
 	private testProductPricing: () ==> ()
 		testProductPricing() ==
 		(
@@ -229,6 +253,7 @@ operations
 		assertTrue(p.getSellPrice() = 20);
 		);
 
+	-- Test all admin operations
 	public testAdminOperations: () ==> ()
 		testAdminOperations() == 
 			(
@@ -245,7 +270,7 @@ operations
 			testCashierOperations(true);
 			);
 			
-
+	-- Test all cashier operations
 	public testCashierOperations: (bool) ==> ()
 		testCashierOperations(isAdmin) ==
 			(
@@ -259,6 +284,7 @@ operations
 			testEditClient();
 			);
 			
+	-- Test other miscelanious operations
 	public testMiscOperations: () ==> ()
 		testMiscOperations() ==
 		(
@@ -278,7 +304,4 @@ operations
 			kid2KidTest.testStoreBuyProductsInCashAsCashier();
 			kid2KidTest.testMiscOperations();
 		);
-
-traces
--- TODO Define Combinatorial Test Traces here
 end Kid2KidTest
