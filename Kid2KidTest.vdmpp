@@ -17,13 +17,16 @@ operations
 	private loginAdmin: () ==> ()
 	loginAdmin() ==
 	(
-		assertTrue(kid2kid.login("Admin") = <Admin>)
+		assertTrue(kid2kid.login("Bad admin name") = <LoggedOut>);
+		assertTrue(kid2kid.login("Admin") = <Admin>);
 	);
 	
 	private loginCashier: NotEmptyString * NotEmptyString ==> ()
 	loginCashier(storeName, cashierName) ==
 	(
-		assertTrue(kid2kid.login(storeName, cashierName) = <Cashier>)
+		assertTrue(kid2kid.login("Bad store name", "Bad cashier name") = <LoggedOut>);
+		assertTrue(kid2kid.login(storeName, cashierName) = <Cashier>);
+		assertTrue(kid2kid.getLoggedInCashier().getName() = cashierName);
 	);
 	 
 	private testAddClient: () ==> ()
@@ -92,13 +95,13 @@ operations
 		(
 			assertTrue( (namesSet \ kid2kid.getCashierNames()) = {});
 		);
-	public testGetProductsAtStore: (nat) ==> ()
+	private testGetProductsAtStore: (nat) ==> ()
 		testGetProductsAtStore(expectedNum) ==
 		(
 			assertTrue(card kid2kid.getProductsAtStore(store) = expectedNum);
 		);
 		
-	public testStoreGiftCards: () ==> ()
+	private testStoreGiftCards: () ==> ()
 		testStoreGiftCards() ==
 		(
 		dcl gc: GiftCard := kid2kid.sellGiftCard(client, cashier, today, 40);
@@ -109,7 +112,7 @@ operations
 		assertTrue(products(1) in set client.getProductsBought());
 		);
 		
-	public testStoreSellProductInCash: () ==> ()
+	private testStoreSellProductInCash: () ==> ()
 		testStoreSellProductInCash() ==
 		(
 		assertTrue(products(2) in set store.getProductsAvailable());
@@ -118,19 +121,19 @@ operations
 		assertTrue(products(2) in set client.getProductsBought());
 		);
 		
-		public testStoreSellProductInCreditNotes: () ==> ()
-			testStoreSellProductInCreditNotes() ==
-			(
-			dcl clientPrevCredit: real := store.getCreditNotesOfClient(client.getId());
-			assertTrue(clientPrevCredit > 0);
-			assertTrue(products(3) in set store.getProductsAvailable());
-			kid2kid.sellProductInCreditNotes(products(3), client, cashier, today);
-			assertTrue(products(3) not in set store.getProductsAvailable());
-			assertTrue(products(3) in set client.getProductsBought());
-			assertTrue(store.getCreditNotesOfClient(client.getId()) = clientPrevCredit - products(3).getSellPrice());
-			);
+	private testStoreSellProductInCreditNotes: () ==> ()
+		testStoreSellProductInCreditNotes() ==
+		(
+		dcl clientPrevCredit: real := store.getCreditNotesOfClient(client.getId());
+		assertTrue(clientPrevCredit > 0);
+		assertTrue(products(3) in set store.getProductsAvailable());
+		kid2kid.sellProductInCreditNotes(products(3), client, cashier, today);
+		assertTrue(products(3) not in set store.getProductsAvailable());
+		assertTrue(products(3) in set client.getProductsBought());
+		assertTrue(store.getCreditNotesOfClient(client.getId()) = clientPrevCredit - products(3).getSellPrice());
+		);
 
-	public testEditClient: () ==> ()
+	private testEditClient: () ==> ()
 		testEditClient() ==
 		(
 		assertTrue(client in set kid2kid.getClients());
@@ -138,6 +141,12 @@ operations
 		assertTrue("123" = client.getName());
 		client.setName("abc");
 		assertTrue("abc" = client.getName());
+		);
+
+	private testGiftCardPossibleValues: () ==> ()
+		testGiftCardPossibleValues() ==
+		(
+		assertTrue(GiftCard`getPossibleValues() = {10, 20, 40});
 		);
 
 	public testAdminOperations: () ==> ()
@@ -165,6 +174,12 @@ operations
 			testStoreSellProductInCreditNotes();
 			testEditClient();
 			);
+			
+	public testMiscOperations: () ==> ()
+		testMiscOperations() ==
+		(
+		testGiftCardPossibleValues();
+		);
 	
 	public static main: () ==> ()
 		main() ==
@@ -172,6 +187,7 @@ operations
 			dcl kid2KidTest: Kid2KidTest := new Kid2KidTest();
 			kid2KidTest.testAdminOperations();
 			kid2KidTest.testCashierOperations();
+			kid2KidTest.testMiscOperations();
 		);
 
 traces
