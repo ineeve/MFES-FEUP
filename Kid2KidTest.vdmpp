@@ -152,15 +152,25 @@ operations
 			assertTrue(card kid2kid.getProductsAtStore(store) = expectedNum);
 		);
 		
-	private testStoreGiftCards: () ==> ()
-		testStoreGiftCards() ==
+	private testStoreGiftCards: (bool) ==> ()
+		testStoreGiftCards(isAdmin) ==
 		(
-		dcl gc: GiftCard := kid2kid.sellGiftCard(client, cashier, today, 40);
+		dcl gcValue:nat := 40;
+		dcl gc: GiftCard := kid2kid.sellGiftCard(client, cashier, today, gcValue);
+		dcl saleProducts: Sale, saleGC: Sale;
 		assertTrue(card kid2kid.getActiveGiftCards() = 1);
 		assertTrue(gc in set client.getGiftCardsBought());
 		kid2kid.sellProductInGiftCards(products(1), client, cashier, {gc}, today);
 		assertTrue(card kid2kid.getActiveGiftCards() = 0);
 		assertTrue(products(1) in set client.getProductsBought());
+		if isAdmin then (
+			saleProducts := iota x in set kid2kid.getTransactions() & isofclass(Sale, x) and x.getValue() = gcValue;
+			assertTrue(card saleProducts.getGiftCardsUsed() = 0);
+			assertTrue(card saleProducts.getGiftCardsSold() = 1);
+			saleGC := iota x in set kid2kid.getTransactions() & isofclass(Sale, x) and x.getValue() = products(1).getSellPrice();
+			assertTrue(card saleGC.getGiftCardsUsed() = 1);
+			assertTrue(card saleGC.getGiftCardsSold() = 0);
+			)
 		);
 		
 	private testStoreSellProductInCash: () ==> ()
@@ -232,18 +242,18 @@ operations
 			testRemoveCashier();
 			testRemoveClient();
 			testStoreBuyProductsInCashAsAdmin();
-			testCashierOperations();
+			testCashierOperations(true);
 			);
 			
 
-	public testCashierOperations: () ==> ()
-		testCashierOperations() ==
+	public testCashierOperations: (bool) ==> ()
+		testCashierOperations(isAdmin) ==
 			(
 			dcl numProducts: nat := card kid2kid.getProductsAtStore(store);
 			numProducts := numProducts + testStoreBuyProductsInCash();
 			numProducts := numProducts + testStoreBuyProductsInCreditNotes();
 			testGetProductsAtStore(numProducts);
-			testStoreGiftCards();
+			testStoreGiftCards(isAdmin);
 			testStoreSellProductInCash();
 			testStoreSellProductInCreditNotes();
 			testEditClient();
@@ -264,7 +274,7 @@ operations
 			kid2KidTest.loginAdmin();
 			kid2KidTest.testAdminOperations();
 			kid2KidTest.loginCashier("Porto", "Joao");
-			kid2KidTest.testCashierOperations();
+			kid2KidTest.testCashierOperations(false);
 			kid2KidTest.testStoreBuyProductsInCashAsCashier();
 			kid2KidTest.testMiscOperations();
 		);

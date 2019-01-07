@@ -76,9 +76,9 @@ operations
 		
 	public pure getValue: () ==> nat
 	getValue() ==
-		return getSumProductValues() + sumGCValues(giftCardsSold)
+		return sumProductValues(productsTransacted) + sumGCValues(giftCardsSold)
 		pre true
-		post RESULT = getSumProductValues() + sumGCValues(giftCardsSold);
+		post RESULT = sumProductValues(productsTransacted) + sumGCValues(giftCardsSold);
 		
 	protected pure sumProductValues: set of Product ==> real
 	sumProductValues(pSet) ==
