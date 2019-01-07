@@ -12,6 +12,7 @@ operations
 	public Toy: ProductState * [CustomString] * nat * [nat] * ToyCategory ==> Toy
 	Toy(productState, desc, minAgeInput, maxAgeInput, subCategoryInput) ==
 		(
+		
 		idCounter := idCounter + 1;
 		id := idCounter;
 		state := productState;

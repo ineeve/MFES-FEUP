@@ -14,7 +14,11 @@ instance variables
 operations
 	public Client: NotEmptyString ==> Client
 	Client(nameSeq) ==
-			(name:=nameSeq;idCounter := idCounter + 1;id := idCounter; return self)
+			(
+			name:=nameSeq;
+			idCounter := idCounter + 1;
+			id := idCounter; 
+			return self)
 			 pre len nameSeq > 0
 			 post len name > 0 and 
 			 id = idCounter~ + 1 and

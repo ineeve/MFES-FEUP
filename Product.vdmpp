@@ -8,8 +8,8 @@ values
 instance variables
 	protected static idCounter: nat := 0;
 	protected id: nat;
-	protected buyPrice: real;
-	protected sellPrice: real;
+	protected buyPrice: real := 0;
+	protected sellPrice: real := 9999999;
 	protected state: ProductState;
 	protected description: [CustomString] := nil;
 	inv buyPrice <> undefined;

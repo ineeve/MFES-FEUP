@@ -39,6 +39,9 @@ operations
 			assertTrue(card kid2kid.getClients() = 0);
 			kid2kid.addClient(client);
 			assertTrue(card kid2kid.getClients() = 1);
+			kid2kid.addClient(new Client("abcd"));
+			assertTrue(card kid2kid.getClients() = 2);
+			assertTrue(not exists i, j in set kid2kid.getClients() & i <> j and i.getId() = j.getId());
 		);
 	
 	-- Add a store to the system
