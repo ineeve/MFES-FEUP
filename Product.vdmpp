@@ -1,3 +1,4 @@
+-- Abstract class that represents any product sold in Kid2Kid stores, except for GiftCards.
 class Product
 types
 	public CustomString = seq1 of char;
@@ -16,31 +17,36 @@ instance variables
 	inv id <> undefined;
 	inv state <> undefined;
 operations
-	
+
+	-- Get the sell price of the Product
 	public pure getSellPrice: () ==> real
 	getSellPrice() ==
 		return sellPrice
 		pre true
 		post RESULT = sellPrice;
 		
+	-- Get the buy price of the Product
 	public pure getBuyPrice: () ==> real
 	getBuyPrice() ==
 		return buyPrice
 		pre true
 		post RESULT = buyPrice;
-		
+	
+	-- Get the credit notes value of the Product
 	public pure getCreditNotesValue: () ==> real
 	getCreditNotesValue() ==
 		return buyPrice * CREDIT_NOTE_MULTIPLIER
 		pre true
 		post RESULT = buyPrice * CREDIT_NOTE_MULTIPLIER;
-		
+	
+	-- Update the description of the Product.
 	public setDescription: CustomString ==> ()
 	setDescription(newDescription) == 
 		description := newDescription
 		pre true
 		post description = newDescription;
 	
+	-- Algorithm that sets the buy price of the Product
 	protected setBuyPrice: () ==> ()
 	setBuyPrice() ==
 		buyPrice :=  10 * getStateValue()
@@ -55,14 +61,14 @@ operations
 	pre buyPrice <> undefined
 	post sellPrice > buyPrice;
 	
-	/* Set sell price manually.
-	*/
+	-- Set sell price manually.
 	public setSellPrice: real ==> ()
 	setSellPrice(newPrice) ==
 		sellPrice := newPrice
 	pre buyPrice <> undefined and newPrice > buyPrice
 	post sellPrice > buyPrice and sellPrice = newPrice;
 
+	-- Get the state of the product as a number to be used in the algorithm that evaluates the Product value.
 	public pure getStateValue: () ==> real
 	getStateValue() ==
 	(
@@ -73,14 +79,11 @@ operations
 	pre state = <New> or state = <Low_Use> or state = <High_Use>
 	post RESULT = 0.5 or RESULT = 0.8 or RESULT = 1.0;
 	
+	-- Get the description of the Product
 	public pure getDescription: () ==> CustomString
 	getDescription() ==
 		return description
 		pre true
 		post RESULT = description;
-	
-functions
--- TODO Define functiones here
-traces
--- TODO Define Combinatorial Test Traces here
+
 end Product
